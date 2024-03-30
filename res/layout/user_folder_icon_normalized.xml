@@ -23,7 +23,7 @@
     android:elevation="5dp"
     android:orientation="vertical">
 
-    <RelativeLayout
+    <LinearLayout
         android:id="@+id/folder_header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -31,16 +31,17 @@
         android:orientation="horizontal"
         android:paddingTop="16dp"
         android:paddingBottom="8dp"
-        android:paddingLeft="0dp"
-        android:paddingRight="0dp">
+        android:paddingLeft="32dp"
+        android:paddingRight="32dp">
 
         <ch.deletescape.lawnchair.views.FolderNameEditText
             android:id="@+id/folder_name"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:layout_gravity="center_vertical"
             android:background="@android:color/transparent"
-            android:gravity="center_horizontal"
+            android:gravity="left|center"
             android:hint="@string/folder_hint_text"
             android:imeOptions="flagNoExtractUi"
             android:paddingBottom="@dimen/folder_label_padding_bottom"
@@ -52,9 +53,16 @@
             android:textSize="@dimen/folder_label_text_size"
             android:textStyle="bold"
             app:customFontType="workspaceIcon"
-            app:customFontWeight="w700" />
+            app:customFontWeight="w600" />
 
-    </RelativeLayout>
+        <com.android.launcher3.pageindicators.PageIndicatorDots
+            android:id="@+id/folder_page_indicator"
+            android:layout_gravity="center_vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:elevation="1dp" />
+
+    </LinearLayout>
 
     <com.android.launcher3.folder.FolderPagedView
         android:id="@+id/folder_content"
@@ -75,13 +83,6 @@
         android:orientation="horizontal"
         android:paddingTop="5dp"
         android:paddingBottom="5dp">
-
-        <com.android.launcher3.pageindicators.PageIndicatorDots
-            android:id="@+id/folder_page_indicator"
-            android:layout_gravity="center_vertical"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:elevation="1dp" />
 
     </LinearLayout>
 
