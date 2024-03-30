@@ -17,6 +17,7 @@
 
 package ch.deletescape.lawnchair.views
 
+import android.app.Activity
 import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Rect
@@ -89,9 +90,11 @@ class LawnchairBackgroundView(context: Context, attrs: AttributeSet) : View(cont
         if (changed) {
             fullBlurDrawable?.setBounds(left, top, right, bottom)
         }
-        val rects = mutableListOf<Rect>()
-        rects.add(Rect(left, top, right - left, bottom - top))
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            val rects = mutableListOf<Rect>()
+            val rect = Rect()
+            (context as Activity).getWindow().decorView.getWindowVisibleDisplayFrame(rect)
+            rects.add(rect)
             systemGestureExclusionRects = rects
         }
     }
