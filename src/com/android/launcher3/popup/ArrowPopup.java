@@ -78,17 +78,9 @@ public abstract class ArrowPopup extends AbstractFloatingView {
     public ArrowPopup(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         mInflater = LayoutInflater.from(context);
-        mOutlineRadius = getResources().getDimension(R.dimen.bg_round_rect_radius);
         mLauncher = Launcher.getLauncher(context);
         mIsRtl = Utilities.isRtl(getResources());
-
-        setClipToOutline(true);
-        setOutlineProvider(new ViewOutlineProvider() {
-            @Override
-            public void getOutline(View view, Outline outline) {
-                outline.setRoundRect(0, 0, view.getWidth(), view.getHeight(), mOutlineRadius);
-            }
-        });
+        mOutlineRadius = getResources().getDimension(R.dimen.bg_round_rect_radius);
 
         // Initialize arrow view
         final Resources resources = getResources();
@@ -188,7 +180,7 @@ public abstract class ArrowPopup extends AbstractFloatingView {
         }
 
         mArrow.setPivotX(arrowLp.width / 2);
-        mArrow.setPivotY(mIsAboveIcon ? 0 : arrowLp.height);
+        mArrow.setPivotY(mIsAboveIcon ? 0 : arrowLp.height - 2);
 
         animateOpen();
     }
