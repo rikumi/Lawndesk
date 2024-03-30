@@ -40,13 +40,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
 import ch.deletescape.lawnchair.blur.BlurWallpaperProvider
-import ch.deletescape.lawnchair.bugreport.BugReportClient
 import ch.deletescape.lawnchair.colors.ColorEngine
 import ch.deletescape.lawnchair.gestures.GestureController
 import ch.deletescape.lawnchair.iconpack.EditIconActivity
 import ch.deletescape.lawnchair.iconpack.IconPackManager
 import ch.deletescape.lawnchair.override.CustomInfoProvider
-import ch.deletescape.lawnchair.root.RootHelperManager
 import ch.deletescape.lawnchair.sensors.BrightnessManager
 import ch.deletescape.lawnchair.theme.ThemeOverride
 import ch.deletescape.lawnchair.views.LawnchairBackgroundView
@@ -92,10 +90,6 @@ open class LawnchairLauncher : NexusLauncherActivity(),
 
         lawnchairPrefs.registerCallback(prefCallback)
         lawnchairPrefs.addOnPreferenceChangeListener(hideStatusBarKey, this)
-
-        if (lawnchairPrefs.autoLaunchRoot) {
-            RootHelperManager.getInstance(this).run {  }
-        }
 
         ColorEngine.getInstance(this).addColorChangeListeners(this, *colorsToWatch)
     }
@@ -163,7 +157,6 @@ open class LawnchairLauncher : NexusLauncherActivity(),
         // lawnchairPrefs.checkFools()
 
         BrightnessManager.getInstance(this).startListening()
-        BugReportClient.getInstance(this).rebindIfNeeded()
 
         paused = false
     }

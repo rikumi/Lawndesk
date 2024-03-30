@@ -109,13 +109,6 @@ public class NexusLauncher {
             launcherClient.mDestroyed = true;
             launcherClient.mBaseService.disconnect();
 
-            if (launcherClient.mOverlayCallback != null) {
-                launcherClient.mOverlayCallback.mClient = null;
-                launcherClient.mOverlayCallback.mWindowManager = null;
-                launcherClient.mOverlayCallback.mWindow = null;
-                launcherClient.mOverlayCallback = null;
-            }
-
             LauncherClientService service = launcherClient.mLauncherService;
             LauncherClient client = service.getClient();
             if (client != null && client.equals(launcherClient)) {

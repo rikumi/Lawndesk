@@ -52,69 +52,10 @@ public class LauncherClient {
     public int mFlags;
 
     public LayoutParams mLayoutParams;
-    public OverlayCallback mOverlayCallback;
     public final Activity mActivity;
 
     public boolean mDestroyed = false;
     private Bundle mLayoutBundle;
-
-    public class OverlayCallback extends ILauncherOverlayCallback.Stub implements Callback {
-        public LauncherClient mClient;
-        private final Handler mUIHandler = new Handler(Looper.getMainLooper(), this);
-        public Window mWindow;
-        private boolean mWindowHidden = false;
-        public WindowManager mWindowManager;
-        int mWindowShift;
-
-        @Override
-        public final void overlayScrollChanged(float f) {
-            mUIHandler.removeMessages(2);
-            Message.obtain(mUIHandler, 2, f).sendToTarget();
-            if (f > 0f && mWindowHidden) {
-                mWindowHidden = false;
-            }
-        }
-
-        @Override
-        public final void overlayStatusChanged(int i) {
-            Message.obtain(mUIHandler, 4, i, 0).sendToTarget();
-        }
-
-        @Override
-        public boolean handleMessage(Message message) {
-            if (mClient == null) {
-                return true;
-            }
-
-            switch (message.what) {
-                case 2:
-                    if ((mClient.mServiceState & 1) != 0) {
-                        float floatValue = (float) message.obj;
-                        mClient.mScrollCallback.onOverlayScrollChanged(floatValue);
-                    }
-                    return true;
-                case 3:
-                    WindowManager.LayoutParams attributes = mWindow.getAttributes();
-                    if ((Boolean) message.obj) {
-                        attributes.x = mWindowShift;
-                        attributes.flags |= 512;
-                    } else {
-                        attributes.x = 0;
-                        attributes.flags &= -513;
-                    }
-                    mWindowManager.updateViewLayout(mWindow.getDecorView(), attributes);
-                    return true;
-                case 4:
-                    mClient.setServiceState(message.arg1);
-                    if (mClient.mScrollCallback instanceof ISerializableScrollCallback) {
-                        ((ISerializableScrollCallback) mClient.mScrollCallback).setPersistentFlags(message.arg1);
-                    }
-                    return true;
-                default:
-                    return false;
-            }
-        }
-    }
 
     public LauncherClient(Activity activity, IScrollCallback scrollCallback, StaticInteger flags) {
         mActivity = activity;
@@ -242,40 +183,6 @@ public class LauncherClient {
     }
 
     public final void exchangeConfig() {
-        if (mOverlay != null) {
-            try {
-                if (mOverlayCallback == null) {
-                    mOverlayCallback = new OverlayCallback();
-                }
-                OverlayCallback overlayCallback = mOverlayCallback;
-                overlayCallback.mClient = this;
-                overlayCallback.mWindowManager = mActivity.getWindowManager();
-                Point point = new Point();
-                overlayCallback.mWindowManager.getDefaultDisplay().getRealSize(point);
-                overlayCallback.mWindowShift = -Math.max(point.x, point.y);
-                overlayCallback.mWindow = mActivity.getWindow();
-                if (apiVersion < 3) {
-                    mOverlay.windowAttached(mLayoutParams, mOverlayCallback, mFlags);
-                } else {
-                    Bundle bundle = new Bundle();
-                    bundle.putParcelable("layout_params", mLayoutParams);
-                    bundle.putParcelable("configuration", mActivity.getResources().getConfiguration());
-                    bundle.putInt("client_options", mFlags);
-                    if (mLayoutBundle != null) {
-                        bundle.putAll(mLayoutBundle);
-                    }
-                    mOverlay.windowAttached2(bundle, mOverlayCallback);
-                }
-                if (apiVersion >= 4) {
-                    mOverlay.setActivityState(mActivityState);
-                } else if ((mActivityState & 2) != 0) {
-                    mOverlay.onResume();
-                } else {
-                    mOverlay.onPause();
-                }
-            } catch (RemoteException ignored) {
-            }
-        }
     }
 
     private boolean isConnected() {

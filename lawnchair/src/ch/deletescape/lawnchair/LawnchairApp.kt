@@ -28,8 +28,6 @@ import android.provider.Settings
 import android.support.annotation.Keep
 import ch.deletescape.lawnchair.blur.BlurWallpaperProvider
 import ch.deletescape.lawnchair.flowerpot.Flowerpot
-import ch.deletescape.lawnchair.bugreport.BugReportClient
-import ch.deletescape.lawnchair.bugreport.BugReportService
 import ch.deletescape.lawnchair.iconpack.IconPackManager
 import ch.deletescape.lawnchair.smartspace.LawnchairSmartspaceController
 import ch.deletescape.lawnchair.theme.ThemeManager
@@ -46,7 +44,6 @@ class LawnchairApp : Application() {
 
     val activityHandler = ActivityHandler()
     val smartspace by lazy { LawnchairSmartspaceController(this) }
-    val bugReporter = LawnchairBugReporter(this, Thread.getDefaultUncaughtExceptionHandler())
     var accessibilityService: LawnchairAccessibilityService? = null
 
     init {
@@ -66,15 +63,10 @@ class LawnchairApp : Application() {
     }
 
     fun onLauncherAppStateCreated() {
-        Thread.setDefaultUncaughtExceptionHandler(bugReporter)
         registerActivityLifecycleCallbacks(activityHandler)
 
         ThemeManager.getInstance(this).registerColorListener()
         BlurWallpaperProvider.getInstance(this)
-        if (BuildConfig.FEATURE_BUG_REPORTER && lawnchairPrefs.showCrashNotifications) {
-            BugReportClient.getInstance(this)
-            BugReportService.registerNotificationChannel(this)
-        }
     }
 
     fun restart(recreateLauncher: Boolean = true) {

@@ -75,12 +75,6 @@
         android:defaultValue="true" />
 
     <ch.deletescape.lawnchair.preferences.StyledSwitchPreferenceCompat
-        android:key="pref_autoUploadBugReport"
-        android:title="Automatically upload bug reports to dogbin"
-        android:defaultValue="false"
-        android:dependency="pref_showCrashNotifications" />
-
-    <ch.deletescape.lawnchair.preferences.StyledSwitchPreferenceCompat
         android:key="pref_initLeakCanary"
         android:title="Init LeakCanary"
         android:defaultValue="false"
@@ -89,7 +83,7 @@
     <ch.deletescape.lawnchair.preferences.StyledSwitchPreferenceCompat
         android:key="pref_debugDisplayState"
         android:title="Debug information overlay"
-        android:summary="Display informations such as the current Launcher State"/>
+        android:summary="Display informations such as the current Launcher State" />
 
     <ch.deletescape.lawnchair.preferences.StyledSwitchPreferenceCompat
         android:key="pref_lowPerformanceMode"
@@ -171,11 +165,11 @@
         <Preference
             android:key="pref_drawerTabs"
             android:title="@string/drawer_tabs"
-            android:fragment="ch.deletescape.lawnchair.preferences.DrawerTabsFragment"/>
+            android:fragment="ch.deletescape.lawnchair.preferences.DrawerTabsFragment" />
 
         <EditTextPreference
             android:key="pref_weatherIcons"
             android:title="Weather icon pack"
-            android:summary="Enter a packagename of a chronus icon pack [TODO: Proper UI, support for more data providers]"/>
+            android:summary="Enter a packagename of a chronus icon pack [TODO: Proper UI, support for more data providers]" />
     </ch.deletescape.lawnchair.preferences.StyledPreferenceCategory>
 </PreferenceScreen>

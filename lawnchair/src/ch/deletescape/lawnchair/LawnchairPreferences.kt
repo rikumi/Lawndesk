@@ -25,7 +25,6 @@ import android.net.Uri
 import android.os.Looper
 import android.provider.Settings
 import android.text.TextUtils
-import ch.deletescape.lawnchair.bugreport.BugReportClient
 import ch.deletescape.lawnchair.colors.ColorEngine
 import ch.deletescape.lawnchair.gestures.BlankGestureHandler
 import ch.deletescape.lawnchair.gestures.handlers.*
@@ -204,11 +203,6 @@ class LawnchairPreferences(val context: Context) : SharedPreferences.OnSharedPre
     val debugOkHttp by BooleanPref("pref_debugOkhttp", onChange = restart)
     val initLeakCanary by BooleanPref("pref_initLeakCanary", false, restart)
     val showCrashNotifications by BooleanPref("pref_showCrashNotifications", true, restart)
-    val autoUploadBugReport by BooleanPref("pref_autoUploadBugReport", false) {
-        if (showCrashNotifications) {
-            BugReportClient.getInstance(context).setAutoUploadEnabled()
-        }
-    }
     val forceFakePieAnims by BooleanPref("pref_forceFakePieAnims", false)
     val displayDebugOverlay by BooleanPref("pref_debugDisplayState", false)
 
@@ -226,7 +220,6 @@ class LawnchairPreferences(val context: Context) : SharedPreferences.OnSharedPre
     var allAppsGlobalSearch by BooleanPref("pref_allAppsGoogleSearch", true, doNothing)
 
     // Misc
-    var autoLaunchRoot by BooleanPref("internal_auto_launch_root")
     var noFools by BooleanPref("pref_noFools2019", false) { Utilities.restartLauncher(context) }
     val enableFools get() = forceEnableFools || is1stApril()
     val showFools get() = !noFools && enableFools

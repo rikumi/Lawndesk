@@ -26,7 +26,7 @@
             android:defaultValue="true"
             android:key="pref_enable_minus_one"
             android:title="@string/title_show_google_app"
-            app:controllerClass=".MinusOneController"/>
+            app:controllerClass=".MinusOneController" />
 
         <ListPreference
             android:defaultValue="1"
@@ -37,16 +37,6 @@
             android:summary="%s"
             android:title="@string/feed_theme_pref_title"
             android:dependency="pref_enable_minus_one"
-            app:controllerClass=".GFeedBackgroundController"/>
+            app:controllerClass=".GFeedBackgroundController" />
     </ch.deletescape.lawnchair.preferences.StyledPreferenceCategory>
-
-    <ch.deletescape.lawnchair.preferences.StyledPreferenceCategory
-        android:title="@string/customnavbar"
-        app:controllerClass=".CustomNavBarIntegrationController">
-
-        <ch.deletescape.lawnchair.customnavbar.preferences.CustomNavBarIntegrationPreference
-            android:key="cnb_integration"
-            android:title="@string/customnavbar_back_hiding_desc" />
-    </ch.deletescape.lawnchair.preferences.StyledPreferenceCategory>
-
 </android.support.v7.preference.PreferenceScreen>

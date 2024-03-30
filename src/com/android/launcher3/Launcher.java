@@ -252,31 +252,6 @@ public class Launcher extends BaseDraggingActivity implements LauncherExterns,
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        if (DEBUG_STRICT_MODE && Utilities.ATLEAST_P) {
-            // TODO: Revise policy and potentially change this to send bug reports too
-            StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder()
-                    //.detectDiskReads()
-                    //.detectDiskWrites()
-                    .detectNetwork()   // or .detectAll() for all detectable problems
-                    //.penaltyLog()
-                    .build());
-            StrictMode.setVmPolicy(new StrictMode.VmPolicy.Builder()
-                    .detectLeakedSqlLiteObjects()
-                    .detectLeakedClosableObjects()
-                    .detectActivityLeaks()
-                    //.penaltyLog()
-                    //.penaltyDeath()
-                    .penaltyListener(new LooperExecutor(getMainLooper()),
-                            new OnVmViolationListener() {
-                                @Override
-                                public void onVmViolation(Violation v) {
-                                    LawnchairAppKt.getLawnchairApp(Launcher.this)
-                                            .getBugReporter().reportVmViolation(v);
-                                }
-                            })
-                    .build());
-        }
-
         TraceHelper.beginSection("Launcher-onCreate");
 
         super.onCreate(savedInstanceState);

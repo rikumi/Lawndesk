@@ -207,7 +207,6 @@ class NewBackupActivity : SettingsBaseActivity(), ColorEngine.OnColorChangeListe
                     focusedTextColor.isAccessible = true
                     focusedTextColor.set(backupNameLayout, tintList)
                 } catch (e: Exception) {
-                    lawnchairApp.bugReporter.writeReport("Failed to set focusedTextColor on TextInputLayout", e)
                 }
                 backupHomescreen.buttonTintList = tintList
                 backupSettings.buttonTintList = tintList
@@ -265,10 +264,7 @@ class NewBackupActivity : SettingsBaseActivity(), ColorEngine.OnColorChangeListe
                 startActivity(Intent(this@NewBackupActivity, BackupListActivity::class.java))
             } else {
                 inProgress = false
-                Snackbar.make(findViewById(R.id.content), R.string.failed, Snackbar.LENGTH_SHORT)
-                        .setAction(R.string.backup_generate_report, {
-                            lawnchairApp.bugReporter.writeReport("Failed to create backup", result)
-                        }).show()
+                Snackbar.make(findViewById(R.id.content), R.string.failed, Snackbar.LENGTH_SHORT).show()
             }
         }
 

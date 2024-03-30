@@ -96,10 +96,6 @@ class GestureController(val launcher: LawnchairLauncher) : TouchController {
     companion object {
 
         private const val TAG = "GestureController"
-        private val LEGACY_SLEEP_HANDLERS = listOf(
-                "ch.deletescape.lawnchair.gestures.handlers.SleepGestureHandlerDeviceAdmin",
-                "ch.deletescape.lawnchair.gestures.handlers.SleepGestureHandlerAccessibility",
-                "ch.deletescape.lawnchair.gestures.handlers.SleepGestureHandlerRoot")
 
         fun createGestureHandler(context: Context, jsonString: String?, fallback: GestureHandler): GestureHandler {
             if (!TextUtils.isEmpty(jsonString)) {
@@ -109,9 +105,6 @@ class GestureController(val launcher: LawnchairLauncher) : TouchController {
                     null
                 }
                 var className = config?.getString("class") ?: jsonString
-                if (className in LEGACY_SLEEP_HANDLERS) {
-                    className = SleepGestureHandler::class.java.name
-                }
                 val configValue = if (config?.has("config") == true) config.getJSONObject("config") else null
                 // Log.d(TAG, "creating handler $className with config ${configValue?.toString(2)}")
                 try {
@@ -132,16 +125,10 @@ class GestureController(val launcher: LawnchairLauncher) : TouchController {
                 null
             }
             val className = config?.getString("class") ?: jsonString
-            return if (className in LEGACY_SLEEP_HANDLERS) {
-                SleepGestureHandler::class.java.name
-            } else {
-                className
-            }
+            return className
         }
 
         fun getGestureHandlers(context: Context, isSwipeUp: Boolean, hasBlank: Boolean) = mutableListOf(
-                SleepGestureHandler(context, null),
-                SleepGestureHandlerTimeout(context, null),
                 OpenWidgetsGestureHandler(context, null),
                 OpenSettingsGestureHandler(context, null),
                 OpenOverviewGestureHandler(context, null),
