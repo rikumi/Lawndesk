@@ -23,6 +23,7 @@ import android.os.CancellationSignal;
 import com.android.launcher3.Launcher;
 import com.android.launcher3.LauncherStateManager.StateHandler;
 import com.android.launcher3.util.TouchController;
+import ch.deletescape.lawnchair.gestures.VerticalSwipeGestureController;
 
 import java.io.PrintWriter;
 
@@ -30,7 +31,9 @@ public class UiFactory {
 
     public static TouchController[] createTouchControllers(Launcher launcher) {
         return new TouchController[] {
-                launcher.getDragController()};
+                launcher.getDragController(),
+                new VerticalSwipeGestureController(launcher)
+        };
     }
 
     public static void setOnTouchControllersChangedListener(Context context, Runnable listener) { }

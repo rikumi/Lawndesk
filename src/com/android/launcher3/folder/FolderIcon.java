@@ -538,10 +538,6 @@ public class FolderIcon extends FrameLayout implements FolderListener, OnResumeC
 
         canvas.restoreToCount(saveCount);
 
-        if (!mBackground.drawingDelegated()) {
-            mBackground.drawBackgroundStroke(canvas);
-        }
-
         drawBadge(canvas);
     }
 
