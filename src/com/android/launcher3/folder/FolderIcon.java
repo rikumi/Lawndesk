@@ -532,15 +532,11 @@ public class FolderIcon extends FrameLayout implements FolderListener, OnResumeC
         if (mFolder.getItemCount() == 0 && !mAnimating) return;
 
         final int saveCount = canvas.save();
-        canvas.clipPath(mBackground.getClipPath());
+        // canvas.clipPath(mBackground.getClipPath());
 
         mPreviewItemManager.draw(canvas);
 
         canvas.restoreToCount(saveCount);
-
-        if (!mBackground.drawingDelegated()) {
-            mBackground.drawBackgroundStroke(canvas);
-        }
 
         drawBadge(canvas);
     }

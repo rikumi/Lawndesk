@@ -136,7 +136,6 @@ class BlurWallpaperProvider(val context: Context) {
         mWallpaperWidth = wallpaper.width
 
         placeholder = createPlaceholder(wallpaper.width, wallpaper.height)
-        wallpaper = applyVibrancy(wallpaper)
         Log.d("BWP", "starting blur")
 
         applyTask = wallpaperFilter.apply(wallpaper).setCallback { result, error ->
@@ -206,30 +205,10 @@ class BlurWallpaperProvider(val context: Context) {
     }
 
     val tintColor: Int
-        get() = 0x45ffffff // TODO: replace this with theme attr
-//        get() = Utilities.resolveAttributeData(context, R.attr.blurTintColor)
+        get() = 0x45000000 // TODO: replace this with theme attr
 
     fun updateAsync() {
         Utilities.THREAD_POOL_EXECUTOR.execute(mUpdateRunnable)
-    }
-
-    private fun applyVibrancy(wallpaper: Bitmap): Bitmap {
-        val width = wallpaper.width
-        val height = wallpaper.height
-
-        val bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
-        val canvas = Canvas()
-        canvas.setBitmap(bitmap)
-
-        val colorMatrix = ColorMatrix()
-        colorMatrix.setSaturation(1.25f)
-        val filter = ColorMatrixColorFilter(colorMatrix)
-        mVibrancyPaint.colorFilter = filter
-        canvas.drawBitmap(wallpaper, 0f, 0f, mVibrancyPaint)
-
-        wallpaper.recycle()
-
-        return bitmap
     }
 
     fun addListener(listener: Listener) {

@@ -19,7 +19,7 @@ package ch.deletescape.lawnchair
 
 import android.content.Context
 import android.util.TypedValue
-import ch.deletescape.lawnchair.colors.PixelAccentResolver
+import ch.deletescape.lawnchair.colors.SystemAccentResolver
 import ch.deletescape.lawnchair.globalsearch.providers.GoogleSearchProvider
 import ch.deletescape.lawnchair.globalsearch.providers.web.BaiduWebSearchProvider
 import ch.deletescape.lawnchair.globalsearch.providers.web.GoogleWebSearchProvider
@@ -42,7 +42,7 @@ class LawnchairConfig(context: Context) {
     val defaultExternalSearchProvider: String = context.resources.getString(
             R.string.config_external_search_provider) ?: GoogleSearchProvider::class.java.name
     val defaultColorResolver: String = context.resources.getString(
-            R.string.config_default_color_resolver) ?: PixelAccentResolver::class.java.name
+            R.string.config_default_color_resolver) ?: SystemAccentResolver::class.java.name
 
     companion object : SingletonHolder<LawnchairConfig, Context>(
             ensureOnMainThread(useApplicationContext(::LawnchairConfig)))

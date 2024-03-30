@@ -196,8 +196,6 @@ public class LauncherIcons implements AutoCloseable {
         icon = normalizeAndWrapToAdaptiveIcon(icon, iconAppTargetSdk, null, scale);
         Bitmap bitmap = createIconBitmap(icon, scale[0]);
         if (icon instanceof AdaptiveIconCompat) {
-            mCanvas.setBitmap(bitmap);
-            getShadowGenerator().recreateIcon(Bitmap.createBitmap(bitmap), mCanvas);
             mCanvas.setBitmap(null);
         }
 
@@ -394,7 +392,6 @@ public class LauncherIcons implements AutoCloseable {
 
         result.color = badge.iconColor;
         result.icon = BitmapRenderer.createHardwareBitmap(mIconBitmapSize, mIconBitmapSize, (c) -> {
-            getShadowGenerator().recreateIcon(unbadgedfinal, c);
             badgeWithDrawable(c, new FastBitmapDrawable(badge));
         });
         return result;

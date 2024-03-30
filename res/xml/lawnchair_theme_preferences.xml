@@ -17,7 +17,7 @@
             android:key="pref_iconPackMasking"
             android:summary="@string/pref_icon_pack_masking_summary"
             android:title="@string/pref_icon_pack_masking"
-            app:controllerClass=".IconPackMaskingController"/>
+            app:controllerClass=".IconPackMaskingController" />
 
         <ch.deletescape.lawnchair.adaptive.IconShapePreference
             android:defaultValue=""
@@ -41,7 +41,7 @@
                 android:persistent="true"
                 android:summary="@string/pref_legacy_treatment_summary"
                 android:title="@string/pref_legacy_treatment_title"
-                app:controllerClass=".IconShapeOverrideController"/>
+                app:controllerClass=".IconShapeOverrideController" />
 
             <ch.deletescape.lawnchair.preferences.StyledSwitchPreferenceCompat
                 android:defaultValue="@bool/config_enable_colorized_legacy_treatment"
@@ -50,7 +50,7 @@
                 android:dependency="pref_enableLegacyTreatment"
                 android:summary="@string/pref_legacy_colored_backgrounds_summary"
                 android:title="@string/pref_legacy_colored_backgrounds"
-                app:controllerClass=".IconShapeOverrideController"/>
+                app:controllerClass=".IconShapeOverrideController" />
 
             <ch.deletescape.lawnchair.preferences.StyledSwitchPreferenceCompat
                 android:defaultValue="@bool/config_enable_white_only_treatment"
@@ -59,14 +59,14 @@
                 android:dependency="pref_colorizeGeneratedBackgrounds"
                 android:summary="@string/pref_white_only_treatment_summary"
                 android:title="@string/pref_white_only_treatment"
-                app:controllerClass=".IconShapeOverrideController"/>
+                app:controllerClass=".IconShapeOverrideController" />
 
             <ch.deletescape.lawnchair.preferences.StyledSwitchPreferenceCompat
                 android:defaultValue="false"
                 android:key="pref_generateAdaptiveForIconPack"
                 android:dependency="pref_enableLegacyTreatment"
                 android:title="@string/adaptify_pack_title"
-                app:controllerClass=".IconShapeOverrideController"/>
+                app:controllerClass=".IconShapeOverrideController" />
         </ch.deletescape.lawnchair.preferences.AdvancedPreferencesGroup>
     </ch.deletescape.lawnchair.preferences.StyledPreferenceCategory>
 
@@ -79,15 +79,15 @@
             android:title="@string/appearance"
             app:content="@xml/lawnchair_theme_dialog_preference" />
 
-        <ch.deletescape.lawnchair.colors.preferences.ColorPickerPreference
+        <!-- <ch.deletescape.lawnchair.colors.preferences.ColorPickerPreference
             android:key="pref_accentColorResolver"
             android:title="@string/lawnchair_accent"
-            app:resolvers="@array/resolvers_accent"/>
+            app:resolvers="@array/resolvers_accent"/> -->
 
         <ch.deletescape.lawnchair.settings.ui.SubPreference
             android:key="fonts"
             android:title="@string/pref_fonts_title"
-            app:content="@xml/lawnchair_fonts_preference_v2"/>
+            app:content="@xml/lawnchair_fonts_preference_v2" />
 
         <ch.deletescape.lawnchair.preferences.StyledSwitchPreferenceCompat
             android:defaultValue="true"
