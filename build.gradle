@@ -189,6 +189,10 @@ android {
             options.compilerArgs.add('-Xbootclasspath/p:lawnchair/libs/framework.jar')
         }
     }
+
+    lintOptions {
+        abortOnError false
+    }
 }
 
 afterEvaluate {

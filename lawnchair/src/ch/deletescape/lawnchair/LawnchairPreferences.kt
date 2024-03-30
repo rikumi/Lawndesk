@@ -130,7 +130,7 @@ class LawnchairPreferences(val context: Context) : SharedPreferences.OnSharedPre
     val folderGridSize by folderGridSizeDelegate
     val hideAppLabels by BooleanPref("pref_hideAppLabels", false, recreate)
     val showTopShadow by BooleanPref("pref_showTopShadow", true, recreate) // TODO: update the scrim instead of doing this
-    private val homeMultilineLabel by BooleanPref("pref_homeIconLabelsInTwoLines", true, recreate)
+    private val homeMultilineLabel by BooleanPref("pref_homeIconLabelsInTwoLines", false, recreate)
     val homeLabelRows get() = if(homeMultilineLabel) 2 else 1
     val allowOverlap by BooleanPref(SettingsActivity.ALLOW_OVERLAP_PREF, false, reloadAll)
     val desktopTextScale by FloatPref("pref_iconTextScaleSB", 1f, reloadAll)

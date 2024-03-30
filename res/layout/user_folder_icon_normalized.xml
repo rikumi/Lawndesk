@@ -64,7 +64,7 @@
             android:layout_marginTop="-2dp"
             android:layout_marginEnd="16dp"
             android:background="@null"
-            android:visibility="gone"
+            android:visibility="invisible"
             android:src="@drawable/ic_plus_folder" />
     </RelativeLayout>
 

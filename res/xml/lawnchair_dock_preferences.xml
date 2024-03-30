@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v7.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-    
+
     <ch.deletescape.lawnchair.preferences.StyledPreferenceCategory
         android:key="prefCat_dockTheme"
         android:title="@string/pref_category_theme">
-        
+
         <ch.deletescape.lawnchair.preferences.DockPresetPreference
             android:key="pref_dockPreset"
             android:title="@string/dock_style_pref_title"
@@ -31,13 +31,13 @@
             android:key="pref_hotseatShowPageIndicator"
             android:title="@string/hotseat_show_page_indicator"
             android:defaultValue="true"
-            android:persistent="true"/>
+            android:persistent="true" />
     </ch.deletescape.lawnchair.preferences.StyledPreferenceCategory>
-    
+
     <ch.deletescape.lawnchair.preferences.StyledPreferenceCategory
         android:key="prefCat_dockIcons"
         android:title="@string/pref_category_icons">
-        
+
         <ch.deletescape.lawnchair.settings.ui.DockGridSizePreference
             android:key="pref_dock_grid_size"
             android:title="@string/num_hotseat_icons_pref_title" />
@@ -54,7 +54,7 @@
             android:title="@string/text_color"
             android:dependency="pref_hideDockLabels"
             app:colorMode="RGB"
-            app:resolvers="@array/resolvers_workspace_labels"/>
+            app:resolvers="@array/resolvers_workspace_labels" />
 
         <ch.deletescape.lawnchair.preferences.StyledSwitchPreferenceCompat
             android:key="pref_dockIconLabelsInTwoLines"

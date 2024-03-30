@@ -5,7 +5,7 @@ Lawndesk is an Android launcher without app drawer based on an ancient (Android 
 This fork changes some of the default options, making it more modern and Pixel-ish. Some features are removed only to allow the build to pass.
 
 ### Building the App
-- Create a `local.properties` file and write your Android SDK location into it:
+- Create a `local.properties` file and write your Android SDK location into it (SDK Version 28 is recommended):
     ```
     # Example
     sdk.dir=/Users/your_username_here/Library/Android/sdk/
