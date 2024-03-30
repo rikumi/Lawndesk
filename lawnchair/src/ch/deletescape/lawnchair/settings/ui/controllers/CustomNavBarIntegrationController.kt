@@ -30,6 +30,5 @@ import com.android.launcher3.Utilities
 class CustomNavBarIntegrationController(context: Context) : PreferenceController(context) {
 
     override val isVisible = Utilities.ATLEAST_NOUGAT
-                             && !context.lawnchairApp.recentsEnabled
                              && CustomNavBar.getInstance(context).testVersionInstalled
 }

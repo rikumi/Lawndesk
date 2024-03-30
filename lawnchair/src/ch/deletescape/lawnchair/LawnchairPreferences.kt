@@ -43,7 +43,6 @@ import ch.deletescape.lawnchair.util.extensions.d
 import com.android.launcher3.*
 import com.android.launcher3.allapps.search.DefaultAppSearchAlgorithm
 import com.android.launcher3.util.ComponentKey
-import com.android.quickstep.OverviewInteractionState
 import org.json.JSONArray
 import org.json.JSONObject
 import java.io.File
@@ -225,16 +224,6 @@ class LawnchairPreferences(val context: Context) : SharedPreferences.OnSharedPre
     val searchHiddenApps by BooleanPref("pref_search_hidden_apps", false)
     val allAppsSearch by BooleanPref("pref_allAppsSearch", true, recreate)
     var allAppsGlobalSearch by BooleanPref("pref_allAppsGoogleSearch", true, doNothing)
-
-    // Quickstep
-    var swipeUpToSwitchApps by BooleanPref("pref_swipe_up_to_switch_apps_enabled", true, doNothing)
-    val recentsRadius by DimensionPref("pref_recents_radius", context.resources.getInteger(R.integer.task_corner_radius).toFloat(), doNothing)
-    val swipeLeftToGoBack by BooleanPref("pref_swipe_left_to_go_back", false) {
-        OverviewInteractionState.getInstance(context).setBackButtonAlpha(1f, true)
-    }
-    val recentsBlurredBackground by BooleanPref("pref_recents_blur_background", true) {
-        onChangeCallback?.launcher?.background?.onEnabledChanged()
-    }
 
     // Misc
     var autoLaunchRoot by BooleanPref("internal_auto_launch_root")

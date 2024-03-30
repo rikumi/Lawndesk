@@ -67,11 +67,6 @@ public class QsbAnimationController implements WindowStateListener, StateListene
             mAnimatorSet = null;
         }
         View view = mLauncher.getDragLayer();
-        if (mLauncher.isInState(LauncherState.SEARCH)) {
-            view.setAlpha(1.0f);
-            view.setTranslationY(0.0f);
-            return;
-        }
         mAnimatorSet = new AnimatorSet();
         mAnimatorSet.addListener(new AnimatorListenerAdapter() {
             @Override
@@ -112,7 +107,7 @@ public class QsbAnimationController implements WindowStateListener, StateListene
     }
 
     private void a(LauncherState launcherState) {
-        if (mGoogleHasFocus && launcherState != LauncherState.SEARCH && !mLauncher.hasWindowFocus()) {
+        if (mGoogleHasFocus && !mLauncher.hasWindowFocus()) {
             playAnimation(true, false);
         }
     }

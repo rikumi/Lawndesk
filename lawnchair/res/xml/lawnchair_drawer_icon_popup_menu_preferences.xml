@@ -20,7 +20,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <ch.deletescape.lawnchair.preferences.StyledSwitchPreferenceCompat
-        android:defaultValue="false"
+        android:defaultValue="true"
         android:key="pref_iconPopup_uninstall"
         android:icon="@drawable/ic_uninstall_no_shadow"
         android:persistent="true"

@@ -37,7 +37,6 @@ import ch.deletescape.lawnchair.util.extensions.d
 import com.android.launcher3.BuildConfig
 import com.android.launcher3.R
 import com.android.launcher3.Utilities
-import com.android.quickstep.RecentsActivity
 import com.squareup.leakcanary.LeakCanary
 import ninja.sesame.lib.bridge.v1.SesameFrontend
 import ninja.sesame.lib.bridge.v1.SesameInitOnComplete
@@ -48,7 +47,6 @@ class LawnchairApp : Application() {
     val activityHandler = ActivityHandler()
     val smartspace by lazy { LawnchairSmartspaceController(this) }
     val bugReporter = LawnchairBugReporter(this, Thread.getDefaultUncaughtExceptionHandler())
-    val recentsEnabled by lazy { checkRecentsComponent() }
     var accessibilityService: LawnchairAccessibilityService? = null
 
     init {
@@ -140,36 +138,6 @@ class LawnchairApp : Application() {
         override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) {
             activities.add(activity)
         }
-    }
-
-    @Keep
-    fun checkRecentsComponent(): Boolean {
-        if (!Utilities.ATLEAST_P) {
-            d("API < P, disabling recents")
-            return false
-        }
-        if (!Utilities.HIDDEN_APIS_ALLOWED) {
-            d("Hidden APIs not allowed, disabling recents")
-            return false
-        }
-
-        val resId = resources.getIdentifier("config_recentsComponentName", "string", "android")
-        if (resId == 0) {
-            d("config_recentsComponentName not found, disabling recents")
-            return false
-        }
-        val recentsComponent = ComponentName.unflattenFromString(resources.getString(resId))
-        if (recentsComponent == null) {
-            d("config_recentsComponentName is empty, disabling recents")
-            return false
-        }
-        val isRecentsComponent = recentsComponent.packageName == packageName
-                && recentsComponent.className == RecentsActivity::class.java.name
-        if (!isRecentsComponent) {
-            d("config_recentsComponentName ($recentsComponent) is not Lawnchair, disabling recents")
-            return false
-        }
-        return true
     }
 }
 

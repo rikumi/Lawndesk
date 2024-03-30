@@ -9,7 +9,6 @@ import android.os.Bundle;
 import android.view.View;
 
 import ch.deletescape.lawnchair.LawnchairLauncher;
-import ch.deletescape.lawnchair.animations.LawnchairAppTransitionManagerImpl;
 import com.android.launcher3.AbstractFloatingView;
 import com.android.launcher3.BaseDraggingActivity;
 import com.android.launcher3.ItemInfo;
@@ -105,12 +104,6 @@ public abstract class SystemShortcut<T extends BaseDraggingActivity> extends Ite
                 Bundle opts = activity.getActivityLaunchOptionsAsBundle(view);
                 Intent intent = new PackageManagerHelper(activity).startDetailsActivityForInfo(
                         itemInfo, sourceBounds, opts);
-                if (intent != null && activity instanceof LawnchairLauncher) {
-                    LauncherAppTransitionManager manager =
-                            ((LawnchairLauncher) activity).getLauncherAppTransitionManager();
-                    ((LawnchairAppTransitionManagerImpl) manager).playLaunchAnimation(
-                            (Launcher) activity, null, intent);
-                }
             };
         }
     }

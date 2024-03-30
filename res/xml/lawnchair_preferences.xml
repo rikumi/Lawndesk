@@ -30,14 +30,14 @@
         app:content="@xml/lawnchair_desktop_preferences"
         android:layout="@layout/home_preference" />
 
-    <ch.deletescape.lawnchair.settings.ui.SubPreference
+    <!-- <ch.deletescape.lawnchair.settings.ui.SubPreference
         android:icon="@drawable/ic_smartspace"
         android:summary="@string/smartspace_preferences_in_settings_desc"
         android:title="@string/home_widget"
         android:key="smartspace"
         app:content="@xml/lawnchair_smartspace_preferences"
         app:hasPreview="true"
-        android:layout="@layout/home_preference"/>
+        android:layout="@layout/home_preference" /> -->
 
     <ch.deletescape.lawnchair.settings.ui.SubPreference
         android:icon="@drawable/ic_dock"
@@ -47,13 +47,13 @@
         app:content="@xml/lawnchair_dock_preferences"
         android:layout="@layout/home_preference" />
 
-    <ch.deletescape.lawnchair.settings.ui.SubPreference
+    <!-- <ch.deletescape.lawnchair.settings.ui.SubPreference
         android:icon="@drawable/ic_pref_search"
         android:summary="@string/search_pref_summary"
         android:title="@string/search"
         android:key="search"
         app:content="@xml/lawnchair_search_preferences"
-        android:layout="@layout/home_preference" />
+        android:layout="@layout/home_preference" /> -->
 
     <ch.deletescape.lawnchair.settings.ui.SubPreference
         android:icon="@drawable/ic_gestures"
@@ -71,15 +71,6 @@
         app:content="@xml/lawnchair_integration_preferences"
         android:layout="@layout/home_preference" />
 
-    <ch.deletescape.lawnchair.settings.ui.SubPreference
-        android:key="quickstep"
-        android:summary="@string/quickstep_pref_summary"
-        android:title="@string/quickstep_pref_title"
-        android:icon="@drawable/ic_pref_lawnstep"
-        app:content="@xml/lawnchair_quickstep_preferences"
-        app:controllerClass=".LawnstepController"
-        android:layout="@layout/home_preference" />
-
     <ch.deletescape.lawnchair.preferences.StyledIconPreference
         android:key="backups"
         android:title="@string/backups"
@@ -90,7 +81,7 @@
         <!--suppress AndroidDomInspection (Injected at compile time) -->
         <intent
             android:targetPackage="@string/application_id"
-            android:targetClass="ch.deletescape.lawnchair.backup.BackupListActivity"/>
+            android:targetClass="ch.deletescape.lawnchair.backup.BackupListActivity" />
     </ch.deletescape.lawnchair.preferences.StyledIconPreference>
 
     <ch.deletescape.lawnchair.settings.ui.SubPreference
@@ -107,6 +98,6 @@
         android:icon="@drawable/ic_pref_about"
         android:layout="@layout/home_preference"
         app:content="@xml/lawnchair_about_preferences"
-        android:key="about"/>
+        android:key="about" />
 
 </android.support.v7.preference.PreferenceScreen>

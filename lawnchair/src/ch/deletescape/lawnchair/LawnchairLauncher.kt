@@ -39,7 +39,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
-import ch.deletescape.lawnchair.animations.LawnchairAppTransitionManagerImpl
 import ch.deletescape.lawnchair.blur.BlurWallpaperProvider
 import ch.deletescape.lawnchair.bugreport.BugReportClient
 import ch.deletescape.lawnchair.colors.ColorEngine
@@ -56,7 +55,6 @@ import com.android.launcher3.*
 import com.android.launcher3.uioverrides.OverviewState
 import com.android.launcher3.util.ComponentKey
 import com.android.launcher3.util.SystemUiController
-import com.android.quickstep.views.LauncherRecentsView
 import com.google.android.apps.nexuslauncher.NexusLauncherActivity
 import java.io.File
 import java.io.FileOutputStream
@@ -100,21 +98,6 @@ open class LawnchairLauncher : NexusLauncherActivity(),
         }
 
         ColorEngine.getInstance(this).addColorChangeListeners(this, *colorsToWatch)
-    }
-
-    override fun startActivitySafely(v: View?, intent: Intent, item: ItemInfo?): Boolean {
-        val success = super.startActivitySafely(v, intent, item)
-        if (success) {
-            (launcherAppTransitionManager as LawnchairAppTransitionManagerImpl)
-                    .playLaunchAnimation(this, v, intent)
-        }
-        return success
-    }
-
-    override fun onStart() {
-        super.onStart()
-        (launcherAppTransitionManager as LawnchairAppTransitionManagerImpl)
-                .overrideResumeAnimation(this)
     }
 
     override fun finishBindingItems(currentScreen: Int) {
@@ -170,10 +153,6 @@ open class LawnchairLauncher : NexusLauncherActivity(),
     }
 
     override fun onBackPressed() {
-        if (isInState(LauncherState.OVERVIEW) && getOverviewPanel<LauncherRecentsView>().onBackPressed()) {
-            // Handled
-            return
-        }
         super.onBackPressed()
     }
 

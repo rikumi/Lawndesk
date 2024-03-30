@@ -18,18 +18,4 @@
 <widgets xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:launcher="http://schemas.android.com/apk/res-auto">
 
-    <widget
-        android:label="@string/home_widget"
-        android:initialLayout="@layout/smartspace_widget"
-        android:icon="@mipmap/ic_launcher"
-        android:resizeMode="horizontal|vertical"
-        launcher:numRows="1"
-        launcher:numColumns="5"
-        launcher:numMinRows="1"
-        launcher:numMinColumns="3"
-        launcher:providerId="1"
-        launcher:noPadding="true"
-        launcher:customizeTitle="@string/home_widget"
-        launcher:customizeScreen="@xml/lawnchair_smartspace_preferences"
-        launcher:customizeHasPreview="true" />
 </widgets>

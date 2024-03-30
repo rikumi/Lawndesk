@@ -27,7 +27,6 @@ import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import ch.deletescape.lawnchair.BlankActivity;
-import com.android.launcher3.uioverrides.WallpaperManagerCompat;
 
 // Based on:
 //      - https://gist.github.com/frmz/669eeca0b20b943b7091b9078eb3247e

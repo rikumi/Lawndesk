@@ -35,13 +35,6 @@ class GesturePreference(context: Context, attrs: AttributeSet?) : DialogPreferen
     internal var isSwipeUp = false
 
     init {
-        val ta = context.obtainStyledAttributes(attrs, R.styleable.GesturePreference)
-        val className = ta.getString(R.styleable.GesturePreference_gestureClass) ?: ""
-        when (className) {
-            NavSwipeUpGesture::class.java.name -> isSwipeUp = true
-        }
-
-        ta.recycle()
     }
 
     override fun onAttached() {

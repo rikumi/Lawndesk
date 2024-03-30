@@ -69,7 +69,6 @@ import com.android.launcher3.util.LooperExecutor
 import com.android.launcher3.util.PackageUserKey
 import com.android.launcher3.util.Themes
 import com.android.launcher3.views.OptionsPopupView
-import com.android.systemui.shared.recents.model.TaskStack
 import com.google.android.apps.nexuslauncher.CustomIconUtils
 import org.json.JSONArray
 import org.json.JSONObject
@@ -409,9 +408,6 @@ fun reloadIcons(context: Context, packages: Collection<PackageUserKey>) {
 }
 
 fun Context.getIcon():Drawable = packageManager.getApplicationIcon(applicationInfo)
-
-val TaskStack.mostRecentTask
-    get() = this.tasks.getOrNull(this.taskCount - 1)
 
 fun <T, A>ensureOnMainThread(creator: (A) -> T): (A) -> T {
     return { it ->

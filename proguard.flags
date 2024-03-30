@@ -110,16 +110,6 @@
     public <init>(...);
 }
 
-# InstantAppResolver
--keep class com.android.quickstep.InstantAppResolverImpl {
-    public <init>(...);
-}
-
-# MainProcessInitializer
--keep class com.android.quickstep.QuickstepProcessInitializer {
-    public <init>(...);
-}
-
 -keep interface com.android.launcher3.userevent.nano.LauncherLogProto.** {
   *;
 }
@@ -185,8 +175,6 @@
 -dontwarn android.app.**
 -dontwarn android.view.**
 -dontwarn android.os.**
-
--keep class com.android.quickstep.LauncherSearchIndexablesProvider { *; }
 
 -keep class com.android.launcher3.InvariantDeviceProfile {
   float iconSizeOriginal;

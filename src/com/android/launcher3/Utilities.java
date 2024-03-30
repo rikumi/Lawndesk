@@ -54,7 +54,6 @@ import android.os.Message;
 import android.os.PowerManager;
 import android.os.Process;
 import android.os.TransactionTooLargeException;
-import android.os.UserHandle;
 import android.provider.Settings;
 import android.support.v4.app.NotificationCompat;
 import android.support.annotation.NonNull;
@@ -94,7 +93,6 @@ import com.android.launcher3.graphics.BitmapInfo;
 import com.android.launcher3.graphics.LauncherIcons;
 import com.android.launcher3.uioverrides.OverviewState;
 import com.android.launcher3.util.PackageManagerHelper;
-import com.android.systemui.shared.recents.model.Task;
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
@@ -1014,10 +1012,6 @@ public final class Utilities {
 
     public static boolean isRecentsEnabled() {
         LauncherAppState las = LauncherAppState.getInstanceNoCreate();
-        if (las != null) {
-            Context context = las.getContext();
-            return LawnchairAppKt.getLawnchairApp(context).getRecentsEnabled();
-        }
         return false;
     }
 
@@ -1026,24 +1020,7 @@ public final class Utilities {
     }
 
     public static Drawable getIconForTask(Context context, int userId, String packageName) {
-        IconCache ic = LauncherAppState.getInstanceNoCreate().getIconCache();
-        LauncherAppsCompat lac = LauncherAppsCompat.getInstance(context);
-        UserHandle user = UserHandle.of(userId);
-        List<LauncherActivityInfo> al = lac.getActivityList(packageName, user);
-        if (!al.isEmpty()) {
-            Drawable fullResIcon = ic.getFullResIcon(al.get(0));
-            if (user == Process.myUserHandle()) {
-                return fullResIcon;
-            } else {
-                LauncherIcons li = LauncherIcons.obtain(context);
-                BitmapInfo bitmapInfo = li.createBadgedIconBitmap(fullResIcon, user, 24);
-                li.recycle();
-
-                return new BitmapDrawable(context.getResources(), bitmapInfo.icon);
-            }
-        } else {
-            return null;
-        }
+        return null;
     }
 
     public static float getScrimProgress(Launcher launcher, LauncherState toState, float targetProgress) {
@@ -1051,7 +1028,7 @@ public final class Utilities {
     }
 
     public static int getUserId() {
-        return UserHandle.myUserId();
+        return 0;
     }
 
     @RequiresApi(VERSION_CODES.O)

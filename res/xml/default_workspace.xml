@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
-     Copyright (C) 2017 The Android Open Source Project
+<!-- Copyright (C) 2009 The Android Open Source Project
 
      Licensed under the Apache License, Version 2.0 (the "License");
      you may not use this file except in compliance with the License.
@@ -15,19 +14,9 @@
      limitations under the License.
 -->
 
-<profiles xmlns:launcher="http://schemas.android.com/apk/res-auto">
+<favorites xmlns:launcher="http://schemas.android.com/apk/res-auto">
 
-    <profile
-        launcher:name="Go Device"
-        launcher:minWidthDps="296"
-        launcher:minHeightDps="491.33"
-        launcher:numRows="4"
-        launcher:numColumns="4"
-        launcher:numFolderRows="4"
-        launcher:numFolderColumns="4"
-        launcher:iconSize="60"
-        launcher:iconTextSize="14.0"
-        launcher:defaultLayoutId="@xml/default_workspace"
-    />
+    <!-- Hotseat -->
+    <include launcher:workspace="@xml/dw_hotseat_4" />
 
-</profiles>
+</favorites>

@@ -7,41 +7,41 @@
         android:key="pref_gesture_double_tap"
         android:persistent="true"
         android:title="@string/gesture_double_tap"
-        app:gestureClass="ch.deletescape.lawnchair.gestures.gestures.DoubleTapGesture"/>
+        app:gestureClass="ch.deletescape.lawnchair.gestures.gestures.DoubleTapGesture" />
 
     <ch.deletescape.lawnchair.gestures.ui.GesturePreference
         android:defaultValue="@string/action_open_overview_class"
         android:key="pref_gesture_long_press"
         android:persistent="true"
         android:title="@string/gesture_long_press"
-        app:gestureClass="ch.deletescape.lawnchair.gestures.gestures.LongPressGesture"/>
+        app:gestureClass="ch.deletescape.lawnchair.gestures.gestures.LongPressGesture" />
 
     <ch.deletescape.lawnchair.gestures.ui.GesturePreference
         android:defaultValue="@string/action_do_nothing_class"
         android:key="pref_gesture_press_home"
         android:persistent="true"
         android:title="@string/gesture_press_home"
-        app:gestureClass="ch.deletescape.lawnchair.gestures.gestures.PressHomeGesture"/>
+        app:gestureClass="ch.deletescape.lawnchair.gestures.gestures.PressHomeGesture" />
 
     <ch.deletescape.lawnchair.gestures.ui.GesturePreference
         android:defaultValue="@string/action_do_nothing_class"
         android:key="pref_gesture_press_back"
         android:persistent="true"
         android:title="@string/gesture_press_back"
-        app:gestureClass="ch.deletescape.lawnchair.gestures.gestures.PressBackGesture"/>
+        app:gestureClass="ch.deletescape.lawnchair.gestures.gestures.PressBackGesture" />
 
     <ch.deletescape.lawnchair.gestures.ui.GesturePreference
         android:defaultValue="@string/action_open_notifications_class"
         android:key="pref_gesture_swipe_down"
         android:persistent="true"
         android:title="@string/gesture_swipe_down"
-        app:gestureClass="ch.deletescape.lawnchair.gestures.gestures.VerticalSwipeGesture"/>
+        app:gestureClass="ch.deletescape.lawnchair.gestures.gestures.VerticalSwipeGesture" />
 
-    <ch.deletescape.lawnchair.gestures.ui.GesturePreference
+    <!-- <ch.deletescape.lawnchair.gestures.ui.GesturePreference
         android:defaultValue="@string/action_open_search_class"
         android:key="pref_gesture_swipe_up"
         android:persistent="true"
         android:title="@string/gesture_swipe_up"
-        app:gestureClass="ch.deletescape.lawnchair.gestures.gestures.VerticalSwipeGesture"/>
+        app:gestureClass="ch.deletescape.lawnchair.gestures.gestures.VerticalSwipeGesture"/> -->
 
 </android.support.v7.preference.PreferenceScreen>

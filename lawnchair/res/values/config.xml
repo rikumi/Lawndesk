@@ -20,7 +20,7 @@
     <!-- The default blur strength -->
     <item format="float" type="dimen" name="config_default_blur_strength">75</item>
     <!-- (Deprecated) The default icon pack to use; empty = system icons -->
-    <string name="config_default_icon_pack" translatable="false"/>
+    <string name="config_default_icon_pack" translatable="false" />
     <!-- Wether or not adaptive icons should be generated for legacy icons -->
     <bool name="config_enable_legacy_treatment">true</bool>
     <!-- Wether or not new adaptive icons should be generated for adaptive icons with purely white background -->
@@ -30,7 +30,7 @@
     <!-- Wether the status bar should be hidden on the home screen -->
     <bool name="config_hide_statusbar">false</bool>
     <!-- Wether smartspace (at a glance) should be enabled per default -->
-    <bool name="config_enable_smartspace">true</bool>
+    <bool name="config_enable_smartspace">false</bool>
     <!-- Which search provider to use per default -->
     <string name="config_default_search_provider" translatable="false">ch.deletescape.lawnchair.globalsearch.providers.web.GoogleWebSearchProvider</string>
     <string name="config_external_search_provider" translatable="false">ch.deletescape.lawnchair.globalsearch.providers.GoogleSearchProvider</string>

@@ -20,7 +20,6 @@ import static android.content.pm.ActivityInfo.CONFIG_ORIENTATION;
 import static android.content.pm.ActivityInfo.CONFIG_SCREEN_SIZE;
 import static com.android.launcher3.AbstractFloatingView.TYPE_SNACKBAR;
 import static com.android.launcher3.LauncherAnimUtils.SPRING_LOADED_EXIT_DELAY;
-import static com.android.launcher3.LauncherState.SEARCH;
 import static com.android.launcher3.LauncherState.NORMAL;
 import static com.android.launcher3.dragndrop.DragLayer.ALPHA_INDEX_LAUNCHER_LOAD;
 import static com.android.launcher3.logging.LoggerUtils.newTarget;
@@ -822,10 +821,6 @@ public class Launcher extends BaseDraggingActivity implements LauncherExterns,
         UiFactory.onLauncherStateOrResumeChanged(this);
 
         mWorkspace.organizeCurrentPage();
-
-        if (mStateManager.getState() == SEARCH) {
-            mSearchView.refreshAppsList();
-        }
 
         TraceHelper.endSection("ON_RESUME");
     }
@@ -2180,10 +2175,8 @@ public class Launcher extends BaseDraggingActivity implements LauncherExterns,
             mPendingExecutor.markCompleted();
         }
         mPendingExecutor = executor;
-        if (!isInState(SEARCH)) {
-            mSearchView.getAppsStore().setDeferUpdates(true);
-            mPendingExecutor.execute(() -> mSearchView.getAppsStore().setDeferUpdates(false));
-        }
+        mSearchView.getAppsStore().setDeferUpdates(true);
+        mPendingExecutor.execute(() -> mSearchView.getAppsStore().setDeferUpdates(false));
 
         executor.attachTo(this);
     }
@@ -2433,12 +2426,6 @@ public class Launcher extends BaseDraggingActivity implements LauncherExterns,
     public boolean onKeyShortcut(int keyCode, KeyEvent event) {
         if (event.hasModifiers(KeyEvent.META_CTRL_ON)) {
             switch (keyCode) {
-                case KeyEvent.KEYCODE_A:
-                    if (isInState(NORMAL)) {
-                        getStateManager().goToState(SEARCH);
-                        return true;
-                    }
-                    break;
                 case KeyEvent.KEYCODE_S: {
                     View focusedView = getCurrentFocus();
                     if (focusedView instanceof BubbleTextView

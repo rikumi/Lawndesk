@@ -26,7 +26,6 @@ import android.support.annotation.Keep
 import android.util.Log
 import android.view.View
 import android.widget.Toast
-import ch.deletescape.lawnchair.animations.LawnchairAppTransitionManagerImpl
 import ch.deletescape.lawnchair.gestures.GestureController
 import ch.deletescape.lawnchair.gestures.GestureHandler
 import ch.deletescape.lawnchair.gestures.ui.SelectAppActivity
@@ -35,7 +34,6 @@ import ch.deletescape.lawnchair.globalsearch.ExternalSearchProviderController
 import com.android.launcher3.LauncherState
 import ch.deletescape.lawnchair.globalsearch.SearchProviderController
 import ch.deletescape.lawnchair.lawnchairPrefs
-import com.android.launcher3.LauncherState.SEARCH
 import com.android.launcher3.R
 import com.android.launcher3.Utilities
 import com.android.launcher3.compat.LauncherAppsCompat
@@ -120,9 +118,6 @@ class StartAppSearchGestureHandler(context: Context, config: JSONObject?) : Gest
     override val requiresForeground = Utilities.ATLEAST_P
 
     override fun onGestureTrigger(controller: GestureController, view: View?) {
-        controller.launcher.stateManager.goToState(SEARCH, true) {
-            controller.launcher.searchView.searchUiManager.startSearch()
-        }
     }
 }
 
@@ -247,10 +242,6 @@ class StartAppGestureHandler(context: Context, config: JSONObject?) : GestureHan
                     // App is probably not installed anymore, show a Toast
                     Toast.makeText(context, R.string.failed, Toast.LENGTH_LONG).show()
                 }
-                val transitionManager = controller.launcher.launcherAppTransitionManager
-                        as? LawnchairAppTransitionManagerImpl
-                transitionManager?.playLaunchAnimation(controller.launcher, view,
-                        Intent().setComponent(target!!.componentName))
             }
             "shortcut" -> {
                 if (id?.startsWith("sesame_") == true) {

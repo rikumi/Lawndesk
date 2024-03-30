@@ -193,7 +193,6 @@ class FontSelectionActivity : SettingsBaseActivity(), SearchView.OnQueryTextList
                 items.add(Divider())
                 items.add(FamilyCache(FontCache.Family(FontCache.SystemFont("sans-serif"))))
                 items.add(FamilyCache(FontCache.Family(FontCache.SystemFont("sans-serif-medium"))))
-                items.add(FamilyCache(FontCache.Family(FontCache.SystemFont("sans-serif-condensed"))))
                 it.mapTo(items) { font ->
                     val variantsMap = HashMap<String, FontCache.Font>()
                     val variants = font.variants.toTypedArray()

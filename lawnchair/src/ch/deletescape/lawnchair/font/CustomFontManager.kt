@@ -48,12 +48,11 @@ class CustomFontManager(private val context: Context) {
 
     private val launcherRegular = FontCache.SystemFont("sans-serif")
     private val launcherMedium = FontCache.SystemFont("sans-serif-medium")
-    private val launcherCondensed = FontCache.SystemFont("sans-serif-condensed")
 
     var enableGlobalFont by prefs.BooleanPref("enable_global_font", false, prefs.recreate)
     private val globalFont = FontPref("pref_font_global", launcherRegular)
 
-    private val workspaceFont = FontPref("pref_font_workspace", launcherCondensed)
+    private val workspaceFont = FontPref("pref_font_workspace", launcherRegular)
     private val folderFont = workspaceFont
     private val smartspaceTextFont = FontPref("pref_font_smartspaceText", uiRegular)
 
@@ -66,7 +65,6 @@ class CustomFontManager(private val context: Context) {
 
         val sansSerif = Typeface.SANS_SERIF
         val sansSerifMedium = Typeface.create("sans-serif-medium", Typeface.NORMAL)
-        val sansSerifCondensed = Typeface.create("sans-serif-condensed", Typeface.NORMAL)
 
         val map = HashMap<Int, FontSpec>()
         map[FONT_TITLE] = FontSpec(uiRegular, sansSerif)
@@ -78,9 +76,9 @@ class CustomFontManager(private val context: Context) {
         map[FONT_TEXT] = FontSpec(uiRegular, sansSerif)
         map[FONT_SETTINGS_TILE_TITLE] = FontSpec(uiMedium, sansSerifMedium)
         map[FONT_SMARTSPACE_TEXT] = FontSpec(smartspaceTextFont, sansSerif)
-        map[FONT_BASE_ICON] = FontSpec(FontCache.DummyFont(), sansSerifCondensed)
-        map[FONT_WORKSPACE_ICON] = FontSpec(workspaceFont, sansSerifCondensed)
-        map[FONT_FOLDER_ICON] = FontSpec(folderFont, sansSerifCondensed)
+        map[FONT_BASE_ICON] = FontSpec(FontCache.DummyFont(), sansSerif)
+        map[FONT_WORKSPACE_ICON] = FontSpec(workspaceFont, sansSerif)
+        map[FONT_FOLDER_ICON] = FontSpec(folderFont, sansSerif)
         map[FONT_DEEP_SHORTCUT] = FontSpec(deepShortcutFont, sansSerif)
         map[FONT_SYSTEM_SHORTCUT] = FontSpec(systemShortcutFont, sansSerif)
         map[FONT_TASK_OPTION] = FontSpec(taskOptionFont, sansSerif)

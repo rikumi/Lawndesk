@@ -125,29 +125,9 @@ android {
             testApplicationId 'com.android.launcher3.tests'
         }
 
-        l3go {
-            dimension "default"
-            applicationId 'com.android.launcher3'
-            testApplicationId 'com.android.launcher3.tests'
-        }
-
-        quickstep {
-            dimension "default"
-            applicationId 'net.ohrz.lawndesk'
-            testApplicationId 'com.android.launcher3.tests'
-
-            resValue "string", "xmlApplicationId", applicationId
-            resValue "string", "settingsApplicationId", "package:$applicationId"
-
-            buildConfigField "boolean", "HAS_LEAKCANARY", "false"
-            buildConfigField "boolean", "DEBUG_STRICT_MODE", "false"
-            buildConfigField "boolean", "FEATURE_BUG_REPORTER", "true"
-        }
-
         lawnchair {
             dimension "custom"
         }
-
     }
 
     android.applicationVariants.all { variant ->
@@ -194,18 +174,6 @@ android {
 
         aosp {
             java.srcDirs = ['src_flags', "src_ui_overrides"]
-        }
-
-        l3go {
-            res.srcDirs = ['go/res']
-            java.srcDirs = ['go/src_flags', "src_ui_overrides"]
-            manifest.srcFile "go/AndroidManifest.xml"
-        }
-
-        quickstep {
-            res.srcDirs = ['quickstep/res']
-            java.srcDirs = ['src_flags', 'quickstep/src']
-            manifest.srcFile "quickstep/AndroidManifest.xml"
         }
 
         lawnchair {
@@ -275,7 +243,6 @@ dependencies {
 
     implementation 'me.xdrop:fuzzywuzzy:1.2.0'
 
-    quickstepImplementation project(':systemui-shared')
     lawnchairImplementation files('lawnchair/libs/sesame-lib.aar')
 
     if (!isPublicBuild) {
@@ -299,7 +266,11 @@ dependencies {
 protobuf {
     // Configure the protoc executable
     protoc {
-        artifact = 'com.google.protobuf:protoc:3.0.0-alpha-3'
+        if (osdetector.os == "osx") {
+            artifact = 'com.google.protobuf:protoc:3.0.0-alpha-3:osx-x86_64'
+        } else {
+            artifact = 'com.google.protobuf:protoc:3.0.0-alpha-3'
+        }
 
         generateProtoTasks {
             all().each { task ->

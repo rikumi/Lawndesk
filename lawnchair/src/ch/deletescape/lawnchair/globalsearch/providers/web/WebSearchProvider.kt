@@ -48,10 +48,6 @@ abstract class WebSearchProvider(context: Context) : SearchProvider(context) {
     protected abstract val suggestionsUrl: String?
 
     override fun startSearch(callback: (intent: Intent) -> Unit){
-        val launcher = LauncherAppState.getInstanceNoCreate().launcher
-        launcher.stateManager.goToState(LauncherState.SEARCH, true) {
-            launcher.searchView.searchUiManager.startSearch()
-        }
     }
 
     open fun getSuggestions(query: String): List<String> {

@@ -58,12 +58,13 @@
             android:id="@+id/folder_add_btn"
             android:layout_alignParentTop="true"
             android:layout_alignParentEnd="true"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
             android:layout_gravity="center_vertical"
             android:layout_marginTop="-2dp"
             android:layout_marginEnd="16dp"
             android:background="@null"
+            android:visibility="gone"
             android:src="@drawable/ic_plus_folder" />
     </RelativeLayout>
 
@@ -72,9 +73,9 @@
         android:clipToPadding="false"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingLeft="8dp"
-        android:paddingRight="8dp"
-        android:paddingTop="16dp"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:paddingTop="8dp"
         launcher:pageIndicator="@+id/folder_page_indicator" />
 
     <LinearLayout

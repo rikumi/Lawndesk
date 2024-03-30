@@ -19,10 +19,6 @@ class AppSearchSearchProvider(context: Context) : SearchProvider(context) {
     override val supportsFeed = false
 
     override fun startSearch(callback: (intent: Intent) -> Unit){
-        val launcher = LauncherAppState.getInstanceNoCreate().launcher
-        launcher.stateManager.goToState(LauncherState.SEARCH, true) {
-            launcher.searchView.searchUiManager.startSearch()
-        }
     }
 
     override fun getIcon(): Drawable = context.getDrawable(R.drawable.ic_search)!!.mutate().apply {

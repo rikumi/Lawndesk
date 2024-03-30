@@ -37,7 +37,6 @@ import ch.deletescape.lawnchair.theme.ThemeOverride.ThemeSet;
 import com.android.launcher3.LauncherSettings.Favorites;
 import com.android.launcher3.badge.BadgeInfo;
 import com.android.launcher3.compat.LauncherAppsCompat;
-import com.android.launcher3.uioverrides.DisplayRotationListener;
 import com.android.launcher3.uioverrides.WallpaperColorInfo;
 import com.android.launcher3.shortcuts.DeepShortcutManager;
 import com.android.launcher3.views.BaseDragLayer;
@@ -67,13 +66,10 @@ public abstract class BaseDraggingActivity extends BaseActivity
 
     private int mThemeRes = R.style.AppTheme;
 
-    private DisplayRotationListener mRotationListener;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mIsSafeModeEnabled = getPackageManager().isSafeMode();
-        mRotationListener = DisplayRotationListener.create(this, this::onDeviceRotationChanged);
 
         // Register theme override
         ThemeOverride themeOverride = new ThemeOverride(getLauncherThemeSet(), this);
@@ -243,7 +239,6 @@ public abstract class BaseDraggingActivity extends BaseActivity
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        mRotationListener.disable();
     }
 
     public <T extends BaseDraggingActivity> void setOnStartCallback(OnStartCallback<T> callback) {
@@ -251,12 +246,6 @@ public abstract class BaseDraggingActivity extends BaseActivity
     }
 
     protected void onDeviceProfileInitiated() {
-        if (mDeviceProfile.isVerticalBarLayout()) {
-            mRotationListener.enable();
-            mDeviceProfile.updateIsSeascape(getWindowManager());
-        } else {
-            mRotationListener.disable();
-        }
     }
 
     private void onDeviceRotationChanged() {

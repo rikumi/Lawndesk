@@ -19,7 +19,6 @@ import static android.view.View.INVISIBLE;
 import static android.view.View.VISIBLE;
 import static com.android.launcher3.LauncherState.NORMAL;
 import static com.android.launcher3.LauncherState.OVERVIEW;
-import static com.android.launcher3.LauncherState.SEARCH;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -79,7 +78,6 @@ public class ItemLongClickListener {
     private static boolean onSearchItemLongClick(View v) {
         Launcher launcher = Launcher.getLauncher(v.getContext());
         // When we have exited all apps or are in transition, disregard long clicks
-        if (!launcher.isInState(SEARCH)) return false;
         if (launcher.getWorkspace().isSwitchingState()) return false;
 
         if (v.getTag() instanceof AppInfo) {
