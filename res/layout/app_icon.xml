@@ -14,7 +14,7 @@
      limitations under the License.
 -->
 
-<com.android.launcher3.views.DoubleShadowBubbleTextView
+<com.android.launcher3.BubbleTextView
     xmlns:app="http://schemas.android.com/apk/res-auto"
     style="@style/BaseIcon.Workspace"
-    app:customFontType="workspaceIcon"/>
+    app:customFontType="workspaceIcon" />

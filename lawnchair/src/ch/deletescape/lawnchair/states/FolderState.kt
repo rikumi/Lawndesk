@@ -12,13 +12,12 @@ class FolderState(id: Int) : LauncherState(id, LauncherLogProto.ContainerType.FO
                                            SPRING_LOADED_TRANSITION_MS, STATE_FLAGS) {
 
     override fun getWorkspaceScrimAlpha(launcher: Launcher?): Float {
-        return 0.6f
+        return 0f
     }
 
     override fun getWorkspaceBlurAlpha(launcher: Launcher?): Float {
         return 1f
     }
-
 
     override fun getVisibleElements(launcher: Launcher): Int {
         return 0

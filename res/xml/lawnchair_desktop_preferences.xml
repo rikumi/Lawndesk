@@ -34,7 +34,7 @@
             android:key="pref_folderIconScale"
             android:title="@string/folder_icon_scale_title"
             android:persistent="true"
-            app:defaultSeekbarValue="1.0"
+            app:defaultSeekbarValue="1.05"
             app:maxValue="1.8"
             app:minValue="0.3"
             app:steps="150"

@@ -1166,13 +1166,11 @@ public class Workspace extends PagedView<PageIndicatorDots>
 
     @Override
     protected void overScroll(float amount) {
-        boolean inOptionsState = mLauncher.isInState(LauncherState.OPTIONS);
-
         boolean shouldScrollOverlay = mLauncherOverlay != null &&
-                ((amount <= 0 && !mIsRtl) || (amount >= 0 && mIsRtl)) && !inOptionsState;
+                ((amount <= 0 && !mIsRtl) || (amount >= 0 && mIsRtl));
 
         boolean shouldZeroOverlay = mLauncherOverlay != null && mLastOverlayScroll != 0 &&
-                ((amount >= 0 && !mIsRtl) || (amount <= 0 && mIsRtl) || inOptionsState);
+                ((amount >= 0 && !mIsRtl) || (amount <= 0 && mIsRtl));
 
         if (shouldScrollOverlay) {
             if (!mStartedSendingScrollEvents && mScrollInteractionBegan) {
@@ -1182,7 +1180,7 @@ public class Workspace extends PagedView<PageIndicatorDots>
 
             mLastOverlayScroll = Math.abs(amount / getMeasuredWidth());
             mLauncherOverlay.onScrollChange(mLastOverlayScroll, mIsRtl);
-        } else if (!inOptionsState) {
+        } else {
             dampedOverScroll(amount);
         }
 
@@ -1350,7 +1348,7 @@ public class Workspace extends PagedView<PageIndicatorDots>
         }
     }
 
-    
+
     public void showOutlinesTemporarily() {
         if (!mIsPageInTransition && !isTouchActive()) {
             snapToPage(mCurrentPage);

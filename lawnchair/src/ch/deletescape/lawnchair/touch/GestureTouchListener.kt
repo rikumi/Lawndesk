@@ -30,44 +30,8 @@ open class GestureTouchListener(context: Context) : View.OnTouchListener {
     private val launcher = LawnchairLauncher.getLauncher(context)
     private val gestureController = launcher.gestureController
 
-    private var touchDownX = 0f
-    private var touchDownY = 0f
-    private var downInOptions = false
-    private var clickPossible = true
-
     override fun onTouch(view: View?, ev: MotionEvent): Boolean {
-        when (ev.action) {
-            MotionEvent.ACTION_DOWN -> {
-                touchDownX = ev.x
-                touchDownY = ev.y
-                downInOptions = launcher.isInState(LauncherState.OPTIONS)
-                clickPossible = downInOptions &&
-                        launcher.workspace.isScrollerFinished
-            }
-            MotionEvent.ACTION_MOVE -> {
-                checkClickPossible(ev.x, ev.y)
-            }
-            MotionEvent.ACTION_UP -> {
-                checkClickPossible(ev.x, ev.y)
-                if (clickPossible && launcher.isInState(LauncherState.OPTIONS)) {
-                    launcher.stateManager.goToState(LauncherState.NORMAL)
-                }
-            }
-        }
-        return if (!downInOptions) {
-            gestureController.onBlankAreaTouch(ev)
-        } else false
-    }
-
-    private fun checkClickPossible(x: Float, y: Float) {
-        if (!clickPossible) return
-        clickPossible = downInOptions && distanceSquared(touchDownX, touchDownY, x, y) < 400f
-    }
-
-    private fun distanceSquared(x1: Float, y1: Float, x2: Float, y2: Float): Float {
-        val disX = x2 - x1
-        val disY = y2 - y1
-        return (disX * disX) + (disY * disY)
+        return gestureController.onBlankAreaTouch(ev)
     }
 
     fun onLongPress() {

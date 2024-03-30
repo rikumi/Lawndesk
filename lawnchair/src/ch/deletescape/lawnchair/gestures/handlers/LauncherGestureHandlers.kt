@@ -81,8 +81,6 @@ class OpenOverviewGestureHandler(context: Context, config: JSONObject?) : Gestur
         if (context.lawnchairPrefs.usePopupMenuView) {
             OptionsPopupView.showDefaultOptions(controller.launcher,
                     controller.touchDownPoint.x, controller.touchDownPoint.y)
-        } else {
-            controller.launcher.stateManager.goToState(LauncherState.OPTIONS)
         }
     }
 }

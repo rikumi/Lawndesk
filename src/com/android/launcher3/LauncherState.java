@@ -26,7 +26,6 @@ import android.graphics.Rect;
 import android.view.animation.Interpolator;
 
 import ch.deletescape.lawnchair.states.HomeState;
-import ch.deletescape.lawnchair.states.OptionsState;
 import ch.deletescape.lawnchair.states.FolderState;
 import com.android.launcher3.states.SpringLoadedState;
 import com.android.launcher3.uioverrides.FastOverviewState;
@@ -87,7 +86,6 @@ public class LauncherState {
     public static final LauncherState OVERVIEW = new OverviewState(2);
     public static final LauncherState FAST_OVERVIEW = new FastOverviewState(3);
     public static final LauncherState FOLDER = new FolderState(4);
-    public static final LauncherState OPTIONS = new OptionsState(5);
 
     protected static final Rect sTempRect = new Rect();
 

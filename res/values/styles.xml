@@ -39,9 +39,9 @@
         <item name="isMainColorDark">false</item>
         <item name="isWorkspaceDarkText">false</item>
         <item name="workspaceTextColor">@android:color/white</item>
-        <item name="workspaceShadowColor">#B0000000</item>
-        <item name="workspaceAmbientShadowColor">#33000000</item>
-        <item name="workspaceKeyShadowColor">#44000000</item>
+        <item name="workspaceShadowColor">@android:color/transparent</item>
+        <item name="workspaceAmbientShadowColor">@android:color/transparent</item>
+        <item name="workspaceKeyShadowColor">@android:color/transparent</item>
         <item name="workspaceStatusBarScrim">@drawable/workspace_bg</item>
         <item name="widgetsTheme">@style/WidgetContainerTheme</item>
 
@@ -127,7 +127,7 @@
 
     <style name="WidgetContainerTheme.Dark" />
 
-    <style name="FastScrollerPopup" >
+    <style name="FastScrollerPopup">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:minWidth">@dimen/fastscroll_popup_width</item>
         <item name="android:layout_height">@dimen/fastscroll_popup_height</item>
@@ -160,11 +160,6 @@
 
     <!-- Icon displayed on the worksapce -->
     <style name="BaseIcon.Workspace">
-        <item name="ambientShadowColor">?attr/workspaceAmbientShadowColor</item>
-        <item name="ambientShadowBlur">2dp</item>
-        <item name="keyShadowColor">?attr/workspaceKeyShadowColor</item>
-        <item name="keyShadowBlur">1dp</item>
-        <item name="keyShadowOffset">.5dp</item>
     </style>
 
     <!-- Theme for the popup container -->
