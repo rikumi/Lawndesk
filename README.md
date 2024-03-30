@@ -17,5 +17,5 @@ This fork changes some of the default options, making it more modern and Pixel-i
 Lawndesk is distributed under the [*GPLv3* license](https://www.gnu.org/licenses/gpl-3.0.en.html).
 
 ## Credit
-[Lawnchair Launcher](https://github.com/LawnchairLauncher/Lawnchair)
-[Lawndesk](https://github.com/renzhn/Lawndesk)
+- [Lawnchair Launcher](https://github.com/LawnchairLauncher/Lawnchair)
+- [Lawndesk](https://github.com/renzhn/Lawndesk)
