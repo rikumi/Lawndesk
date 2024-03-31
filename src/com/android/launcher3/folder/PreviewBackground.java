@@ -91,9 +91,9 @@ public class PreviewBackground {
     private static final float ACCEPT_COLOR_MULTIPLIER = 1.5f;
 
     // Expressed on a scale from 0 to 255.
-    private static final int BG_OPACITY = 120;
+    private static final int BG_OPACITY = 255;
     private static final int MAX_BG_OPACITY = 225;
-    private static final int SHADOW_OPACITY = 80;
+    private static final int SHADOW_OPACITY = 0;
 
     private ValueAnimator mScaleAnimator;
     private ObjectAnimator mAlphaAnimator;

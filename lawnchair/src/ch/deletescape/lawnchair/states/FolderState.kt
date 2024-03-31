@@ -16,7 +16,7 @@ class FolderState(id: Int) : LauncherState(id, LauncherLogProto.ContainerType.FO
     }
 
     override fun getWorkspaceBlurAlpha(launcher: Launcher?): Float {
-        return 1f
+        return 0f
     }
 
     override fun getVisibleElements(launcher: Launcher): Int {

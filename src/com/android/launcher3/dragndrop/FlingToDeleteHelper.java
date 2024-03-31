@@ -106,9 +106,9 @@ public class FlingToDeleteHelper {
      * @return the vector at which the item was flung, or null if no fling was detected.
      */
     private PointF isFlingingToDelete() {
-        if (mDropTarget == null) {
-            mDropTarget = (ButtonDropTarget) mLauncher.findViewById(R.id.delete_target_text);
-        }
+        // if (mDropTarget == null) {
+        //     mDropTarget = (ButtonDropTarget) mLauncher.findViewById(R.id.delete_target_text);
+        // }
         if (mDropTarget == null || !mDropTarget.isDropEnabled()) return null;
         ViewConfiguration config = ViewConfiguration.get(mLauncher);
         mVelocityTracker.computeCurrentVelocity(1000, config.getScaledMaximumFlingVelocity());

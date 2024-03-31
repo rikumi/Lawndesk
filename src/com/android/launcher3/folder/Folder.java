@@ -220,7 +220,6 @@ public class Folder extends AbstractFloatingView implements DragSource,
     @Override
     protected void onFinishInflate() {
         super.onFinishInflate();
-        getBackground().setAlpha(120);
         mContent = findViewById(R.id.folder_content);
         mContent.setFolder(this);
 
