@@ -1,3 +1,10 @@
 {
-    "items": []
+    "items": [
+        {
+            "family": "Inter",
+            "variants": [
+                "regular"
+            ]
+        }
+    ]
 }

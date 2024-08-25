@@ -19,6 +19,7 @@
     xmlns:launcher="http://schemas.android.com/apk/res-auto"
     android:layout_width="@dimen/bg_popup_item_width"
     android:layout_height="@dimen/bg_popup_item_height"
+    android:background="?attr/popupColorPrimary"
     android:theme="@style/PopupItem">
 
     <com.android.launcher3.BubbleTextView
