@@ -56,6 +56,12 @@ public class DeleteDropTarget extends ButtonDropTarget {
         super.onDragStart(dragObject, options);
         setTextBasedOnDragSource(dragObject.dragInfo);
         setControlTypeBasedOnDragSource(dragObject.dragInfo);
+
+        if (!canRemove(dragObject.dragInfo) && !canCancel(dragObject.dragInfo)) {
+            this.setVisibility(View.GONE);
+        } else {
+            this.setVisibility(View.VISIBLE);
+        }
     }
 
     /**
@@ -94,7 +100,13 @@ public class DeleteDropTarget extends ButtonDropTarget {
     }
 
     private boolean canRemove(ItemInfo item) {
-        return item.id != ItemInfo.NO_ID;
+        return item.id != ItemInfo.NO_ID
+            && item.itemType != LauncherSettings.Favorites.ITEM_TYPE_APPLICATION
+            && item.itemType != LauncherSettings.Favorites.ITEM_TYPE_FOLDER;
+    }
+
+    private boolean canCancel(ItemInfo item) {
+        return item.id == ItemInfo.NO_ID;
     }
 
     /**
