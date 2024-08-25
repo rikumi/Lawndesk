@@ -17,13 +17,11 @@
 package com.android.launcher3.shortcuts;
 
 import android.content.Context;
-import android.graphics.Outline;
 import android.graphics.Point;
 import android.graphics.Rect;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.View;
-import android.view.ViewOutlineProvider;
 import android.widget.FrameLayout;
 
 import com.android.launcher3.BubbleTextView;
@@ -71,15 +69,6 @@ public class DeepShortcutView extends FrameLayout {
         mBubbleText = findViewById(R.id.bubble_text);
         mIconView = findViewById(R.id.icon);
         mDivider = findViewById(R.id.divider);
-
-        float outlineRadius = getResources().getDimension(R.dimen.bg_round_rect_radius);
-        setClipToOutline(true);
-        setOutlineProvider(new ViewOutlineProvider() {
-            @Override
-            public void getOutline(View view, Outline outline) {
-                outline.setRoundRect(0, 0, view.getWidth(), view.getHeight(), outlineRadius);
-            }
-        });
     }
 
     public void setDividerVisibility(int visibility) {

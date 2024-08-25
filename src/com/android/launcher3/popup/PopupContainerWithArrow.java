@@ -27,7 +27,6 @@ import android.animation.AnimatorSet;
 import android.animation.LayoutTransition;
 import android.annotation.TargetApi;
 import android.content.Context;
-import android.graphics.Outline;
 import android.graphics.Point;
 import android.graphics.PointF;
 import android.graphics.Rect;
@@ -40,7 +39,6 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewConfiguration;
 import android.view.ViewGroup;
-import android.view.ViewOutlineProvider;
 import android.widget.ImageView;
 
 import com.android.launcher3.AbstractFloatingView;
@@ -245,14 +243,6 @@ public class PopupContainerWithArrow extends ArrowPopup implements DragSource,
 
             if (!systemShortcuts.isEmpty()) {
                 mSystemShortcutContainer = inflateAndAdd(R.layout.system_shortcut_icons, this);
-                float outlineRadius = getResources().getDimension(R.dimen.bg_round_rect_radius);
-                mSystemShortcutContainer.setClipToOutline(true);
-                mSystemShortcutContainer.setOutlineProvider(new ViewOutlineProvider() {
-                    @Override
-                    public void getOutline(View view, Outline outline) {
-                        outline.setRoundRect(0, 0, view.getWidth(), view.getHeight(), outlineRadius);
-                    }
-                });
                 for (SystemShortcut shortcut : systemShortcuts) {
                     initializeSystemShortcut(
                             R.layout.system_shortcut_icon_only, mSystemShortcutContainer, shortcut);
@@ -338,6 +328,18 @@ public class PopupContainerWithArrow extends ArrowPopup implements DragSource,
     }
 
     private void updateDividers() {
+        int count = getChildCount();
+        DeepShortcutView lastView = null;
+        for (int i = 0; i < count; i++) {
+            View view = getChildAt(i);
+            if (view.getVisibility() == VISIBLE && view instanceof DeepShortcutView) {
+                if (lastView != null) {
+                    lastView.setDividerVisibility(VISIBLE);
+                }
+                lastView = (DeepShortcutView) view;
+                lastView.setDividerVisibility(INVISIBLE);
+            }
+        }
     }
 
     @Override
