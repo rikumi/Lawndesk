@@ -136,7 +136,7 @@ class LawnchairPreferences(val context: Context) : SharedPreferences.OnSharedPre
     val centerWallpaper by BooleanPref("pref_centerWallpaper")
     val lockDesktop by BooleanPref("pref_lockDesktop", false, reloadAll)
     val usePopupMenuView by BooleanPref("pref_desktopUsePopupMenuView", true, doNothing)
-    val disableAutoFill by BooleanPref("pref_disableAutoFill", false, doNothing)
+    val disableAutoFill by BooleanPref("pref_disableAutoFill", true, doNothing)
     var folderIconScale by FloatPref("pref_folderIconScale", -1f, recreate)
 
     // Smartspace
