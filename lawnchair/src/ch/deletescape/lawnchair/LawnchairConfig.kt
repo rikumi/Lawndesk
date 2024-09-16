@@ -38,7 +38,7 @@ class LawnchairConfig(context: Context) {
     val enableWhiteOnlyTreatment = context.resources.getBoolean(R.bool.config_enable_white_only_treatment)
     val hideStatusBar = context.resources.getBoolean(R.bool.config_hide_statusbar)
     val enableSmartspace = context.resources.getBoolean(R.bool.config_enable_smartspace)
-    val defaultSearchProvider = if (Utilities.isChinaUser()) BaiduWebSearchProvider::class.java.name else GoogleWebSearchProvider::class.java.name
+    val defaultSearchProvider = GoogleWebSearchProvider::class.java.name
     val defaultExternalSearchProvider: String = context.resources.getString(
             R.string.config_external_search_provider) ?: GoogleSearchProvider::class.java.name
     val defaultColorResolver: String = context.resources.getString(

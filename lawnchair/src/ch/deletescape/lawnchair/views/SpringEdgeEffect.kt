@@ -46,7 +46,7 @@ class SpringEdgeEffect(
     private val spring = SpringAnimation(this, KFloatPropertyCompat(target, "value"), 0f).apply {
         spring = SpringForce(0f).setStiffness(850f).setDampingRatio(0.5f)
     }
-    private var distance = 0f
+    private var mDistance = 0f
 
     override fun draw(canvas: Canvas) = false
 
@@ -60,12 +60,12 @@ class SpringEdgeEffect(
 
     override fun onPull(deltaDistance: Float, displacement: Float) {
         activeEdge.set(this)
-        distance += deltaDistance * (velocityMultiplier * 2)
-        target.set(OverScroll.dampedScroll(distance * getMax(), getMax()).toFloat())
+        mDistance += deltaDistance * (velocityMultiplier * 2)
+        target.set(OverScroll.dampedScroll(mDistance * getMax(), getMax()).toFloat())
     }
 
     override fun onRelease() {
-        distance = 0f
+        mDistance = 0f
         releaseSpring(0f)
     }
 
@@ -101,14 +101,14 @@ class SpringEdgeEffect(
         var activeEdgeX: SpringEdgeEffect? = null
             set(value) {
                 if (field != value) {
-                    field?.run { value?.distance = distance }
+                    field?.run { value?.mDistance = mDistance }
                 }
                 field = value
             }
         var activeEdgeY: SpringEdgeEffect? = null
             set(value) {
                 if (field != value) {
-                    field?.run { value?.distance = distance }
+                    field?.run { value?.mDistance = mDistance }
                 }
                 field = value
             }
