@@ -128,7 +128,7 @@ class LawnchairPreferences(val context: Context) : SharedPreferences.OnSharedPre
     private var folderGridSizeDelegate = ResettableLazy { GridSize2D(this, "numFolderRows", "numFolderColumns", LauncherAppState.getIDP(context), restart) }
     val folderGridSize by folderGridSizeDelegate
     val hideAppLabels by BooleanPref("pref_hideAppLabels", false, recreate)
-    val showTopShadow by BooleanPref("pref_showTopShadow", true, recreate) // TODO: update the scrim instead of doing this
+    val showTopShadow by BooleanPref("pref_showTopShadow", false, recreate) // TODO: update the scrim instead of doing this
     private val homeMultilineLabel by BooleanPref("pref_homeIconLabelsInTwoLines", false, recreate)
     val homeLabelRows get() = if(homeMultilineLabel) 2 else 1
     val allowOverlap by BooleanPref(SettingsActivity.ALLOW_OVERLAP_PREF, false, reloadAll)
@@ -136,7 +136,7 @@ class LawnchairPreferences(val context: Context) : SharedPreferences.OnSharedPre
     val centerWallpaper by BooleanPref("pref_centerWallpaper")
     val lockDesktop by BooleanPref("pref_lockDesktop", false, reloadAll)
     val usePopupMenuView by BooleanPref("pref_desktopUsePopupMenuView", true, doNothing)
-    val disableAutoFill by BooleanPref("pref_disableAutoFill")
+    val disableAutoFill by BooleanPref("pref_disableAutoFill", true, recreate)
     var folderIconScale by FloatPref("pref_folderIconScale", -1f, recreate)
 
     // Smartspace
