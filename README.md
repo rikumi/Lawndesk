@@ -11,9 +11,9 @@ This fork changes some of the default options, making it more modern and Pixel-i
     sdk.dir=/Users/your_username_here/Library/Android/sdk/
     ```
 - Set JAVA_HOME environment variable to a JDK 11 instance home to be compatible with the ancient code.
-- Run `./gradlew assembleAospLawnchairDebug` to build. The artifact is at `build/outputs/apk/aospLawnchair/debug/Lawndesk-1.0.apk`. Example:
+- Run `./gradlew assembleAospLawnchairDebug` to build, or `./gradlew installAospLawnchairDebug` to install to connected device. The artifact is at `build/outputs/apk/aospLawnchair/debug/Lawndesk-1.0.apk`. Example:
     ```
-    JAVA_HOME=/Library/Java/JavaVirtualMachines/temurin-11.jdk/Contents/Home PATH=/Library/Java/JavaVirtualMachines/temurin-11.jdk/Contents/Home/bin:$PATH ./gradlew assembleAospLawnchairDebug && adb install build/outputs/apk/aospLawnchair/debug/Lawndesk-1.0.apk
+    JAVA_HOME=/Library/Java/JavaVirtualMachines/temurin-11.jdk/Contents/Home PATH=/Library/Java/JavaVirtualMachines/temurin-11.jdk/Contents/Home/bin:$PATH ./gradlew installAospLawnchairDebug
     ```
 
 ## License
