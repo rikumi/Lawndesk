@@ -27,7 +27,6 @@ import android.os.Bundle
 import android.provider.Settings
 import android.support.annotation.Keep
 import ch.deletescape.lawnchair.blur.BlurWallpaperProvider
-import ch.deletescape.lawnchair.flowerpot.Flowerpot
 import ch.deletescape.lawnchair.iconpack.IconPackManager
 import ch.deletescape.lawnchair.smartspace.LawnchairSmartspaceController
 import ch.deletescape.lawnchair.theme.ThemeManager

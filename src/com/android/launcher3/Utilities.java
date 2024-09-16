@@ -388,6 +388,22 @@ public final class Utilities {
         }
     }
 
+    public static boolean isWhiteGoogleApp(Context context, Intent intent) {
+        PackageManager pm = context.getPackageManager();
+        ComponentName cn = intent.getComponent();
+        String packageName = null;
+        if (cn == null) {
+            ResolveInfo info = pm.resolveActivity(intent, PackageManager.MATCH_DEFAULT_ONLY);
+            if ((info != null) && (info.activityInfo != null)) {
+                packageName = info.activityInfo.packageName;
+            }
+        } else {
+            packageName = cn.getPackageName();
+        }
+        return (packageName.startsWith("com.google.") || packageName.equals("com.android.vending"))
+            && !packageName.equals("com.google.android.deskclock");
+    }
+
     /*
      * Finds a system apk which had a broadcast receiver listening to a particular action.
      * @param action intent action used to find the apk

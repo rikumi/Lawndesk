@@ -48,9 +48,6 @@ import android.os.UserManager;
 import android.text.TextUtils;
 import android.util.Log;
 
-import ch.deletescape.lawnchair.flowerpot.Chinapot;
-import ch.deletescape.lawnchair.flowerpot.Flowerpot;
-import ch.deletescape.lawnchair.flowerpot.Flowerpot.FlowerpotManager;
 import com.android.launcher3.AutoInstallsLayout.LayoutParserCallback;
 import com.android.launcher3.LauncherSettings.Favorites;
 import com.android.launcher3.LauncherSettings.WorkspaceScreens;
@@ -1038,57 +1035,27 @@ public class LauncherProvider extends ContentProvider {
             // TODO: Use multiple loaders with fall-back and transaction.
             int count = loader.loadLayout(db, screenIds);
             HashSet<String> addedAppComponents = loader.addedAppComponents;
-            int addAppCount = 0;
-            ArrayList<AppInfo> apps = new ArrayList<>();
+            ArrayList<AppInfo> googleApps = new ArrayList<>();
+            ArrayList<AppInfo> systemApps = new ArrayList<>();
+            ArrayList<AppInfo> otherApps = new ArrayList<>();
             for(AppInfo app : allApps) {
                 if (app.getIntent() != null &&
                         !addedAppComponents.contains(app.getTargetComponent().toString())) {
-                    apps.add(app);
-                    addAppCount++;
+                    if (Utilities.isWhiteGoogleApp(context, app.getIntent())) {
+                        googleApps.add(app);
+                    } else if (Utilities.isSystemApp(context, app.getIntent())) {
+                        systemApps.add(app);
+                    } else {
+                        otherApps.add(app);
+                    }
                 }
             }
-            HashMap<String, ArrayList<AppInfo>> categorized = new HashMap<>();
+            ArrayList<AppInfo> allAppsFolder = new ArrayList<>();
+            allAppsFolder.addAll(googleApps);
+            allAppsFolder.addAll(systemApps);
+            allAppsFolder.addAll(otherApps);
 
-            try {
-                Collection<Flowerpot> pots = new FlowerpotManager(context).getAllPots();
-                for (Flowerpot pot : pots) {
-                    pot.ensureLoaded();
-                    String potName = pot.getDisplayName();
-                    if (potName == null) {
-                        continue;
-                    }
-                    Collection<ComponentKey> potApps = pot.apps.getMatches();
-                    ArrayList<AppInfo> appsByCategory = categorized.get(potName);
-                    if (appsByCategory == null) {
-                        appsByCategory = new ArrayList<>();
-                    }
-                    for (AppInfo app : apps) {
-                        if (potApps.contains(app.getComponentKey())) {
-                            appsByCategory.add(app);
-                        }
-                    }
-                    apps.removeAll(appsByCategory);
-                    categorized.put(potName, appsByCategory);
-                }
-            } catch (Exception ex) {
-                ex.printStackTrace();
-            }
-
-            for (String name : categorized.keySet()) {
-                ArrayList<AppInfo> appsByCategory = categorized.get(name);
-                if (appsByCategory == null) {
-                    continue;
-                }
-                if (appsByCategory.size() == 1) {
-                    apps.add(0, appsByCategory.get(0));
-                } else if (appsByCategory.size() > 1) {
-                    apps.removeAll(appsByCategory);
-                    loader.addFolder(appsByCategory, screenIds, name);
-                }
-            }
-            for (AppInfo app : apps) {
-                loader.addApp(app, screenIds);
-            }
+            loader.addFolder(allAppsFolder, screenIds, "Apps");
 
             // Add the screens specified by the items above
             Collections.sort(screenIds);
