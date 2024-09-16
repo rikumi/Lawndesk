@@ -18,10 +18,40 @@
 <profiles xmlns:launcher="http://schemas.android.com/apk/res-auto">
 
     <profile
+        launcher:name="Default Workspace (Shorter)"
+        launcher:minWidthDps="0"
+        launcher:minHeightDps="0"
+        launcher:numRows="4"
+        launcher:numColumns="4"
+        launcher:numFolderRows="3"
+        launcher:numFolderColumns="3"
+        launcher:numHotseatIcons="4"
+        launcher:iconSize="64"
+        launcher:landscapeIconSize="64"
+        launcher:iconTextSize="14.0"
+        launcher:defaultLayoutId="@xml/default_workspace"
+    />
+
+    <profile
         launcher:name="Default Workspace"
-        launcher:minWidthDps="296"
-        launcher:minHeightDps="496"
+        launcher:minWidthDps="0"
+        launcher:minHeightDps="480"
         launcher:numRows="5"
+        launcher:numColumns="4"
+        launcher:numFolderRows="3"
+        launcher:numFolderColumns="3"
+        launcher:numHotseatIcons="4"
+        launcher:iconSize="64"
+        launcher:landscapeIconSize="64"
+        launcher:iconTextSize="14.0"
+        launcher:defaultLayoutId="@xml/default_workspace"
+    />
+
+    <profile
+        launcher:name="Default Workspace (Taller)"
+        launcher:minWidthDps="0"
+        launcher:minHeightDps="800"
+        launcher:numRows="6"
         launcher:numColumns="4"
         launcher:numFolderRows="3"
         launcher:numFolderColumns="3"
