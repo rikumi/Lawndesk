@@ -373,6 +373,9 @@ public final class Utilities {
 
     public static boolean isSystemApp(PackageManager pm, String packageName) {
         if (packageName != null) {
+            if (packageName.startsWith("com.google.") || packageName.startsWith("com.android.")) {
+                return true;
+            }
             try {
                 PackageInfo info = pm.getPackageInfo(packageName, 0);
                 return (info != null) && (info.applicationInfo != null) &&
@@ -1053,46 +1056,10 @@ public final class Utilities {
     static int sDebugNotificationId = 1;
     public static void debugNotification(String msg) {
         Log.d(TAG, msg);
-        if (BuildConfig.DEBUG) {
-            try {
-                Context context = LauncherAppState.getInstanceNoCreate().getContext();
-                NotificationManager mNotificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-
-                String channelId = "default_channel_id";
-                String channelDescription = "Default Channel";
-                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-                    // Check if notification channel exists and if not create one
-                    NotificationChannel notificationChannel = mNotificationManager.getNotificationChannel(channelId);
-                    if (notificationChannel == null) {
-                        int importance = NotificationManager.IMPORTANCE_HIGH;
-                        notificationChannel = new NotificationChannel(channelId, channelDescription, importance);
-                        notificationChannel.setLightColor(Color.GREEN);
-                        notificationChannel.enableVibration(false);
-                        notificationChannel.setSound(null, null);
-                        mNotificationManager.createNotificationChannel(notificationChannel);
-                    }
-                }
-
-                NotificationCompat.Builder mBuilder =
-                        new NotificationCompat.Builder(context);
-                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/renzhn/Lawndesk"));
-                PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, 0);
-                mBuilder.setContentIntent(pendingIntent);
-                mBuilder.setSmallIcon(R.drawable.ic_info);
-                mBuilder.setContentTitle("Lawndesk Debug");
-                mBuilder.setContentText(msg);
-                mBuilder.setChannelId(channelId);
-
-                mNotificationManager.notify(sDebugNotificationId++, mBuilder.build());
-            } catch (Exception ex) {
-                ex.printStackTrace();
-            }
-        }
     }
 
     public static boolean isChinaUser() {
-        return Locale.getDefault().getLanguage().equals(Locale.SIMPLIFIED_CHINESE.getLanguage()) &&
-                Locale.getDefault().getCountry().equals(Locale.SIMPLIFIED_CHINESE.getCountry());
+        return false; // No, Sir
     }
 
     private static String getIMEI(Context context) {

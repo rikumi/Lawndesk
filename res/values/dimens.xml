@@ -127,7 +127,7 @@
     <dimen name="widget_section_indent">0dp</dimen>
 
     <dimen name="widget_row_padding">8dp</dimen>
-    <dimen name="widget_row_divider">2dp</dimen>
+    <dimen name="widget_row_divider">0dp</dimen>
 
     <!-- Padding applied to shortcut previews -->
     <dimen name="shortcut_preview_padding_left">0dp</dimen>

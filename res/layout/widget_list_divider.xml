@@ -15,5 +15,5 @@
 -->
 <View xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="@dimen/widget_row_divider"
-    android:layout_height="match_parent"
-    android:background="?android:attr/colorPrimary" />
+    android:layout_height="0dp"
+    android:background="#00000000" />

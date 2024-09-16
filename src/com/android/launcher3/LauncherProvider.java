@@ -1039,44 +1039,17 @@ public class LauncherProvider extends ContentProvider {
             int count = loader.loadLayout(db, screenIds);
             HashSet<String> addedAppComponents = loader.addedAppComponents;
             int addAppCount = 0;
-            ArrayList<AppInfo> systemApps = new ArrayList<>();
             ArrayList<AppInfo> apps = new ArrayList<>();
             for(AppInfo app : allApps) {
                 if (app.getIntent() != null &&
                         !addedAppComponents.contains(app.getTargetComponent().toString())) {
-                    if (Utilities.isSystemApp(context, app.getIntent())) {
-                        systemApps.add(app);
-                    } else {
-                        apps.add(app);
-                    }
+                    apps.add(app);
                     addAppCount++;
                 }
             }
-            Utilities.debugNotification("init workspace added apps count: " + addAppCount);
-            loader.addFolder(systemApps, screenIds, context.getResources().getString(R.string.system_app));
             HashMap<String, ArrayList<AppInfo>> categorized = new HashMap<>();
 
             try {
-                if (Utilities.isChinaUser()) {
-                    Chinapot chinapot = new Chinapot(context);
-                    HashMap<String, String> categoryMap = chinapot.getCategoryMap();
-                    ArrayList<AppInfo> added = new ArrayList<>();
-                    for (AppInfo app : apps) {
-                        String name = categoryMap.get(app.getPackageName());
-                        if (name == null) {
-                            continue;
-                        }
-                        ArrayList<AppInfo> appsByCategory = categorized.get(name);
-                        if (appsByCategory == null) {
-                            appsByCategory = new ArrayList<>();
-                        }
-                        added.add(app);
-                        appsByCategory.add(app);
-                        categorized.put(name, appsByCategory);
-                    }
-                    apps.removeAll(added);
-                }
-
                 Collection<Flowerpot> pots = new FlowerpotManager(context).getAllPots();
                 for (Flowerpot pot : pots) {
                     pot.ensureLoaded();

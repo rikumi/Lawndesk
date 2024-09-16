@@ -188,7 +188,9 @@ public class AutoInstallsLayout {
         mIdp = LauncherAppState.getIDP(context);
         mRowCount = mIdp.numRows;
         mColumnCount = mIdp.numColumns;
-        mAddAppY = (mRowCount + 1) / 2;
+
+        mAddAppX = mColumnCount - 1;
+        mAddAppY = mRowCount - 1;
     }
 
     /**
