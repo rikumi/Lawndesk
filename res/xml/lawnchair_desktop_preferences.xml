@@ -34,7 +34,7 @@
             android:key="pref_folderIconScale"
             android:title="@string/folder_icon_scale_title"
             android:persistent="true"
-            app:defaultSeekbarValue="1.05"
+            app:defaultSeekbarValue="1.0"
             app:maxValue="1.8"
             app:minValue="0.3"
             app:steps="150"
@@ -106,6 +106,12 @@
     <ch.deletescape.lawnchair.preferences.StyledPreferenceCategory
         android:key="prefCat_desktopMisc"
         android:title="@string/pref_category_misc">
+
+        <ch.deletescape.lawnchair.preferences.AnimationTypePreference
+            android:key="pref_animationType"
+            android:defaultValue=""
+            android:title="@string/animation_type_title"
+            android:summary="%s" />
 
         <com.android.launcher3.views.ButtonPreference
             android:key="pref_icon_badging"

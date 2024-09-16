@@ -45,7 +45,7 @@ class LawnchairShortcut(private val context: Context) {
             ShortcutEntry("widgets", SystemShortcut.Widgets(), true),
             ShortcutEntry("install", SystemShortcut.Install(), true),
             ShortcutEntry("remove", Remove(), false),
-            ShortcutEntry("uninstall", Uninstall(), false)
+            ShortcutEntry("uninstall", Uninstall(), true)
     )
 
     inner class ShortcutEntry(key: String, val shortcut: SystemShortcut<*>, enabled: Boolean) {
