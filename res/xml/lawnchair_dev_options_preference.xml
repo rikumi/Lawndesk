@@ -38,12 +38,6 @@
         android:persistent="true" />
 
     <ch.deletescape.lawnchair.preferences.StyledSwitchPreferenceCompat
-        android:key="pref_useWindowToIcon"
-        android:title="Use window to icon transition"
-        android:defaultValue="true"
-        android:persistent="true" />
-
-    <ch.deletescape.lawnchair.preferences.StyledSwitchPreferenceCompat
         android:key="pref_dismissTasksOnKill"
         android:title="Dismiss tasks from app switcher when killed"
         android:defaultValue="true"
@@ -124,12 +118,6 @@
         <ch.deletescape.lawnchair.preferences.StyledSwitchPreferenceCompat
             android:key="pref_backupScreenshot"
             android:title="Create screenshot for new backup"
-            android:defaultValue="false"
-            android:persistent="true" />
-
-        <ch.deletescape.lawnchair.preferences.StyledSwitchPreferenceCompat
-            android:key="pref_useScaleAnim"
-            android:title="Use scale animation for transitions"
             android:defaultValue="false"
             android:persistent="true" />
 
