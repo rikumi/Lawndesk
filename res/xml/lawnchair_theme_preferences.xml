@@ -88,23 +88,5 @@
             android:key="fonts"
             android:title="@string/pref_fonts_title"
             app:content="@xml/lawnchair_fonts_preference_v2" />
-
-        <ch.deletescape.lawnchair.preferences.StyledSwitchPreferenceCompat
-            android:defaultValue="true"
-            android:key="pref_enableBlur"
-            android:persistent="true"
-            android:summary="@string/blur_pref_summary"
-            android:title="@string/blur_pref_title" />
-
-        <ch.deletescape.lawnchair.preferences.SeekbarPreference
-            android:dependency="pref_enableBlur"
-            android:key="pref_blurRadius"
-            android:persistent="true"
-            android:title="@string/blur_radius_pref_title"
-            app:defaultSeekbarValue="@dimen/config_default_blur_strength"
-            app:maxValue="150"
-            app:minValue="10"
-            app:steps="140"
-            app:summaryFormat="%.0f" />
     </ch.deletescape.lawnchair.preferences.StyledPreferenceCategory>
 </android.support.v7.preference.PreferenceScreen>

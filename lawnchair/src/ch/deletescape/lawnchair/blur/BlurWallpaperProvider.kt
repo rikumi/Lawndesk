@@ -85,7 +85,7 @@ class BlurWallpaperProvider(val context: Context) {
         updateAsync()
     }
 
-    private fun getEnabledStatus() = mWallpaperManager.wallpaperInfo == null && prefs.enableBlur
+    private fun getEnabledStatus() = false
 
     private fun updateWallpaper() {
         if (applyTask != null) {

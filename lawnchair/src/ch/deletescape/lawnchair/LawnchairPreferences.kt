@@ -102,7 +102,7 @@ class LawnchairPreferences(val context: Context) : SharedPreferences.OnSharedPre
     var migratedFrom1 by BooleanPref("pref_legacyUpgrade", false)
 
     // Blur
-    var enableBlur by BooleanPref("pref_enableBlur", true, updateBlur)
+    var enableBlur by BooleanPref("pref_enableBlur", false, updateBlur)
     val blurRadius by FloatPref("pref_blurRadius", lawnchairConfig.defaultBlurStrength, updateBlur)
 
     // Theme
