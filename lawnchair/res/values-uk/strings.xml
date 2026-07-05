@@ -257,7 +257,7 @@
     <string name="feed_theme_pref_title">Колір тла</string>
     <!-- Section 9 -->
     <string name="gestures_pref_title">Жести</string>
-    <string name="gestures_pref_summary">Подвійний тиць, гортання вгору від Док-панелі</string>
+    <string name="gestures_pref_summary">Жести робочого столу, Анімація повернення на головний екран</string>
     <string name="gesture_double_tap">Подвійний тиць</string>
     <string name="gesture_long_press">Тиць з утриманням</string>
     <string name="gesture_press_home">Тиць кнопки «Додому»</string>

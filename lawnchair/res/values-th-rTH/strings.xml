@@ -254,7 +254,7 @@
     <string name="feed_theme_pref_title">สีพื้นหลัง</string>
     <!-- Section 9 -->
     <string name="gestures_pref_title">ท่าทางสัมผัส</string>
-    <string name="gestures_pref_summary">แตะสองครั้ง, ปัดขึ้นจากแถบรายการโปรด</string>
+    <string name="gestures_pref_summary">ท่าทางเดสก์ท็อป, แอนิเมชั่นกลับสู่หน้าหลัก</string>
     <string name="gesture_double_tap">แตะสองครั้ง</string>
     <string name="gesture_long_press">แตะค้าง</string>
     <string name="gesture_press_home">แตะปุ่มโฮม</string>

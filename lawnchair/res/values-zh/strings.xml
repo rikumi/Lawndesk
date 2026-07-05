@@ -253,7 +253,7 @@
     <string name="feed_theme_pref_title">背景颜色</string>
     <!-- Section 9 -->
     <string name="gestures_pref_title">手势</string>
-    <string name="gestures_pref_summary">双击、从 Dock 处上滑</string>
+    <string name="gestures_pref_summary">桌面手势、返回桌面动画</string>
     <string name="gesture_double_tap">双击</string>
     <string name="gesture_long_press">长按</string>
     <string name="gesture_press_home">单击主页键</string>

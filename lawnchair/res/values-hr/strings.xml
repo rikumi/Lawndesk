@@ -251,7 +251,7 @@
     <string name="feed_theme_pref_title">Boja pozadine</string>
     <!-- Section 9 -->
     <string name="gestures_pref_title">Geste</string>
-    <string name="gestures_pref_summary">Dupli dodir, povuci gore sa docka</string>
+    <string name="gestures_pref_summary">Geste radne površine, Animacija povratka na početnu</string>
     <string name="gesture_double_tap">Dupli dodir</string>
     <string name="gesture_long_press">Dodirni i zadrži</string>
     <string name="gesture_press_home">Dodir tipke Home</string>

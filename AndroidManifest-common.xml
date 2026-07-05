@@ -42,6 +42,12 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.REQUEST_DELETE_PACKAGES" />
+    <!-- Optional: allows querying the most-recent foreground app so the app-close icon animation
+         targets the app the user actually returns from (e.g. after switching via recents). This is
+         a protected permission the user must grant manually under
+         Settings > Apps > Special app access > Usage access. When not granted, the launcher falls
+         back to animating the icon that was originally tapped. -->
+    <uses-permission android:name="android.permission.PACKAGE_USAGE_STATS" />
 
     <application
         android:backupAgent="com.android.launcher3.LauncherBackupAgent"

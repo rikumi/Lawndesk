@@ -18,7 +18,10 @@
 package ch.deletescape.lawnchair.settings.ui;
 
 import android.app.Activity;
+import android.app.AppOpsManager;
 import android.app.Dialog;
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.ComponentName;
 import android.content.ContentResolver;
 import android.content.Context;
@@ -65,6 +68,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.Toast;
 import ch.deletescape.lawnchair.FakeLauncherKt;
 import ch.deletescape.lawnchair.FeedBridge;
 import ch.deletescape.lawnchair.LawnchairLauncher;
@@ -223,7 +227,7 @@ public class SettingsActivity extends SettingsBaseActivity implements
     }
 
     protected boolean shouldShowSearch() {
-        return BuildConfig.FEATURE_SETTINGS_SEARCH && !isSubSettings;
+        return false;
     }
 
     @Override
@@ -687,6 +691,13 @@ public class SettingsActivity extends SettingsBaseActivity implements
                                 return true;
                             }
                         });
+            } else if (getContent() == R.xml.lawnchair_gesture_preferences) {
+                ListPreference appClosePref =
+                        (ListPreference) findPreference("pref_app_close_animation");
+                if (appClosePref != null) {
+                    appClosePref.setOnPreferenceChangeListener(this);
+                    updateAppCloseAnimationSummary(appClosePref, appClosePref.getValue());
+                }
             }
         }
 
@@ -819,11 +830,17 @@ public class SettingsActivity extends SettingsBaseActivity implements
                     FragmentManager fm = getFragmentManager();
                     if (fm.findFragmentByTag(BRIDGE_TAG) == null) {
                         InstallFragment fragment = new InstallFragment();
-                        fragment.show(fm, BRIDGE_TAG);
-                    }
-                    break;
-            }
-            return false;
+                    fragment.show(fm, BRIDGE_TAG);
+                }
+                break;
+            case "pref_app_close_animation":
+                updateAppCloseAnimationSummary(preference, newValue);
+                if ("enhanced".equals(newValue) && !hasUsageAccess()) {
+                    new UsageAccessFragment().show(getFragmentManager(), "usage_access");
+                }
+                return true;
+        }
+        return false;
         }
 
         @Override
@@ -875,6 +892,32 @@ public class SettingsActivity extends SettingsBaseActivity implements
                     break;
             }
             return false;
+        }
+
+        private void updateAppCloseAnimationSummary(Preference preference, Object value) {
+            if (preference == null) return;
+            String v = value == null ? "basic" : String.valueOf(value);
+            int res;
+            switch (v) {
+                case "off":
+                    res = R.string.app_close_animation_off_summary;
+                    break;
+                case "enhanced":
+                    res = R.string.app_close_animation_enhanced_summary;
+                    break;
+                default:
+                    res = R.string.app_close_animation_basic_summary;
+                    break;
+            }
+            preference.setSummary(res);
+        }
+
+        private boolean hasUsageAccess() {
+            AppOpsManager aom = (AppOpsManager) mContext.getSystemService(Context.APP_OPS_SERVICE);
+            if (aom == null) return false;
+            int mode = aom.checkOpNoThrow(AppOpsManager.OPSTR_GET_USAGE_STATS,
+                    android.os.Process.myUid(), mContext.getPackageName());
+            return mode == AppOpsManager.MODE_ALLOWED;
         }
 
         protected int getRecyclerViewLayoutRes() {
@@ -1095,6 +1138,42 @@ public class SettingsActivity extends SettingsBaseActivity implements
         public void onStart() {
             super.onStart();
             LawnchairUtilsKt.applyAccent(((AlertDialog) getDialog()));
+        }
+    }
+
+    public static class UsageAccessFragment extends DialogFragment {
+        @Override
+        public Dialog onCreateDialog(Bundle savedInstanceState) {
+            final Context ctx = getActivity();
+            String pkg = BuildConfig.APPLICATION_ID;
+            String cmd = "adb shell appops set " + pkg + " GET_USAGE_STATS allow";
+            CharSequence msg = ctx.getString(R.string.app_close_animation_usage_message)
+                    + "\n\n" + cmd;
+            return new AlertDialog.Builder(ctx)
+                    .setTitle(R.string.app_close_animation_usage_title)
+                    .setMessage(msg)
+                    .setNegativeButton(android.R.string.cancel, null)
+                    .setNeutralButton(R.string.app_close_animation_usage_copy,
+                            (d, w) -> {
+                                ClipboardManager cm = (ClipboardManager)
+                                        ctx.getSystemService(Context.CLIPBOARD_SERVICE);
+                                if (cm != null) {
+                                    cm.setPrimaryClip(ClipData.newPlainText("adb", cmd));
+                                    Toast.makeText(ctx,
+                                            R.string.app_close_animation_usage_copied,
+                                            Toast.LENGTH_SHORT).show();
+                                }
+                            })
+                    .setPositiveButton(R.string.app_close_animation_usage_open,
+                            (d, w) -> startActivity(new Intent(Settings.ACTION_USAGE_ACCESS_SETTINGS)
+                                    .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)))
+                    .create();
+        }
+
+        @Override
+        public void onStart() {
+            super.onStart();
+            LawnchairUtilsKt.applyAccent((AlertDialog) getDialog());
         }
     }
 

@@ -257,7 +257,7 @@
     <string name="feed_theme_pref_title">Kolor tła</string>
     <!-- Section 9 -->
     <string name="gestures_pref_title">Gesty</string>
-    <string name="gestures_pref_summary">Podwójne kliknięcie, przesunięcie w górę na docku</string>
+    <string name="gestures_pref_summary">Gesty pulpitu, Animacja powrotu do ekranu głównego</string>
     <string name="gesture_double_tap">Dwukrotne kliknięcie</string>
     <string name="gesture_long_press">Naciśnij i przytrzymaj</string>
     <string name="gesture_press_home">Kliknięcie przycisku domowego</string>

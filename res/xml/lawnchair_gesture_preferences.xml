@@ -37,6 +37,15 @@
         android:title="@string/gesture_swipe_down"
         app:gestureClass="ch.deletescape.lawnchair.gestures.gestures.VerticalSwipeGesture" />
 
+    <android.support.v7.preference.ListPreference
+        android:defaultValue="basic"
+        android:key="pref_app_close_animation"
+        android:persistent="true"
+        android:summary="@string/app_close_animation_summary"
+        android:title="@string/app_close_animation"
+        android:entries="@array/appCloseAnimationEntries"
+        android:entryValues="@array/appCloseAnimationValues" />
+
     <!-- <ch.deletescape.lawnchair.gestures.ui.GesturePreference
         android:defaultValue="@string/action_open_search_class"
         android:key="pref_gesture_swipe_up"

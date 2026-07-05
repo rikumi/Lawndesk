@@ -255,7 +255,7 @@
     <string name="feed_theme_pref_title">Bakgrunnsfarge</string>
     <!-- Section 9 -->
     <string name="gestures_pref_title">Bevegelser</string>
-    <string name="gestures_pref_summary">Dobbeltrykk, sveip oppover fra dokk</string>
+    <string name="gestures_pref_summary">Skrivebordsbevegelser, Animering for retur til hjem</string>
     <string name="gesture_double_tap">Dobbeltrykk</string>
     <string name="gesture_long_press">Trykk og hold</string>
     <string name="gesture_press_home">Hjem-knapp-trykk</string>

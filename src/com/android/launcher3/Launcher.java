@@ -32,12 +32,16 @@ import android.animation.PropertyValuesHolder;
 import android.animation.ValueAnimator;
 import android.annotation.TargetApi;
 import android.app.ActivityOptions;
+import android.app.AppOpsManager;
 import android.app.ProgressDialog;
 import android.appwidget.AppWidgetHostView;
 import android.appwidget.AppWidgetManager;
+import android.app.usage.UsageEvents;
+import android.app.usage.UsageStatsManager;
 import android.content.ActivityNotFoundException;
 import android.content.BroadcastReceiver;
 import android.content.ComponentCallbacks2;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.ContextWrapper;
 import android.content.Intent;
@@ -45,6 +49,7 @@ import android.content.IntentFilter;
 import android.content.IntentSender;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.content.res.Configuration;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Point;
@@ -1716,6 +1721,9 @@ public class Launcher extends BaseDraggingActivity implements LauncherExterns,
 
     private Animator mAppLaunchIconAnim;
     private ImageView mAppLaunchIconOverlay;
+    // The icon that was tapped to launch the most recent app; used as a fallback target for the
+    // close animation when the actual "latest foreground app" cannot be determined.
+    private BubbleTextView mLastLaunchedBtv;
 
     /**
      * Plays a short zoom-out + fade animation on the launched app icon, while simultaneously
@@ -1729,6 +1737,7 @@ public class Launcher extends BaseDraggingActivity implements LauncherExterns,
     private void playAppLaunchIconZoom(final View v) {
         if (!(v instanceof BubbleTextView)) return;
         final BubbleTextView btv = (BubbleTextView) v;
+        mLastLaunchedBtv = btv;
         if (mAppLaunchIconAnim != null) {
             mAppLaunchIconAnim.cancel();
         }
@@ -1744,7 +1753,11 @@ public class Launcher extends BaseDraggingActivity implements LauncherExterns,
         // The DragLayer adds window insets to the overlay's layout margins, so subtract the insets
         // from every translation target: visual = mTop + (target - ins) = target.
         float endX = (dl.getWidth() / 2f - iv.getWidth() / 2f) - ins.left;
-        float endY = (dl.getHeight() / 2f - iv.getHeight() / 2f) - ins.top;
+        // Shift the zoom target slightly above the screen center so the icon's flight path better
+        // matches the system app-open/close window animation (which, without quickstep, tends to
+        // originate from above center). This avoids a perceived lateral bounce on close.
+        float yOffset = dl.getHeight() * 0.12f;
+        float endY = (dl.getHeight() / 2f - iv.getHeight() / 2f) - ins.top - yOffset;
 
         // Scale + fade (decelerate), kept as tuned.
         ObjectAnimator scale = ObjectAnimator.ofPropertyValuesHolder(iv,
@@ -1775,7 +1788,7 @@ public class Launcher extends BaseDraggingActivity implements LauncherExterns,
         });
         mAppLaunchIconAnim = openSet;
         openSet.start();
-        addOnResumeCallback(() -> playAppLaunchIconClose(btv));
+        addOnResumeCallback(() -> playAppLaunchIconCloseForLatestApp());
     }
 
     /**
@@ -1805,7 +1818,9 @@ public class Launcher extends BaseDraggingActivity implements LauncherExterns,
         final float restX = iv.getTranslationX();
         final float restY = iv.getTranslationY();
         float startX = (dl.getWidth() / 2f - iv.getWidth() / 2f) - ins.left;
-        float startY = (dl.getHeight() / 2f - iv.getHeight() / 2f) - ins.top;
+        // Compensate for the open animation's above-center target (see playAppLaunchIconZoom).
+        float yOffset = dl.getHeight() * 0.15f;
+        float startY = (dl.getHeight() / 2f - iv.getHeight() / 2f) - ins.top + yOffset;
 
         // Start from the launched state: translated to the screen center, enlarged, faded.
         iv.setTranslationX(startX);
@@ -1832,6 +1847,118 @@ public class Launcher extends BaseDraggingActivity implements LauncherExterns,
         });
         mAppLaunchIconAnim = close;
         close.start();
+    }
+
+    /**
+     * Picks the target icon for the app-close animation. Ideally this is the icon of the app the
+     * user is actually returning from (which may differ from the one originally launched, e.g.
+     * after switching apps via recents). It queries {@link UsageStatsManager} for the latest
+     * foreground app and finds its icon on the workspace/hotseat; if that's unavailable (no
+     * usage-access permission, or the app isn't on the home screen), it falls back to the icon
+     * that was originally tapped.
+     */
+    private void playAppLaunchIconCloseForLatestApp() {
+        String mode = getAppCloseAnimationMode();
+        if ("off".equals(mode)) {
+            return;
+        }
+        BubbleTextView target = mLastLaunchedBtv;
+        if ("enhanced".equals(mode)) {
+            String latestPkg = getLatestForegroundPackage();
+            if (latestPkg != null) {
+                BubbleTextView found = findAppIconOnWorkspace(latestPkg);
+                if (found != null) {
+                    target = found;
+                }
+            }
+        }
+        if (target != null) {
+            playAppLaunchIconClose(target);
+        }
+    }
+
+    /** Returns the user's preferred app-close animation mode: "basic" (default), "off", or "enhanced". */
+    private String getAppCloseAnimationMode() {
+        return getSharedPreferences(LauncherFiles.SHARED_PREFERENCES_KEY, MODE_PRIVATE)
+                .getString("pref_app_close_animation", "basic");
+    }
+
+    /**
+     * Returns the package name of the most recent app (other than this launcher) that was in the
+     * foreground, using usage-access stats. Returns null if the permission isn't granted or no
+     * such app is found.
+     */
+    private String getLatestForegroundPackage() {
+        AppOpsManager aom = (AppOpsManager) getSystemService(Context.APP_OPS_SERVICE);
+        if (aom == null) return null;
+        int mode = aom.checkOpNoThrow(AppOpsManager.OPSTR_GET_USAGE_STATS,
+                android.os.Process.myUid(), getPackageName());
+        if (mode != AppOpsManager.MODE_ALLOWED) return null;
+
+        UsageStatsManager usm = (UsageStatsManager) getSystemService(Context.USAGE_STATS_SERVICE);
+        if (usm == null) return null;
+        long now = System.currentTimeMillis();
+        UsageEvents events = usm.queryEvents(now - 60_000, now);
+        if (events == null) return null;
+
+        // Exclude any app that can act as a HOME (this launcher itself, plus the system
+        // recents/overview launcher such as com.google.android.apps.nexuslauncher which is
+        // momentarily brought to the foreground during gesture-driven task switching).
+        Set<String> homePkgs = new HashSet<>();
+        Intent homeIntent = new Intent(Intent.ACTION_MAIN).addCategory(Intent.CATEGORY_HOME);
+        List<ResolveInfo> homes = getPackageManager().queryIntentActivities(homeIntent, 0);
+        for (ResolveInfo r : homes) {
+            if (r.activityInfo != null) homePkgs.add(r.activityInfo.packageName);
+        }
+        homePkgs.add(getPackageName());
+
+        String latestPkg = null;
+        long latestTime = 0;
+        int count = 0;
+        while (events.hasNextEvent()) {
+            UsageEvents.Event e = new UsageEvents.Event();
+            events.getNextEvent(e);
+            count++;
+            if (e.getEventType() == UsageEvents.Event.MOVE_TO_FOREGROUND) {
+                String pkg = e.getPackageName();
+                if (pkg == null || homePkgs.contains(pkg)) continue;
+                if (e.getTimeStamp() > latestTime) {
+                    latestTime = e.getTimeStamp();
+                    latestPkg = pkg;
+                }
+            }
+        }
+        return latestPkg;
+    }
+
+    /**
+     * Searches the workspace pages and the hotseat for a {@link BubbleTextView} whose target
+     * component belongs to {@code pkg}. Returns the first match, or null.
+     */
+    private BubbleTextView findAppIconOnWorkspace(String pkg) {
+        if (pkg == null) return null;
+        Workspace ws = getWorkspace();
+        for (int i = 0; i < ws.getPageCount(); i++) {
+            BubbleTextView found = findIconInCellLayout((CellLayout) ws.getPageAt(i), pkg);
+            if (found != null) return found;
+        }
+        return findIconInCellLayout(getHotseat().getLayout(), pkg);
+    }
+
+    private BubbleTextView findIconInCellLayout(CellLayout cl, String pkg) {
+        if (cl == null) return null;
+        ViewGroup sg = cl.getShortcutsAndWidgets();
+        for (int i = 0; i < sg.getChildCount(); i++) {
+            View child = sg.getChildAt(i);
+            if (!(child instanceof BubbleTextView)) continue;
+            Object tag = child.getTag();
+            if (!(tag instanceof ItemInfo)) continue;
+            ComponentName cn = ((ItemInfo) tag).getTargetComponent();
+            if (cn != null && pkg.equals(cn.getPackageName())) {
+                return (BubbleTextView) child;
+            }
+        }
+        return null;
     }
 
     /**

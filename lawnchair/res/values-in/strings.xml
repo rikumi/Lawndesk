@@ -254,7 +254,7 @@
     <string name="feed_theme_pref_title">Warna Latar Belakang</string>
     <!-- Section 9 -->
     <string name="gestures_pref_title">Gestur</string>
-    <string name="gestures_pref_summary">Ketuk Ganda, Usap ke Atas dari Dock</string>
+    <string name="gestures_pref_summary">Gestur desktop, Animasi kembali ke beranda</string>
     <string name="gesture_double_tap">Ketuk Ganda</string>
     <string name="gesture_long_press">Ketuk &amp; Tahan</string>
     <string name="gesture_press_home">Ketuk Tombol Beranda</string>

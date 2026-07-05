@@ -138,7 +138,7 @@ public class InvariantDeviceProfile {
         numFolderColumns = fc;
         iconSize = is * 1.08f;
         landscapeIconSize = lis * 1.08f;
-        iconTextSize = its * 0.98f;
+        iconTextSize = its * 0.95f;
         numHotseatIcons = hs;
         defaultLayoutId = dlId;
         demoModeLayoutId = dmlId;

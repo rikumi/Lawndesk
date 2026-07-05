@@ -254,7 +254,7 @@
     <string name="feed_theme_pref_title">Cor de fundo</string>
     <!-- Section 9 -->
     <string name="gestures_pref_title">Gestos</string>
-    <string name="gestures_pref_summary">Dois toques, deslize para cima na doca</string>
+    <string name="gestures_pref_summary">Gestos do ambiente de trabalho, Animação de regresso ao início</string>
     <string name="gesture_double_tap">Dois toques</string>
     <string name="gesture_long_press">Toque longo</string>
     <string name="gesture_press_home">Toque no botão Home</string>

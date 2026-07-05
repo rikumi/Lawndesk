@@ -254,7 +254,7 @@
     <string name="feed_theme_pref_title">Háttérszín</string>
     <!-- Section 9 -->
     <string name="gestures_pref_title">Gesztusok</string>
-    <string name="gestures_pref_summary">Dupla koppintás, felfele húzás a Dokkról</string>
+    <string name="gestures_pref_summary">Asztali gesztusok, Visszatérés a kezdőlapra animáció</string>
     <string name="gesture_double_tap">Dupla koppintás</string>
     <string name="gesture_long_press">Lenyomás hosszan</string>
     <string name="gesture_press_home">A Home gomb megérintése</string>

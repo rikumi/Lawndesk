@@ -259,7 +259,7 @@
     <string name="feed_theme_pref_title">لون الخلفية</string>
     <!-- Section 9 -->
     <string name="gestures_pref_title">الإيماءات</string>
-    <string name="gestures_pref_summary">النقر مرتين, السحب للأعلى من Dock</string>
+    <string name="gestures_pref_summary">إيماءات سطح المكتب، الرجوع إلى الرسوم المتحركة للمنزل</string>
     <string name="gesture_double_tap">نقر مزدوج</string>
     <string name="gesture_long_press">النقر مع الاستمرار</string>
     <string name="gesture_press_home">اضغط على زر الصفحة الرئيسية</string>

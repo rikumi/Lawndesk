@@ -251,7 +251,7 @@
     <string name="feed_theme_pref_title">رنگ پس‌زمینه</string>
     <!-- Section 9 -->
     <string name="gestures_pref_title">ژست‌ها</string>
-    <string name="gestures_pref_summary">رنگ پس زمینه</string>
+    <string name="gestures_pref_summary">حرکات دسکتاپ، انیمیشن بازگشت به خانه</string>
     <string name="gesture_double_tap">دوبار ضربه</string>
     <string name="gesture_long_press">لمس کرده &amp; و نگهدارید</string>
     <string name="gesture_press_home">دکمه صفحه اصلی</string>

@@ -255,7 +255,7 @@
     <string name="feed_theme_pref_title">Hintergrundfarbe</string>
     <!-- Section 9 -->
     <string name="gestures_pref_title">Gesten</string>
-    <string name="gestures_pref_summary">Doppeltippen, vom Dock hochwischen</string>
+    <string name="gestures_pref_summary">Desktop-Gesten, Zurück-zum-Startbildschirm-Animation</string>
     <string name="gesture_double_tap">Doppeltippen</string>
     <string name="gesture_long_press">Tippen &amp; Halten</string>
     <string name="gesture_press_home">Tippen auf Home-Taste</string>

@@ -254,7 +254,7 @@
     <string name="feed_theme_pref_title">背景顏色</string>
     <!-- Section 9 -->
     <string name="gestures_pref_title">手勢</string>
-    <string name="gestures_pref_summary">輕觸兩下底欄兩下或向上滑動</string>
+    <string name="gestures_pref_summary">桌面手勢、返回桌面動畫</string>
     <string name="gesture_double_tap">輕觸兩下</string>
     <string name="gesture_long_press">輕觸並按住</string>
     <string name="gesture_press_home">主畫面按鈕</string>

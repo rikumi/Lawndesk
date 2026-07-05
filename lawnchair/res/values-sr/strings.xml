@@ -256,7 +256,7 @@
     <string name="feed_theme_pref_title">Боја позадине</string>
     <!-- Section 9 -->
     <string name="gestures_pref_title">Покрети</string>
-    <string name="gestures_pref_summary">Двоструки додир, превлачење нагоре преко дока</string>
+    <string name="gestures_pref_summary">Гестови радне површине, Анимација повратка на почетни екран</string>
     <string name="gesture_double_tap">Двоструки додир</string>
     <string name="gesture_long_press">Додир и задржавање</string>
     <string name="gesture_press_home">Дугме „Почетна”</string>

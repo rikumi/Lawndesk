@@ -251,7 +251,7 @@
     <string name="feed_theme_pref_title">Bakgrundsfärg</string>
     <!-- Section 9 -->
     <string name="gestures_pref_title">Gester</string>
-    <string name="gestures_pref_summary">Dubbeltryck, Svep upp från dockan</string>
+    <string name="gestures_pref_summary">Skrivbordsgester, Animation för återgång till hem</string>
     <string name="gesture_double_tap">Dubbeltryck</string>
     <string name="gesture_long_press">Tryck länge</string>
     <string name="gesture_press_home">Tryck på hemknapp</string>

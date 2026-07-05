@@ -255,7 +255,7 @@
     <string name="feed_theme_pref_title">Achtergrondkleur</string>
     <!-- Section 9 -->
     <string name="gestures_pref_title">Gebaren</string>
-    <string name="gestures_pref_summary">Dubbeltik, veeg omhoog van dock</string>
+    <string name="gestures_pref_summary">Bureaubladgebaren, Terug-naar-home-animatie</string>
     <string name="gesture_double_tap">Dubbeltik</string>
     <string name="gesture_long_press">Tik &amp; vasthouden</string>
     <string name="gesture_press_home">Thuisknop tik</string>

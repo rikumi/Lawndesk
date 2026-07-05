@@ -257,7 +257,7 @@
     <string name="feed_theme_pref_title">Farba pozadia</string>
     <!-- Section 9 -->
     <string name="gestures_pref_title">Gestá</string>
-    <string name="gestures_pref_summary">Dvojitým klepnutím prejdite prstom z doku</string>
+    <string name="gestures_pref_summary">Gestá pracovnej plochy, Animácia návratu na plochu</string>
     <string name="gesture_double_tap">Dvojité kliknutie</string>
     <string name="gesture_long_press">Kliknutie s podržaním</string>
     <string name="gesture_press_home">Tlačidlo Domov Klepnite na</string>

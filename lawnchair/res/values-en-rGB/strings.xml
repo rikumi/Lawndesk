@@ -250,7 +250,7 @@
     <string name="feed_theme_pref_title">Background Colour</string>
     <!-- Section 9 -->
     <string name="gestures_pref_title">Gestures</string>
-    <string name="gestures_pref_summary">Double Tap, Swipe up from Dock</string>
+    <string name="gestures_pref_summary">Desktop Gestures, Return to Home Animation</string>
     <string name="gesture_double_tap">Double Tap</string>
     <string name="gesture_long_press">Touch &amp; Hold</string>
     <string name="gesture_press_home">Home Button Tap</string>

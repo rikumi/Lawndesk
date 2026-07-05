@@ -255,7 +255,7 @@
     <string name="feed_theme_pref_title">Culoarea de fundal</string>
     <!-- Section 9 -->
     <string name="gestures_pref_title">Gesturi</string>
-    <string name="gestures_pref_summary">Dublu Tap, Glisează in sus din Dock</string>
+    <string name="gestures_pref_summary">Gesturi desktop, Animație de revenire la ecranul principal</string>
     <string name="gesture_double_tap">Atingere dublă</string>
     <string name="gesture_long_press">Apăsați lung</string>
     <string name="gesture_press_home">Tap be butonul Ecran Principal</string>

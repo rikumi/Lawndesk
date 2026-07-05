@@ -257,7 +257,7 @@
     <string name="feed_theme_pref_title">Barva pozadí</string>
     <!-- Section 9 -->
     <string name="gestures_pref_title">Gesta</string>
-    <string name="gestures_pref_summary">Dvojí poklepání, přejetí nahoru z\u00a0doku</string>
+    <string name="gestures_pref_summary">Gesta plochy, Animace návratu na plochu</string>
     <string name="gesture_double_tap">Dvojí poklepání</string>
     <string name="gesture_long_press">Dotyk a\u00a0podržení</string>
     <string name="gesture_press_home">Klepnutí na tlačítko Domů</string>

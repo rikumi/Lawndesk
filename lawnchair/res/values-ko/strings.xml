@@ -251,7 +251,7 @@
     <string name="feed_theme_pref_title">배경 색</string>
     <!-- Section 9 -->
     <string name="gestures_pref_title">제스처</string>
-    <string name="gestures_pref_summary">두번 누르기, 독에서 쓸어 올리기</string>
+    <string name="gestures_pref_summary">데스크톱 제스처, 홈으로 돌아가기 애니메이션</string>
     <string name="gesture_double_tap">두번 누르기</string>
     <string name="gesture_long_press">길게 누르기</string>
     <string name="gesture_press_home">Home Button Tap</string>

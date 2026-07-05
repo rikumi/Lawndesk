@@ -66,4 +66,16 @@
         <item>0</item>  <!-- 00 -->
         <item>2</item>  <!-- 10 -->
     </string-array>
+
+    <string-array name="appCloseAnimationEntries">
+        <item>@string/app_close_animation_basic</item>
+        <item>@string/app_close_animation_off</item>
+        <item>@string/app_close_animation_enhanced</item>
+    </string-array>
+
+    <string-array name="appCloseAnimationValues">
+        <item>basic</item>
+        <item>off</item>
+        <item>enhanced</item>
+    </string-array>
 </resources>

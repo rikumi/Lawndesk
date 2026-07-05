@@ -251,7 +251,7 @@
     <string name="feed_theme_pref_title">Color de fons</string>
     <!-- Section 9 -->
     <string name="gestures_pref_title">Gestos</string>
-    <string name="gestures_pref_summary">Toc doble, llisca amunt des de l\'acoblador</string>
+    <string name="gestures_pref_summary">Gestos d\'escriptori, Animació de retorn a l\'inici</string>
     <string name="gesture_double_tap">Toc doble</string>
     <string name="gesture_long_press">Toqueu i mantingueu premut</string>
     <string name="gesture_press_home">Toc per al botó Inici</string>

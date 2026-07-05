@@ -257,7 +257,7 @@
     <string name="feed_theme_pref_title">Цвет фона</string>
     <!-- Section 9 -->
     <string name="gestures_pref_title">Жесты</string>
-    <string name="gestures_pref_summary">Двойное нажатие, свайп вверх от док-бара</string>
+    <string name="gestures_pref_summary">Жесты рабочего стола, Анимация возврата на главный экран</string>
     <string name="gesture_double_tap">Двойное нажатие</string>
     <string name="gesture_long_press">Нажатие &amp; удержание</string>
     <string name="gesture_press_home">Нажатие кнопки \"Домой\"</string>

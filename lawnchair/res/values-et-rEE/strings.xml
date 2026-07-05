@@ -250,7 +250,7 @@
     <string name="feed_theme_pref_title">Taustavärv</string>
     <!-- Section 9 -->
     <string name="gestures_pref_title">Viiped</string>
-    <string name="gestures_pref_summary">Topeltpuudutage, libistage dokist üles</string>
+    <string name="gestures_pref_summary">Töölauažestid, Animatsioon kodu naasmiseks</string>
     <string name="gesture_double_tap">Topeltpuudutus</string>
     <string name="gesture_long_press">Vajuta ja hoia</string>
     <string name="gesture_press_home">Vajuta kodunupul</string>

@@ -252,7 +252,7 @@
     <string name="feed_theme_pref_title">צבע הרקע</string>
     <!-- Section 9 -->
     <string name="gestures_pref_title">מחוות</string>
-    <string name="gestures_pref_summary">לחיצה כפולה, החלקה למעלה מה-Dock</string>
+    <string name="gestures_pref_summary">מחוות שולחן עבודה, אנימציית חזרה לבית</string>
     <string name="gesture_double_tap">לחיצה כפולה</string>
     <string name="gesture_long_press">גע והחזק</string>
     <string name="gesture_press_home">נגיעה בלחצן הבית</string>

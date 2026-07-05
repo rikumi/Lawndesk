@@ -255,7 +255,7 @@
     <string name="feed_theme_pref_title">Arkaplan Rengi</string>
     <!-- Section 9 -->
     <string name="gestures_pref_title">Hareketler</string>
-    <string name="gestures_pref_summary">Çift Tıkla, Alt Panelden Yukarı Kaydır</string>
+    <string name="gestures_pref_summary">Masaüstü jestleri, Ana ekrana dönüş animasyonu</string>
     <string name="gesture_double_tap">Çift Tıkla</string>
     <string name="gesture_long_press">Dokun ve Basılı Tut</string>
     <string name="gesture_press_home">Ana Ekran Tuşuna Dokunma</string>

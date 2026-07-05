@@ -254,7 +254,7 @@
     <string name="feed_theme_pref_title">Màu nền</string>
     <!-- Section 9 -->
     <string name="gestures_pref_title">Cử chỉ</string>
-    <string name="gestures_pref_summary">Nhấn đúp, vuốt lên từ thanh Dock</string>
+    <string name="gestures_pref_summary">Cử chỉ màn hình chính, Hoạt ảnh trở về màn hình chính</string>
     <string name="gesture_double_tap">Nhấn đúp</string>
     <string name="gesture_long_press">Chạm &amp; giữ</string>
     <string name="gesture_press_home">Chạm vào phím Trang chủ</string>

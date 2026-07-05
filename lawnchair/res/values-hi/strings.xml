@@ -253,7 +253,7 @@
     <string name="feed_theme_pref_title">बैकग्राउंड रंग</string>
     <!-- Section 9 -->
     <string name="gestures_pref_title">जेशचर्स</string>
-    <string name="gestures_pref_summary">दो बार दबाएं, डॉक से ऊपर घसीटें</string>
+    <string name="gestures_pref_summary">डेस्कटॉप जेस्चर, होम पर लौटने का एनिमेशन</string>
     <string name="gesture_double_tap">दो बार दबाएं</string>
     <string name="gesture_long_press">छुएं और रोकें</string>
     <string name="gesture_press_home">होम बटन दबाएं</string>

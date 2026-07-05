@@ -255,7 +255,7 @@
     <string name="feed_theme_pref_title">Cor de Fundo</string>
     <!-- Section 9 -->
     <string name="gestures_pref_title">Gestos</string>
-    <string name="gestures_pref_summary">Toque Duplo, Arrastar da Dock</string>
+    <string name="gestures_pref_summary">Gestos da área de trabalho, Animação de retorno ao início</string>
     <string name="gesture_double_tap">Toque Duplo</string>
     <string name="gesture_long_press">Toque e Segure</string>
     <string name="gesture_press_home">Toque no Botão de Home</string>
