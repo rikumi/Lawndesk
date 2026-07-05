@@ -447,6 +447,18 @@ public abstract class PagedView<T extends View & PageIndicator> extends ViewGrou
             int prevPage = mCurrentPage;
             mCurrentPage = validateNewPage(mNextPage);
             mNextPage = INVALID_PAGE;
+
+            // Sync the scroll position to the new current page. When the scroller
+            // finishes while the app is in the background (or otherwise doesn't
+            // receive draw callbacks), the if-branch above never runs, so
+            // scrollTo() is never called with the final position. Without this,
+            // mCurrentPage would point to the new page while scrollX stays at the
+            // old page, causing the UI to render the wrong page.
+            int targetScroll = getScrollForPage(mCurrentPage);
+            if (getUnboundedScrollX() != targetScroll) {
+                scrollTo(targetScroll, 0);
+            }
+
             notifyPageSwitchListener(prevPage);
 
             // We don't want to trigger a page end moving unless the page has settled
