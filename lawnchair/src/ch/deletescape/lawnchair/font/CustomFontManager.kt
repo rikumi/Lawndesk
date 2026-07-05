@@ -46,8 +46,8 @@ class CustomFontManager(private val context: Context) {
     private val uiRegular = FontCache.GoogleFont(context, fontName)
     private val uiMedium = FontCache.GoogleFont(context, fontName, VARIANT_MEDIUM)
 
-    private val launcherRegular = FontCache.SystemFont("sans-serif")
-    private val launcherMedium = FontCache.SystemFont("sans-serif-medium")
+    private val launcherRegular = FontCache.GoogleFont(context, "Inter")
+    private val launcherMedium = FontCache.GoogleFont(context, "Inter", VARIANT_MEDIUM)
 
     var enableGlobalFont by prefs.BooleanPref("enable_global_font", false, prefs.recreate)
     private val globalFont = FontPref("pref_font_global", launcherRegular)
@@ -76,7 +76,7 @@ class CustomFontManager(private val context: Context) {
         map[FONT_TEXT] = FontSpec(uiRegular, sansSerif)
         map[FONT_SETTINGS_TILE_TITLE] = FontSpec(uiMedium, sansSerifMedium)
         map[FONT_SMARTSPACE_TEXT] = FontSpec(smartspaceTextFont, sansSerif)
-        map[FONT_BASE_ICON] = FontSpec(FontCache.DummyFont(), sansSerif)
+        map[FONT_BASE_ICON] = FontSpec(launcherRegular, sansSerif)
         map[FONT_WORKSPACE_ICON] = FontSpec(workspaceFont, sansSerif)
         map[FONT_FOLDER_ICON] = FontSpec(folderFont, sansSerif)
         map[FONT_DEEP_SHORTCUT] = FontSpec(deepShortcutFont, sansSerif)

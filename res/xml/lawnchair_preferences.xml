@@ -63,13 +63,13 @@
         app:content="@xml/lawnchair_gesture_preferences"
         android:layout="@layout/home_preference" />
 
-    <ch.deletescape.lawnchair.settings.ui.SubPreference
+    <!-- <ch.deletescape.lawnchair.settings.ui.SubPreference
         android:icon="@drawable/ic_integrations"
         android:summary="@string/pref_integrations_summary_v2"
         android:title="@string/pref_integrations"
         android:key="integrations"
         app:content="@xml/lawnchair_integration_preferences"
-        android:layout="@layout/home_preference" />
+        android:layout="@layout/home_preference" /> -->
 
     <ch.deletescape.lawnchair.preferences.StyledIconPreference
         android:key="backups"

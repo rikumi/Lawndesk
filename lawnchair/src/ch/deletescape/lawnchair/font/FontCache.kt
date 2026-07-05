@@ -22,6 +22,7 @@ import android.content.res.AssetManager
 import android.graphics.Typeface
 import android.net.Uri
 import android.support.annotation.Keep
+import android.support.v4.content.res.ResourcesCompat
 import android.support.v4.provider.FontRequest
 import android.support.v4.provider.FontsContractCompat
 import ch.deletescape.lawnchair.ensureOnMainThread
@@ -282,10 +283,34 @@ class FontCache(private val context: Context) {
                 }
 
                 override fun onTypefaceRequestFailed(reason: Int) {
-                    callback.onFontLoaded(null)
+                    // Fall back to the bundled local copy of Inter when the GMS downloadable
+                    // font is unavailable (e.g. devices/emulators without Google Play Services
+                    // or without network), so Inter still renders instead of silently reverting
+                    // to the system sans-serif fallback.
+                    callback.onFontLoaded(localInterFallback)
                 }
             }, uiWorkerHandler)
         }
+
+        private val localInterFallback: Typeface?
+            get() {
+                if (family != "Inter") return null
+                val weight = try {
+                    GoogleFontsListing.getWeight(variant).toInt()
+                } catch (e: Exception) {
+                    400
+                }
+                val resId = when (weight) {
+                    500 -> R.font.inter_500
+                    600, 700 -> R.font.inter_600
+                    else -> R.font.inter_400
+                }
+                return try {
+                    ResourcesCompat.getFont(context, resId)
+                } catch (e: Exception) {
+                    null
+                }
+            }
 
         override fun saveToJson(obj: JSONObject) {
             super.saveToJson(obj)
