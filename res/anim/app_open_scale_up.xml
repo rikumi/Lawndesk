@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- App-open window animation: the new activity scales up into view, giving a
+     visible "zoom to fullscreen" launch transition. Used together with the
+     launcher-side icon zoom (Launcher#playAppLaunchIconZoom). -->
+<set xmlns:android="http://schemas.android.com/apk/res/android"
+    android:interpolator="@android:interpolator/decelerate_quint"
+    android:zAdjustment="top">
+    <alpha
+        android:fromAlpha="0.0"
+        android:toAlpha="1.0"
+        android:duration="250" />
+    <scale
+        android:fromXScale="0.6"
+        android:toXScale="1.0"
+        android:fromYScale="0.6"
+        android:toYScale="1.0"
+        android:pivotX="50%"
+        android:pivotY="50%"
+        android:duration="300" />
+</set>

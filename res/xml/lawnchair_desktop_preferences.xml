@@ -35,9 +35,9 @@
             android:title="@string/folder_icon_scale_title"
             android:persistent="true"
             app:defaultSeekbarValue="1.0"
-            app:maxValue="1.8"
-            app:minValue="0.3"
-            app:steps="150"
+            app:maxValue="1.20"
+            app:minValue="0.95"
+            app:steps="25"
             app:summaryFormat="%.0f%%"
             app:summaryMultiplier="100" />
 
@@ -72,9 +72,9 @@
             android:title="@string/icon_text_scale_pref_title"
             android:dependency="pref_hideAppLabels"
             app:defaultSeekbarValue="1.0"
-            app:maxValue="1.8"
-            app:minValue="0.3"
-            app:steps="150"
+            app:maxValue="1.20"
+            app:minValue="0.95"
+            app:steps="25"
             app:summaryFormat="%.0f%%"
             app:summaryMultiplier="100" />
 
@@ -90,9 +90,9 @@
             android:persistent="true"
             android:title="@string/icon_scale_pref_title"
             app:defaultSeekbarValue="1.0"
-            app:maxValue="2.0"
-            app:minValue="0.3"
-            app:steps="170"
+            app:maxValue="1.20"
+            app:minValue="0.95"
+            app:steps="25"
             app:summaryFormat="%.0f%%"
             app:summaryMultiplier="100" />
 

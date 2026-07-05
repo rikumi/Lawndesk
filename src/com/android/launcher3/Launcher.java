@@ -28,6 +28,7 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
+import android.animation.PropertyValuesHolder;
 import android.animation.ValueAnimator;
 import android.annotation.TargetApi;
 import android.app.ActivityOptions;
@@ -70,6 +71,8 @@ import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.accessibility.AccessibilityEvent;
+import android.view.animation.AccelerateInterpolator;
+import android.view.animation.DecelerateInterpolator;
 import android.view.animation.OvershootInterpolator;
 import android.widget.Toast;
 
@@ -1699,12 +1702,132 @@ public class Launcher extends BaseDraggingActivity implements LauncherExterns,
             BubbleTextView btv = (BubbleTextView) v;
             btv.setStayPressed(true);
             setOnResumeCallback(btv);
+            playAppLaunchIconZoom(btv);
         } else if (success && v instanceof FolderIcon) {
             FolderIcon folderIcon = (FolderIcon) v;
             folderIcon.setStayPressed(true);
             setOnResumeCallback(folderIcon);
         }
         return success;
+    }
+
+    private Animator mAppLaunchIconAnim;
+
+    /**
+     * Plays a short zoom-out + fade animation on the launched app icon, while simultaneously
+     * accelerating it toward the center of the screen, so the icon appears to grow and fly into
+     * the opening app window. Paired with the custom window scale-up animation in
+     * {@link LauncherAppTransitionManager#getActivityLaunchOptions} to form the app-open
+     * transition. The icon is reset (scale/alpha/translation) both when the animation ends and
+     * when the launcher is resumed, so it never stays hidden.
+     */
+    private void playAppLaunchIconZoom(final View v) {
+        if (v.getWidth() == 0 || v.getHeight() == 0) return;
+        if (mAppLaunchIconAnim != null) {
+            mAppLaunchIconAnim.cancel();
+        }
+        v.setPivotX(v.getWidth() / 2f);
+        v.setPivotY(v.getHeight() / 2f);
+
+        // Translation from the icon's center to the screen center.
+        View root = v.getRootView();
+        int[] iconLoc = new int[2];
+        int[] rootLoc = new int[2];
+        v.getLocationOnScreen(iconLoc);
+        root.getLocationOnScreen(rootLoc);
+        float dx = (rootLoc[0] + root.getWidth() / 2f) - (iconLoc[0] + v.getWidth() / 2f);
+        float dy = (rootLoc[1] + root.getHeight() / 2f) - (iconLoc[1] + v.getHeight() / 2f);
+
+        // Scale + fade (decelerate), kept as tuned.
+        ObjectAnimator scale = ObjectAnimator.ofPropertyValuesHolder(v,
+                PropertyValuesHolder.ofFloat(View.SCALE_X, 4.8f),
+                PropertyValuesHolder.ofFloat(View.SCALE_Y, 4.8f),
+                PropertyValuesHolder.ofFloat(View.ALPHA, 0.5f));
+        scale.setDuration(250);
+        scale.setInterpolator(new DecelerateInterpolator());
+
+        // Translate toward the screen center (accelerate).
+        ObjectAnimator move = ObjectAnimator.ofPropertyValuesHolder(v,
+                PropertyValuesHolder.ofFloat(View.TRANSLATION_X, dx),
+                PropertyValuesHolder.ofFloat(View.TRANSLATION_Y, dy));
+        move.setDuration(150);
+        move.setInterpolator(new AccelerateInterpolator());
+
+        AnimatorSet openSet = new AnimatorSet();
+        openSet.playTogether(scale, move);
+        openSet.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                resetAppLaunchIcon(v);
+            }
+        });
+        mAppLaunchIconAnim = openSet;
+        openSet.start();
+        addOnResumeCallback(() -> playAppLaunchIconClose(v));
+    }
+
+    private void resetAppLaunchIcon(View v) {
+        if (mAppLaunchIconAnim != null) {
+            mAppLaunchIconAnim.cancel();
+            mAppLaunchIconAnim = null;
+        }
+        v.animate().cancel();
+        v.setScaleX(1f);
+        v.setScaleY(1f);
+        v.setAlpha(1f);
+        v.setTranslationX(0f);
+        v.setTranslationY(0f);
+    }
+
+    /**
+     * Reverse of {@link #playAppLaunchIconZoom}: played when returning to the launcher after an
+     * app was open. The icon is placed back in its "launched" (enlarged, off-cell, faded) state
+     * and then animated to its resting state with an overshoot (rubber-band) interpolator, so it
+     * shrinks back to its original position with a bounce.
+     */
+    private void playAppLaunchIconClose(final View v) {
+        if (mAppLaunchIconAnim != null) {
+            mAppLaunchIconAnim.cancel();
+            mAppLaunchIconAnim = null;
+        }
+        if (v.getWidth() == 0 || v.getHeight() == 0) {
+            resetAppLaunchIcon(v);
+            return;
+        }
+        v.setPivotX(v.getWidth() / 2f);
+        v.setPivotY(v.getHeight() / 2f);
+
+        // Start from the launched state: translated toward the screen center, enlarged, faded.
+        View root = v.getRootView();
+        int[] iconLoc = new int[2];
+        int[] rootLoc = new int[2];
+        v.getLocationOnScreen(iconLoc);
+        root.getLocationOnScreen(rootLoc);
+        float dx = (rootLoc[0] + root.getWidth() / 2f) - (iconLoc[0] + v.getWidth() / 2f);
+        float dy = (rootLoc[1] + root.getHeight() / 2f) - (iconLoc[1] + v.getHeight() / 2f);
+        v.setTranslationX(dx);
+        v.setTranslationY(dy);
+        v.setScaleX(1.4f);
+        v.setScaleY(1.4f);
+        v.setAlpha(0f);
+
+        // Shrink back to the original position/size with a rubber-band (overshoot) bounce.
+        ObjectAnimator close = ObjectAnimator.ofPropertyValuesHolder(v,
+                PropertyValuesHolder.ofFloat(View.SCALE_X, 1f),
+                PropertyValuesHolder.ofFloat(View.SCALE_Y, 1f),
+                PropertyValuesHolder.ofFloat(View.TRANSLATION_X, 0f),
+                PropertyValuesHolder.ofFloat(View.TRANSLATION_Y, 0f),
+                PropertyValuesHolder.ofFloat(View.ALPHA, 1f));
+        close.setDuration(350);
+        close.setInterpolator(new OvershootInterpolator(2f));
+        close.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                resetAppLaunchIcon(v);
+            }
+        });
+        mAppLaunchIconAnim = close;
+        close.start();
     }
 
     boolean isHotseatLayout(View layout) {

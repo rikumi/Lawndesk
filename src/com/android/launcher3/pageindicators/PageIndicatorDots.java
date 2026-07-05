@@ -238,6 +238,7 @@ public class PageIndicatorDots extends View implements Insettable, PageIndicator
     public void setMarkersCount(int numMarkers) {
         mNumPages = numMarkers;
         requestLayout();
+        invalidate();
     }
 
     @Override

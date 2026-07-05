@@ -41,7 +41,7 @@ class IconShapeManager(private val context: Context) {
 
     private val systemIconShape = getSystemShape()
     var iconShape by context.lawnchairPrefs.StringBasedPref(
-            "pref_iconShape", systemIconShape, ::onShapeChanged,
+            "pref_iconShape", IconShape.Circle as IconShape, ::onShapeChanged,
             {
                 IconShape.fromString(it) ?: systemIconShape
             }, IconShape::toString) { /* no dispose */ }
@@ -111,11 +111,11 @@ class IconShapeManager(private val context: Context) {
 
     private fun onShapeChanged() {
         Handler(LauncherModel.getWorkerLooper()).post {
+            AdaptiveIconCompat.resetMask()
+            L3IconShape.init(context)
             LauncherAppState.getInstance(context).reloadIconCache()
 
             runOnMainThread {
-                AdaptiveIconCompat.resetMask()
-                L3IconShape.init(context)
                 context.lawnchairPrefs.recreate()
             }
         }

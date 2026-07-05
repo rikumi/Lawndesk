@@ -75,7 +75,7 @@
     <color name="qsb_background_dark">#ff333333</color>
     <color name="qsb_connector_gradient_end_color">#66ffffff</color>
 
-    <color name="settings_background_dark">#ff151618</color>
+    <color name="settings_background_dark">#ff000000</color>
     <color name="settings_background_dark_2dp">#ff252628</color>
     <color name="settings_background_dark_8dp">#ff303133</color>
 

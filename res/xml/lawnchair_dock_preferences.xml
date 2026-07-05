@@ -16,12 +16,13 @@
             android:disableDependentsState="true"
             android:persistent="true" />
 
-        <ch.deletescape.lawnchair.preferences.AutoModeScalePreference
+        <ch.deletescape.lawnchair.preferences.DockScalePreference
             android:key="pref_dockScale"
             android:title="@string/dock_scale"
             android:dependency="pref_dockPreset"
-            app:minValue="0.60"
-            app:maxValue="1.75"
+            app:minValue="0.95"
+            app:maxValue="1.20"
+            app:steps="25"
             app:defaultSeekbarValue="0"
             app:summaryFormat="%.0f%%"
             app:summaryMultiplier="100"
@@ -70,9 +71,9 @@
             android:title="@string/icon_text_scale_pref_title"
             android:dependency="pref_hideDockLabels"
             app:defaultSeekbarValue="0"
-            app:maxValue="1.8"
-            app:minValue="0.3"
-            app:steps="150"
+            app:maxValue="1.20"
+            app:minValue="0.95"
+            app:steps="25"
             app:summaryFormat="%.0f%%"
             app:summaryMultiplier="100"/>
             -->
@@ -82,9 +83,9 @@
             android:persistent="true"
             android:title="@string/icon_scale_pref_title"
             app:defaultSeekbarValue="0"
-            app:maxValue="2.0"
-            app:minValue="0.3"
-            app:steps="170"
+            app:maxValue="1.20"
+            app:minValue="0.95"
+            app:steps="25"
             app:summaryFormat="%.0f%%"
             app:summaryMultiplier="100" />
 

@@ -19,8 +19,6 @@ package com.android.launcher3;
 
 import android.app.ActivityOptions;
 import android.content.Context;
-import android.graphics.Rect;
-import android.graphics.drawable.Drawable;
 import android.view.View;
 
 /**
@@ -35,20 +33,14 @@ public class LauncherAppTransitionManager {
 
     public ActivityOptions getActivityLaunchOptions(Launcher launcher, View v) {
         if (Utilities.ATLEAST_MARSHMALLOW) {
-            int left = 0, top = 0;
-            int width = v.getMeasuredWidth(), height = v.getMeasuredHeight();
-            if (v instanceof BubbleTextView) {
-                // Launch from center of icon, not entire view
-                Drawable icon = ((BubbleTextView) v).getIcon();
-                if (icon != null) {
-                    Rect bounds = icon.getBounds();
-                    left = (width - bounds.width()) / 2;
-                    top = v.getPaddingTop();
-                    width = bounds.width();
-                    height = bounds.height();
-                }
-            }
-            return ActivityOptions.makeClipRevealAnimation(v, left, top, width, height);
+            // Use a custom scale-up window animation. makeScaleUpAnimation /
+            // makeClipRevealAnimation are silently overridden by the system's starting window
+            // (splash) on Android 10+, leaving only a faint default scale. A custom animation is
+            // reliably applied by the framework, giving a visible "app zooms to fullscreen" open
+            // transition. The launcher-side icon zoom (Launcher#playAppLaunchIconZoom) complements
+            // this so the icon appears to grow into the opening app.
+            return ActivityOptions.makeCustomAnimation(launcher,
+                    R.anim.app_open_scale_up, R.anim.no_anim);
         } else if (Utilities.ATLEAST_LOLLIPOP_MR1) {
             // On L devices, we use the device default slide-up transition.
             // On L MR1 devices, we use a custom version of the slide-up transition which

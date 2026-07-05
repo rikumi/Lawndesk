@@ -1,6 +1,4 @@
 /*
- *     Copyright (C) 2019 Lawnchair Team.
- *
  *     This file is part of Lawnchair Launcher.
  *
  *     Lawnchair Launcher is free software: you can redistribute it and/or modify
@@ -22,19 +20,15 @@ package ch.deletescape.lawnchair.preferences
 import android.content.Context
 import android.support.annotation.Keep
 import android.util.AttributeSet
+import com.android.launcher3.Utilities
 
 @Keep
-open class AutoModeScalePreference @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) :
-        AutoModeSeekbarPreference(context, attrs, defStyleAttr) {
+class DockScalePreference @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) :
+        AutoModeScalePreference(context, attrs, defStyleAttr) {
 
-    override fun updateDisplayedValue() {
-        super.updateDisplayedValue()
-        if (current < low && current != -1f) {
-            persistFloat(current)
-        }
-    }
+    private val prefs = Utilities.getLawnchairPrefs(context)
 
-    override fun persistFloat(value: Float): Boolean {
-        return super.persistFloat(if (value < low) -1f else value)
+    override fun getPersistedFloat(defaultReturnValue: Float): Float {
+        return prefs.dockScale
     }
 }

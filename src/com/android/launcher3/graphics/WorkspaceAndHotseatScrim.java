@@ -253,7 +253,7 @@ public class WorkspaceAndHotseatScrim implements
         mBottomMaskPaint.setColor(ColorUtils.compositeColors(DARK_SCRIM_COLOR,
                 wallpaperColorInfo.getMainColor()));
         reapplySysUiAlpha();
-        mFullScrimColor = wallpaperColorInfo.getMainColor();
+        mFullScrimColor = Color.BLACK;
         if (mScrimAlpha > 0) {
             invalidate();
         }

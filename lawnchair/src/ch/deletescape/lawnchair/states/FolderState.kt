@@ -12,7 +12,7 @@ class FolderState(id: Int) : LauncherState(id, LauncherLogProto.ContainerType.FO
                                            SPRING_LOADED_TRANSITION_MS, STATE_FLAGS) {
 
     override fun getWorkspaceScrimAlpha(launcher: Launcher?): Float {
-        return 0f
+        return 0.3f
     }
 
     override fun getWorkspaceBlurAlpha(launcher: Launcher?): Float {
