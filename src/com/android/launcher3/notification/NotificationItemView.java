@@ -81,9 +81,7 @@ public class NotificationItemView {
     }
 
     public void addGutter() {
-        if (mGutter == null) {
-            mGutter = mContainer.inflateAndAdd(R.layout.notification_gutter, mContainer);
-        }
+        // No-op: Material Design 3 style doesn't use gutters.
     }
 
     public void removeFooter() {
@@ -94,10 +92,7 @@ public class NotificationItemView {
     }
 
     public void inverseGutterMargin() {
-        MarginLayoutParams lp = (MarginLayoutParams) mGutter.getLayoutParams();
-        int top = lp.topMargin;
-        lp.topMargin = lp.bottomMargin;
-        lp.bottomMargin = top;
+        // No-op: gutter removed for Material Design 3 style.
     }
 
     public void removeAllViews() {

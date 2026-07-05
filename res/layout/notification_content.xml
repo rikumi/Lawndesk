@@ -19,31 +19,20 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <!-- header -->
+    <!-- header (hidden, Material Design 3 style) -->
     <FrameLayout
         android:id="@+id/header"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/notification_header_height"
-        android:paddingEnd="@dimen/notification_padding_end"
-        android:paddingStart="@dimen/notification_padding_start">
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:visibility="gone">
         <TextView
             android:id="@+id/notification_text"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_gravity="start"
-            android:gravity="center_vertical"
-            android:text="@string/notifications_header"
-            android:textColor="?android:attr/textColorPrimary"
-            android:textSize="@dimen/notification_header_text_size" />
+            android:layout_height="match_parent" />
         <TextView
             android:id="@+id/notification_count"
-            android:layout_width="@dimen/notification_icon_size"
-            android:layout_height="match_parent"
-            android:layout_gravity="end"
-            android:fontFamily="sans-serif-medium"
-            android:gravity="center"
-            android:textColor="?android:attr/textColorPrimary"
-            android:textSize="@dimen/notification_header_count_text_size" />
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent" />
     </FrameLayout>
 
     <!-- Main view -->
@@ -51,7 +40,12 @@
         android:id="@+id/main_view"
         android:layout_width="match_parent"
         android:layout_height="@dimen/notification_main_height"
-        android:background="@drawable/bg_notification_content"
+        android:layout_marginStart="@dimen/popup_container_padding_horizontal"
+        android:layout_marginEnd="@dimen/popup_container_padding_horizontal"
+        android:layout_marginTop="@dimen/popup_item_spacing"
+        android:background="@drawable/popup_item_bg"
+        android:backgroundTint="?attr/popupColorPrimary"
+        android:elevation="2dp"
         android:focusable="true" >
 
         <LinearLayout
@@ -61,7 +55,6 @@
             android:background="?attr/popupColorPrimary"
             android:gravity="center_vertical"
             android:orientation="vertical"
-            android:paddingBottom="14dp"
             android:paddingEnd="@dimen/notification_main_text_padding_end"
             android:paddingStart="@dimen/notification_padding_start">
             <TextView
@@ -99,16 +92,21 @@
     <!-- Divider -->
     <View
         android:id="@+id/divider"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/popup_item_divider_height"
-        android:layout_below="@id/main_view"
-        android:background="?attr/popupColorTertiary" />
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:visibility="gone" />
 
     <!-- Footer -->
     <com.android.launcher3.notification.NotificationFooterLayout
         android:id="@+id/footer"
         android:layout_width="match_parent"
         android:layout_height="@dimen/notification_footer_height"
+        android:layout_marginStart="@dimen/popup_container_padding_horizontal"
+        android:layout_marginEnd="@dimen/popup_container_padding_horizontal"
+        android:layout_marginTop="@dimen/popup_item_spacing"
+        android:background="@drawable/popup_item_bg"
+        android:backgroundTint="?attr/popupColorPrimary"
+        android:elevation="2dp"
         android:layout_gravity="center_vertical"
         android:clipChildren="false">
 

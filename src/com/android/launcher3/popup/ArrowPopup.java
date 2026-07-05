@@ -82,13 +82,9 @@ public abstract class ArrowPopup extends AbstractFloatingView {
         mLauncher = Launcher.getLauncher(context);
         mIsRtl = Utilities.isRtl(getResources());
 
-        setClipToOutline(true);
-        setOutlineProvider(new ViewOutlineProvider() {
-            @Override
-            public void getOutline(View view, Outline outline) {
-                outline.setRoundRect(0, 0, view.getWidth(), view.getHeight(), mOutlineRadius);
-            }
-        });
+        // Don't clip the container so item shadows show on the outside.
+        // Instead, corner radii are applied to the first/last item dynamically.
+        setClipToOutline(false);
 
         // Initialize arrow view
         final Resources resources = getResources();
@@ -125,7 +121,53 @@ public abstract class ArrowPopup extends AbstractFloatingView {
     /**
      * Called when all view inflation and reordering in complete.
      */
-    protected void onInflationComplete(boolean isReversed) { }
+    protected void onInflationComplete(boolean isReversed) {
+        int count = getChildCount();
+        View firstVisible = null;
+        View lastVisible = null;
+        for (int i = 0; i < count; i++) {
+            View view = getChildAt(i);
+            if (view.getVisibility() != VISIBLE) continue;
+            if (firstVisible == null) {
+                firstVisible = view;
+                if (view.getLayoutParams() instanceof MarginLayoutParams) {
+                    MarginLayoutParams lp = (MarginLayoutParams) view.getLayoutParams();
+                    lp.topMargin = 0;
+                    view.setLayoutParams(lp);
+                }
+            }
+            lastVisible = view;
+        }
+        // Apply the container's outer corner radius to the first and last items.
+        applyOuterCorners(firstVisible, true);
+        applyOuterCorners(lastVisible, false);
+    }
+
+    private void applyOuterCorners(View view, boolean isFirst) {
+        if (view == null) return;
+        android.graphics.drawable.Drawable bg = view.getBackground();
+        if (bg instanceof android.graphics.drawable.GradientDrawable) {
+            android.graphics.drawable.GradientDrawable gd =
+                    (android.graphics.drawable.GradientDrawable) bg.mutate();
+            float outerRadius = mOutlineRadius;
+            float innerRadius = getResources().getDimension(R.dimen.popup_item_corner_radius);
+            float[] radii = new float[8];
+            // [tl, tr, br, bl] each as [x, y]
+            if (isFirst) {
+                radii[0] = outerRadius; radii[1] = outerRadius; // top-left
+                radii[2] = outerRadius; radii[3] = outerRadius; // top-right
+                radii[4] = innerRadius; radii[5] = innerRadius; // bottom-right
+                radii[6] = innerRadius; radii[7] = innerRadius; // bottom-left
+            } else {
+                radii[0] = innerRadius; radii[1] = innerRadius; // top-left
+                radii[2] = innerRadius; radii[3] = innerRadius; // top-right
+                radii[4] = outerRadius; radii[5] = outerRadius; // bottom-right
+                radii[6] = outerRadius; radii[7] = outerRadius; // bottom-left
+            }
+            gd.setCornerRadii(radii);
+            view.setBackground(gd);
+        }
+    }
 
     /**
      * Shows the popup at the desired location, optionally reversing the children.
@@ -171,21 +213,8 @@ public abstract class ArrowPopup extends AbstractFloatingView {
             mArrow.setX(getX() + getMeasuredWidth() - arrowCenterOffset - halfArrowWidth);
         }
 
-        if (Gravity.isVertical(mGravity)) {
-            // This is only true if there wasn't room for the container next to the icon,
-            // so we centered it instead. In that case we don't want to showDefaultOptions the arrow.
-            mArrow.setVisibility(INVISIBLE);
-        } else {
-            ShapeDrawable arrowDrawable = new ShapeDrawable(TriangleShape.create(
-                    arrowLp.width, arrowLp.height, !mIsAboveIcon));
-            Paint arrowPaint = arrowDrawable.getPaint();
-            arrowPaint.setColor(Themes.getAttrColor(mLauncher, R.attr.popupColorPrimary));
-            // The corner path effect won't be reflected in the shadow, but shouldn't be noticeable.
-            int radius = getResources().getDimensionPixelSize(R.dimen.popup_arrow_corner_radius);
-            arrowPaint.setPathEffect(new CornerPathEffect(radius));
-            mArrow.setBackground(arrowDrawable);
-            mArrow.setElevation(getElevation());
-        }
+        // Hide the arrow for Material Design 3 style.
+        mArrow.setVisibility(INVISIBLE);
 
         mArrow.setPivotX(arrowLp.width / 2);
         mArrow.setPivotY(mIsAboveIcon ? 0 : arrowLp.height);
@@ -219,6 +248,10 @@ public abstract class ArrowPopup extends AbstractFloatingView {
         int width = getMeasuredWidth();
         int extraVerticalSpace = mArrow.getLayoutParams().height + mArrayOffset
                 + getResources().getDimensionPixelSize(R.dimen.popup_vertical_padding);
+        // Move the menu closer to the icon by reducing the extra vertical space.
+        extraVerticalSpace -= getResources().getDimensionPixelSize(R.dimen.popup_arrow_height)
+                + getResources().getDimensionPixelSize(R.dimen.popup_vertical_padding)
+                + (int) (8 * getResources().getDisplayMetrics().density);
         int height = getMeasuredHeight() + extraVerticalSpace;
 
         getTargetObjectLocation(mTempRect);
@@ -237,25 +270,15 @@ public abstract class ArrowPopup extends AbstractFloatingView {
         }
         mIsLeftAligned = x == leftAlignedX;
 
-        // Offset x so that the arrow and shortcut icons are center-aligned with the original icon.
-        int iconWidth = mTempRect.width();
-        Resources resources = getResources();
-        int xOffset;
-        if (isAlignedWithStart()) {
-            // Aligning with the shortcut icon.
-            int shortcutIconWidth = resources.getDimensionPixelSize(R.dimen.deep_shortcut_icon_size);
-            int shortcutPaddingStart = resources.getDimensionPixelSize(
-                    R.dimen.popup_padding_start);
-            xOffset = iconWidth / 2 - shortcutIconWidth / 2 - shortcutPaddingStart;
-        } else {
-            // Aligning with the drag handle.
-            int shortcutDragHandleWidth = resources.getDimensionPixelSize(
-                    R.dimen.deep_shortcut_drag_handle_size);
-            int shortcutPaddingEnd = resources.getDimensionPixelSize(
-                    R.dimen.popup_padding_end);
-            xOffset = iconWidth / 2 - shortcutDragHandleWidth / 2 - shortcutPaddingEnd;
-        }
+        // Offset x so that the menu edge aligns with the icon edge.
+        float density = getResources().getDisplayMetrics().density;
+        boolean isIosShape = ch.deletescape.lawnchair.adaptive.IconShapeManager.Companion
+                .getInstance(mLauncher).getIconShape()
+                instanceof ch.deletescape.lawnchair.adaptive.IconShape.IOS;
+        int xOffset = (int) ((isIosShape ? 19 : 16) * density);
         x += mIsLeftAligned ? xOffset : -xOffset;
+
+        int iconWidth = mTempRect.width();
 
         // Open above icon if there is room.
         int iconHeight = mTempRect.height();
@@ -343,11 +366,18 @@ public abstract class ArrowPopup extends AbstractFloatingView {
         final long revealDuration = (long) res.getInteger(R.integer.config_popupOpenCloseDuration);
         final TimeInterpolator revealInterpolator = new AccelerateDecelerateInterpolator();
 
-        // Rectangular reveal.
-        final ValueAnimator revealAnim = createOpenCloseOutlineProvider()
-                .createRevealAnimator(this, false);
+        // Use a plain animator instead of RevealOutlineAnimation so the container's own
+        // outline (full-size, 20dp rounded) stays in effect and corners don't get clamped.
+        // Scale the entire container vertically (without distorting the clip outline).
+        final ValueAnimator revealAnim = ValueAnimator.ofFloat(0f, 1f);
         revealAnim.setDuration(revealDuration);
         revealAnim.setInterpolator(revealInterpolator);
+        revealAnim.addUpdateListener(animation -> {
+            float progress = (float) animation.getAnimatedValue();
+            float scale = 0.6f + 0.4f * progress;
+            setPivotY(mIsAboveIcon ? getHeight() : 0);
+            setScaleY(scale);
+        });
 
         Animator fadeIn = ObjectAnimator.ofFloat(this, ALPHA, 0, 1);
         fadeIn.setDuration(revealDuration);
@@ -365,6 +395,7 @@ public abstract class ArrowPopup extends AbstractFloatingView {
             public void onAnimationEnd(Animator animation) {
                 announceAccessibilityChanges();
                 mOpenCloseAnimator = null;
+                setScaleY(1);
             }
         });
 
@@ -394,10 +425,16 @@ public abstract class ArrowPopup extends AbstractFloatingView {
         final Resources res = getResources();
         final TimeInterpolator revealInterpolator = new AccelerateDecelerateInterpolator();
 
-        // Rectangular reveal (reversed).
-        final ValueAnimator revealAnim = createOpenCloseOutlineProvider()
-                .createRevealAnimator(this, true);
+        // Use a plain animator instead of RevealOutlineAnimation so the container's own
+        // outline (full-size, 20dp rounded) stays in effect and corners don't get clamped.
+        final ValueAnimator revealAnim = ValueAnimator.ofFloat(1f, 0f);
         revealAnim.setInterpolator(revealInterpolator);
+        revealAnim.addUpdateListener(animation -> {
+            float progress = (float) animation.getAnimatedValue();
+            float scale = 0.6f + 0.4f * progress;
+            setPivotY(mIsAboveIcon ? getHeight() : 0);
+            setScaleY(scale);
+        });
         closeAnim.play(revealAnim);
 
         Animator fadeOut = ObjectAnimator.ofFloat(this, ALPHA, 0);
@@ -435,7 +472,8 @@ public abstract class ArrowPopup extends AbstractFloatingView {
         }
         int arrowCenterY = mIsAboveIcon ? getMeasuredHeight() : 0;
 
-        mStartRect.set(arrowCenterX, arrowCenterY, arrowCenterX, arrowCenterY);
+        // Stretch horizontally to full width, only animate vertically for a clean expand.
+        mStartRect.set(0, arrowCenterY, getMeasuredWidth(), arrowCenterY);
         if (mEndRect.isEmpty()) {
             mEndRect.set(0, 0, getMeasuredWidth(), getMeasuredHeight());
         }

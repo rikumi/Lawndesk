@@ -210,6 +210,8 @@ public class PopupContainerWithArrow extends ArrowPopup implements DragSource,
                 lastView.setDividerVisibility(INVISIBLE);
             }
         }
+
+        super.onInflationComplete(isReversed);
     }
 
     @TargetApi(Build.VERSION_CODES.P)
@@ -296,9 +298,6 @@ public class PopupContainerWithArrow extends ArrowPopup implements DragSource,
     @Override
     protected void getTargetObjectLocation(Rect outPos) {
         mLauncher.getDragLayer().getDescendantRectRelativeToSelf(mOriginalIcon, outPos);
-        outPos.top += mOriginalIcon.getPaddingTop();
-        outPos.left += mOriginalIcon.getPaddingLeft();
-        outPos.right -= mOriginalIcon.getPaddingRight();
         outPos.bottom = outPos.top + (mOriginalIcon.getIcon() != null
                 ? mOriginalIcon.getIcon().getBounds().height()
                 : mOriginalIcon.getHeight());
@@ -312,10 +311,9 @@ public class PopupContainerWithArrow extends ArrowPopup implements DragSource,
         int allowedCount = mNotificationItemView != null
                 ? MAX_SHORTCUTS_IF_NOTIFICATIONS : MAX_SHORTCUTS;
         int originalHeight = getResources().getDimensionPixelSize(R.dimen.bg_popup_item_height);
-        int itemHeight = mNotificationItemView != null ?
-                getResources().getDimensionPixelSize(R.dimen.bg_popup_item_condensed_height)
-                : originalHeight;
-        float iconScale = ((float) itemHeight) / originalHeight;
+        // Keep shortcuts at original height even with notifications.
+        int itemHeight = originalHeight;
+        float iconScale = 1f;
 
         int total = mShortcuts.size();
         for (int i = 0; i < total; i++) {

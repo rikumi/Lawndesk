@@ -106,6 +106,9 @@ public class NotificationMainView extends FrameLayout implements SwipeDetector.L
         mTitleView = mTextAndBackground.findViewById(R.id.title);
         mTextView = mTextAndBackground.findViewById(R.id.text);
         mIconView = findViewById(R.id.popup_item_icon);
+
+        // Clip children to the rounded outline so text_and_background doesn't overflow corners.
+        setClipToOutline(true);
     }
 
     public void setSwipeDetector(SwipeDetector swipeDetector) {

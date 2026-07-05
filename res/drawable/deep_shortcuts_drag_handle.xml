@@ -1,28 +1,10 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!-- Copyright (C) 2016 The Android Open Source Project
-
-     Licensed under the Apache License, Version 2.0 (the "License");
-     you may not use this file except in compliance with the License.
-     You may obtain a copy of the License at
-
-          http://www.apache.org/licenses/LICENSE-2.0
-
-     Unless required by applicable law or agreed to in writing, software
-     distributed under the License is distributed on an "AS IS" BASIS,
-     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-     See the License for the specific language governing permissions and
-     limitations under the License.
--->
-
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
-        android:width="@dimen/deep_shortcut_drag_handle_size"
-        android:height="@dimen/deep_shortcut_drag_handle_size"
-        android:viewportWidth="24.0"
-        android:viewportHeight="24.0"
-        android:tint="?android:attr/textColorHint" >
-
+    android:width="@dimen/deep_shortcut_drag_handle_size"
+    android:height="@dimen/deep_shortcut_drag_handle_size"
+    android:viewportWidth="960"
+    android:viewportHeight="960"
+    android:tint="?android:attr/textColorHint">
     <path
-        android:pathData="M19,9H5c-0.55,0-1,0.45-1,1l0,0c0,0.55,0.45,1,1,1h14c0.55,0,1-0.45,1-1l0,0C20,9.45,19.55,9,19,9z M5,
-        15h14c0.55,0,1-0.45,1-1l0,0c0-0.55-0.45-1-1-1H5c-0.55,0-1,0.45-1,1l0,0C4,14.55,4.45,15,5,15z"
-        android:fillColor="@android:color/white" />
+        android:fillColor="@android:color/white"
+        android:pathData="M360,440Q327,440 303.5,416.5Q280,393 280,360Q280,327 303.5,303.5Q327,280 360,280Q393,280 416.5,303.5Q440,327 440,360Q440,393 416.5,416.5Q393,440 360,440ZM600,440Q567,440 543.5,416.5Q520,393 520,360Q520,327 543.5,303.5Q567,280 600,280Q633,280 656.5,303.5Q680,327 680,360Q680,393 656.5,416.5Q633,440 600,440ZM360,680Q327,680 303.5,656.5Q280,633 280,600Q280,567 303.5,543.5Q327,520 360,520Q393,520 416.5,543.5Q440,567 440,600Q440,633 416.5,656.5Q393,680 360,680ZM600,680Q567,680 543.5,656.5Q520,633 520,600Q520,567 543.5,543.5Q567,520 600,520Q633,520 656.5,543.5Q680,567 680,600Q680,633 656.5,656.5Q633,680 600,680Z" />
 </vector>
