@@ -1753,11 +1753,10 @@ public class Launcher extends BaseDraggingActivity implements LauncherExterns,
         // The DragLayer adds window insets to the overlay's layout margins, so subtract the insets
         // from every translation target: visual = mTop + (target - ins) = target.
         float endX = (dl.getWidth() / 2f - iv.getWidth() / 2f) - ins.left;
-        // Shift the zoom target slightly above the screen center so the icon's flight path better
-        // matches the system app-open/close window animation (which, without quickstep, tends to
-        // originate from above center). This avoids a perceived lateral bounce on close.
-        float yOffset = dl.getHeight() * 0.12f;
-        float endY = (dl.getHeight() / 2f - iv.getHeight() / 2f) - ins.top - yOffset;
+        // Vertical position of the animation target, from the user pref (0=top, 1=bottom,
+        // default 0.5=center).
+        float vpos = getAppCloseVpos();
+        float endY = dl.getHeight() * vpos - iv.getHeight() / 2f - ins.top;
 
         // Scale + fade (decelerate), kept as tuned.
         ObjectAnimator scale = ObjectAnimator.ofPropertyValuesHolder(iv,
@@ -1818,9 +1817,9 @@ public class Launcher extends BaseDraggingActivity implements LauncherExterns,
         final float restX = iv.getTranslationX();
         final float restY = iv.getTranslationY();
         float startX = (dl.getWidth() / 2f - iv.getWidth() / 2f) - ins.left;
-        // Compensate for the open animation's above-center target (see playAppLaunchIconZoom).
-        float yOffset = dl.getHeight() * 0.15f;
-        float startY = (dl.getHeight() / 2f - iv.getHeight() / 2f) - ins.top + yOffset;
+        // Match the open animation's vertical position (see playAppLaunchIconZoom).
+        float vpos = getAppCloseVpos();
+        float startY = dl.getHeight() * vpos - iv.getHeight() / 2f - ins.top;
 
         // Start from the launched state: translated to the screen center, enlarged, faded.
         iv.setTranslationX(startX);
@@ -1872,8 +1871,17 @@ public class Launcher extends BaseDraggingActivity implements LauncherExterns,
                 }
             }
         }
-        if (target != null) {
-            playAppLaunchIconClose(target);
+        // Skip the close animation if the target icon is not currently shown (e.g. the app was
+        // launched from inside a folder, which has since closed, so the icon is no longer visible
+        // on the workspace). Animating an invisible icon would look like a stray bounce.
+        if (target != null && target.isShown()) {
+            final BubbleTextView t = target;
+            long delayMs = (long) (getAppCloseDelay() * 1000f);
+            if (delayMs > 0) {
+                getDragLayer().postDelayed(() -> playAppLaunchIconClose(t), delayMs);
+            } else {
+                playAppLaunchIconClose(t);
+            }
         }
     }
 
@@ -1881,6 +1889,18 @@ public class Launcher extends BaseDraggingActivity implements LauncherExterns,
     private String getAppCloseAnimationMode() {
         return getSharedPreferences(LauncherFiles.SHARED_PREFERENCES_KEY, MODE_PRIVATE)
                 .getString("pref_app_close_animation", "basic");
+    }
+
+    /** Returns the app-close animation vertical position in [0,1] (0=top, 1=bottom, 0.5=center). */
+    private float getAppCloseVpos() {
+        return Math.max(0f, Math.min(1f, getSharedPreferences(LauncherFiles.SHARED_PREFERENCES_KEY, MODE_PRIVATE)
+                .getFloat("pref_app_close_vpos", 0.5f)));
+    }
+
+    /** Returns the app-close animation delay in seconds (0-1, default 0). */
+    private float getAppCloseDelay() {
+        return Math.max(0f, getSharedPreferences(LauncherFiles.SHARED_PREFERENCES_KEY, MODE_PRIVATE)
+                .getFloat("pref_app_close_delay", 0f));
     }
 
     /**

@@ -8,6 +8,10 @@
     <string name="app_close_animation_basic_summary">返回上一个打开的应用图标</string>
     <string name="app_close_animation_off_summary">不播放动画</string>
     <string name="app_close_animation_enhanced_summary">返回最近使用的应用图标</string>
+    <string name="app_close_vpos_title">返回桌面动画的垂直位置</string>
+    <string name="app_close_vpos_summary">调整系统返回桌面动画的垂直位置</string>
+    <string name="app_close_delay_title">返回桌面动画的延迟</string>
+    <string name="app_close_delay_summary">返回桌面动画播放前的延迟时间</string>
     <string name="app_close_animation_usage_title">需要使用情况访问权限</string>
     <string name="app_close_animation_usage_message">增强模式需要使用情况访问权限来检测你正在返回的应用（例如通过多任务切换应用后）。\n\n通过 adb 运行此命令，或在 设置 → 应用 → 特殊应用权限 → 使用情况访问权限 → Lawnchair 中手动授予。</string>
     <string name="app_close_animation_usage_copy">复制 adb 指令</string>

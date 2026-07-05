@@ -706,6 +706,11 @@ public class Folder extends AbstractFloatingView implements DragSource,
         if (mFolderIcon != null) {
             mFolderIcon.setVisibility(View.VISIBLE);
             mFolderIcon.setBackgroundVisible(true);
+            // Restore the folder icon background color in case the folder was closed
+            // without playing the (reverse) fade-in animation, e.g. when an app is
+            // launched from inside the folder.
+            mFolderIcon.getFolderBackground()
+                    .setStartOpacity(mFolderIcon.isCustomIcon ? 0f : 1f);
             mFolderIcon.mFolderName.setTextVisibility(mFolderIcon.mFolderName.shouldTextBeVisible());
             if (wasAnimated) {
                 mFolderIcon.mBackground.fadeInBackgroundShadow();

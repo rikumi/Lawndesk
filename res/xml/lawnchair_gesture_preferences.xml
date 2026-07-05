@@ -46,6 +46,30 @@
         android:entries="@array/appCloseAnimationEntries"
         android:entryValues="@array/appCloseAnimationValues" />
 
+    <ch.deletescape.lawnchair.preferences.SeekbarPreference
+        android:key="pref_app_close_vpos"
+        android:persistent="true"
+        android:summary="@string/app_close_vpos_summary"
+        android:title="@string/app_close_vpos_title"
+        app:minValue="0"
+        app:maxValue="1"
+        app:defaultSeekbarValue="0.5"
+        app:steps="100"
+        app:summaryFormat="%.2f"
+        app:summaryMultiplier="1" />
+
+    <ch.deletescape.lawnchair.preferences.SeekbarPreference
+        android:key="pref_app_close_delay"
+        android:persistent="true"
+        android:summary="@string/app_close_delay_summary"
+        android:title="@string/app_close_delay_title"
+        app:minValue="0"
+        app:maxValue="1"
+        app:defaultSeekbarValue="0"
+        app:steps="100"
+        app:summaryFormat="%.2fs"
+        app:summaryMultiplier="1" />
+
     <!-- <ch.deletescape.lawnchair.gestures.ui.GesturePreference
         android:defaultValue="@string/action_open_search_class"
         android:key="pref_gesture_swipe_up"
