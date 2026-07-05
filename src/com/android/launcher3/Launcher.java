@@ -48,6 +48,8 @@ import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Point;
+import android.graphics.Rect;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -74,6 +76,7 @@ import android.view.accessibility.AccessibilityEvent;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.DecelerateInterpolator;
 import android.view.animation.OvershootInterpolator;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import ch.deletescape.lawnchair.*;
@@ -1712,34 +1715,39 @@ public class Launcher extends BaseDraggingActivity implements LauncherExterns,
     }
 
     private Animator mAppLaunchIconAnim;
+    private ImageView mAppLaunchIconOverlay;
 
     /**
      * Plays a short zoom-out + fade animation on the launched app icon, while simultaneously
      * accelerating it toward the center of the screen, so the icon appears to grow and fly into
-     * the opening app window. Paired with the custom window scale-up animation in
-     * {@link LauncherAppTransitionManager#getActivityLaunchOptions} to form the app-open
-     * transition. The icon is reset (scale/alpha/translation) both when the animation ends and
-     * when the launcher is resumed, so it never stays hidden.
+     * the opening app window. The animation runs on an {@link ImageView} overlay added to the
+     * {@link DragLayer} (not on the BubbleTextView itself), so only the icon drawable moves (the
+     * app label stays put) and the icon is not clipped by the Dock/CellLayout. Paired with the
+     * custom window scale-up animation in
+     * {@link LauncherAppTransitionManager#getActivityLaunchOptions}.
      */
     private void playAppLaunchIconZoom(final View v) {
-        if (v.getWidth() == 0 || v.getHeight() == 0) return;
+        if (!(v instanceof BubbleTextView)) return;
+        final BubbleTextView btv = (BubbleTextView) v;
         if (mAppLaunchIconAnim != null) {
             mAppLaunchIconAnim.cancel();
         }
-        v.setPivotX(v.getWidth() / 2f);
-        v.setPivotY(v.getHeight() / 2f);
+        removeAppLaunchIconOverlay();
+        final ImageView iv = addIconOverlay(btv);
+        if (iv == null) return;
+        mAppLaunchIconOverlay = iv;
+        // Hide the real icon drawable (keep the label) so it doesn't overlap the overlay.
+        btv.setIconVisible(false);
 
-        // Translation from the icon's center to the screen center.
-        View root = v.getRootView();
-        int[] iconLoc = new int[2];
-        int[] rootLoc = new int[2];
-        v.getLocationOnScreen(iconLoc);
-        root.getLocationOnScreen(rootLoc);
-        float dx = (rootLoc[0] + root.getWidth() / 2f) - (iconLoc[0] + v.getWidth() / 2f);
-        float dy = (rootLoc[1] + root.getHeight() / 2f) - (iconLoc[1] + v.getHeight() / 2f);
+        DragLayer dl = getDragLayer();
+        Rect ins = dl.getInsets();
+        // The DragLayer adds window insets to the overlay's layout margins, so subtract the insets
+        // from every translation target: visual = mTop + (target - ins) = target.
+        float endX = (dl.getWidth() / 2f - iv.getWidth() / 2f) - ins.left;
+        float endY = (dl.getHeight() / 2f - iv.getHeight() / 2f) - ins.top;
 
         // Scale + fade (decelerate), kept as tuned.
-        ObjectAnimator scale = ObjectAnimator.ofPropertyValuesHolder(v,
+        ObjectAnimator scale = ObjectAnimator.ofPropertyValuesHolder(iv,
                 PropertyValuesHolder.ofFloat(View.SCALE_X, 4.8f),
                 PropertyValuesHolder.ofFloat(View.SCALE_Y, 4.8f),
                 PropertyValuesHolder.ofFloat(View.ALPHA, 0.5f));
@@ -1747,9 +1755,9 @@ public class Launcher extends BaseDraggingActivity implements LauncherExterns,
         scale.setInterpolator(new DecelerateInterpolator());
 
         // Translate toward the screen center (accelerate).
-        ObjectAnimator move = ObjectAnimator.ofPropertyValuesHolder(v,
-                PropertyValuesHolder.ofFloat(View.TRANSLATION_X, dx),
-                PropertyValuesHolder.ofFloat(View.TRANSLATION_Y, dy));
+        ObjectAnimator move = ObjectAnimator.ofPropertyValuesHolder(iv,
+                PropertyValuesHolder.ofFloat(View.TRANSLATION_X, endX),
+                PropertyValuesHolder.ofFloat(View.TRANSLATION_Y, endY));
         move.setDuration(150);
         move.setInterpolator(new AccelerateInterpolator());
 
@@ -1758,76 +1766,126 @@ public class Launcher extends BaseDraggingActivity implements LauncherExterns,
         openSet.addListener(new AnimatorListenerAdapter() {
             @Override
             public void onAnimationEnd(Animator animation) {
-                resetAppLaunchIcon(v);
+                removeAppLaunchIconOverlay();
+                // Restore the real icon as a fallback (e.g. if the app didn't actually open and
+                // onResume never fires). When returning from an app, playAppLaunchIconClose will
+                // hide it again before animating.
+                btv.setIconVisible(true);
             }
         });
         mAppLaunchIconAnim = openSet;
         openSet.start();
-        addOnResumeCallback(() -> playAppLaunchIconClose(v));
-    }
-
-    private void resetAppLaunchIcon(View v) {
-        if (mAppLaunchIconAnim != null) {
-            mAppLaunchIconAnim.cancel();
-            mAppLaunchIconAnim = null;
-        }
-        v.animate().cancel();
-        v.setScaleX(1f);
-        v.setScaleY(1f);
-        v.setAlpha(1f);
-        v.setTranslationX(0f);
-        v.setTranslationY(0f);
+        addOnResumeCallback(() -> playAppLaunchIconClose(btv));
     }
 
     /**
      * Reverse of {@link #playAppLaunchIconZoom}: played when returning to the launcher after an
-     * app was open. The icon is placed back in its "launched" (enlarged, off-cell, faded) state
-     * and then animated to its resting state with an overshoot (rubber-band) interpolator, so it
-     * shrinks back to its original position with a bounce.
+     * app was open. A fresh icon overlay is placed at the screen center (enlarged, faded) and
+     * animated back to the icon's resting position with an overshoot (rubber-band) bounce.
      */
-    private void playAppLaunchIconClose(final View v) {
+    private void playAppLaunchIconClose(final BubbleTextView btv) {
         if (mAppLaunchIconAnim != null) {
             mAppLaunchIconAnim.cancel();
             mAppLaunchIconAnim = null;
         }
-        if (v.getWidth() == 0 || v.getHeight() == 0) {
-            resetAppLaunchIcon(v);
+        removeAppLaunchIconOverlay();
+        final ImageView iv = addIconOverlay(btv);
+        if (iv == null) {
+            btv.setIconVisible(true);
             return;
         }
-        v.setPivotX(v.getWidth() / 2f);
-        v.setPivotY(v.getHeight() / 2f);
+        mAppLaunchIconOverlay = iv;
+        // Hide the real icon drawable (keep the label) while the overlay shrinks back, so the
+        // two don't overlap.
+        btv.setIconVisible(false);
 
-        // Start from the launched state: translated toward the screen center, enlarged, faded.
-        View root = v.getRootView();
-        int[] iconLoc = new int[2];
-        int[] rootLoc = new int[2];
-        v.getLocationOnScreen(iconLoc);
-        root.getLocationOnScreen(rootLoc);
-        float dx = (rootLoc[0] + root.getWidth() / 2f) - (iconLoc[0] + v.getWidth() / 2f);
-        float dy = (rootLoc[1] + root.getHeight() / 2f) - (iconLoc[1] + v.getHeight() / 2f);
-        v.setTranslationX(dx);
-        v.setTranslationY(dy);
-        v.setScaleX(1.4f);
-        v.setScaleY(1.4f);
-        v.setAlpha(0f);
+        DragLayer dl = getDragLayer();
+        Rect ins = dl.getInsets();
+        // The overlay's resting translation (set in addIconOverlay) already subtracts the insets.
+        final float restX = iv.getTranslationX();
+        final float restY = iv.getTranslationY();
+        float startX = (dl.getWidth() / 2f - iv.getWidth() / 2f) - ins.left;
+        float startY = (dl.getHeight() / 2f - iv.getHeight() / 2f) - ins.top;
 
-        // Shrink back to the original position/size with a rubber-band (overshoot) bounce.
-        ObjectAnimator close = ObjectAnimator.ofPropertyValuesHolder(v,
+        // Start from the launched state: translated to the screen center, enlarged, faded.
+        iv.setTranslationX(startX);
+        iv.setTranslationY(startY);
+        iv.setScaleX(1.4f);
+        iv.setScaleY(1.4f);
+        iv.setAlpha(0f);
+
+        // Shrink back to the original position with a rubber-band (overshoot) bounce.
+        ObjectAnimator close = ObjectAnimator.ofPropertyValuesHolder(iv,
                 PropertyValuesHolder.ofFloat(View.SCALE_X, 1f),
                 PropertyValuesHolder.ofFloat(View.SCALE_Y, 1f),
-                PropertyValuesHolder.ofFloat(View.TRANSLATION_X, 0f),
-                PropertyValuesHolder.ofFloat(View.TRANSLATION_Y, 0f),
+                PropertyValuesHolder.ofFloat(View.TRANSLATION_X, restX),
+                PropertyValuesHolder.ofFloat(View.TRANSLATION_Y, restY),
                 PropertyValuesHolder.ofFloat(View.ALPHA, 1f));
         close.setDuration(350);
-        close.setInterpolator(new OvershootInterpolator(2f));
+        close.setInterpolator(new OvershootInterpolator(0.5f));
         close.addListener(new AnimatorListenerAdapter() {
             @Override
             public void onAnimationEnd(Animator animation) {
-                resetAppLaunchIcon(v);
+                removeAppLaunchIconOverlay();
+                btv.setIconVisible(true);
             }
         });
         mAppLaunchIconAnim = close;
         close.start();
+    }
+
+    /**
+     * Creates an {@link ImageView} holding the icon's bitmap and adds it to the {@link DragLayer}
+     * at the icon's on-screen position, so it can be scaled/translated freely without affecting
+     * the app label or being clipped by the Dock.
+     */
+    private ImageView addIconOverlay(BubbleTextView btv) {
+        Drawable icon = btv.getIcon();
+        if (icon == null) return null;
+
+        DragLayer dl = getDragLayer();
+        // Icon position in DragLayer coordinates (robust to insets/padding/parent scale).
+        Rect btvRect = new Rect();
+        float scale = dl.getDescendantRectRelativeToSelf(btv, btvRect);
+        Rect iconRect = new Rect();
+        btv.getIconBounds(iconRect);
+        int w = (int) (iconRect.width() * scale);
+        int h = (int) (iconRect.height() * scale);
+        if (w <= 0 || h <= 0) return null;
+        int left = btvRect.left + (int) (iconRect.left * scale);
+        int top = btvRect.top + (int) (iconRect.top * scale);
+
+        // Use a copy of the icon drawable so we don't mutate the original's bounds, and let the
+        // ImageView render it with hardware acceleration. (Drawing a hardware-backed
+        // FastBitmapDrawable onto a software Canvas throws, so we must not render it ourselves.)
+        Drawable.ConstantState cs = icon.getConstantState();
+        if (cs == null) return null;
+        Drawable copy = cs.newDrawable();
+
+        ImageView iv = new ImageView(this);
+        iv.setImageDrawable(copy);
+        iv.setPivotX(w / 2f);
+        iv.setPivotY(h / 2f);
+        // The DragLayer (InsettableFrameLayout) adds window insets to this child's margins in
+        // onViewAdded, so the view is laid out at (inset.left, inset.top). We position via
+        // translation and subtract the insets so the visual position equals the icon's DragLayer
+        // coordinates: visual = inset + (pos - inset) = pos.
+        Rect ins = dl.getInsets();
+        InsettableFrameLayout.LayoutParams lp = new InsettableFrameLayout.LayoutParams(w, h);
+        dl.addView(iv, lp);
+        iv.measure(View.MeasureSpec.makeMeasureSpec(w, View.MeasureSpec.EXACTLY),
+                View.MeasureSpec.makeMeasureSpec(h, View.MeasureSpec.EXACTLY));
+        iv.layout(0, 0, w, h);
+        iv.setTranslationX(left - ins.left);
+        iv.setTranslationY(top - ins.top);
+        return iv;
+    }
+
+    private void removeAppLaunchIconOverlay() {
+        if (mAppLaunchIconOverlay != null) {
+            getDragLayer().removeView(mAppLaunchIconOverlay);
+            mAppLaunchIconOverlay = null;
+        }
     }
 
     boolean isHotseatLayout(View layout) {

@@ -60,6 +60,12 @@ open class SettingsBaseActivity : AppCompatActivity(), ColorEngine.OnColorChange
         themeOverride.applyTheme(this)
         currentTheme = themeOverride.getTheme(this)
 
+        // Resolve window background from the resolved theme immediately,
+        // so the window doesn't show a white flash before setContentView.
+        val ta = obtainStyledAttributes(intArrayOf(android.R.attr.windowBackground))
+        window.setBackgroundDrawable(ta.getDrawable(0))
+        ta.recycle()
+
         super.onCreate(savedInstanceState ?: intent.getBundleExtra("state"))
         dragLayer.addView(decorLayout, InsettableFrameLayout.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT))

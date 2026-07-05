@@ -567,10 +567,12 @@ public class Folder extends AbstractFloatingView implements DragSource,
             @Override
             public void onAnimationStart(Animator animation) {
                 mFolderIcon.setBackgroundVisible(false);
+                mFolderIcon.setBackgroundAnimating(true);
                 mFolderIcon.drawLeaveBehindIfExists();
             }
             @Override
             public void onAnimationEnd(Animator animation) {
+                mFolderIcon.setBackgroundAnimating(false);
                 mState = STATE_OPEN;
                 announceAccessibilityChanges();
 
@@ -661,6 +663,7 @@ public class Folder extends AbstractFloatingView implements DragSource,
 
     private void animateClosed() {
         mLauncher.getWorkspace().organizeCurrentPage();
+        mFolderIcon.setBackgroundAnimating(true);
         AnimatorSet a = new FolderAnimationManager(this, false /* isOpening */).getAnimator();
         a.addListener(new AnimatorListenerAdapter() {
             @Override
@@ -677,6 +680,8 @@ public class Folder extends AbstractFloatingView implements DragSource,
                 if (mContent.getPageCount() > 1) {
                     mPageIndicator.setVisibility(VISIBLE);
                 }
+                mFolderIcon.setBackgroundVisible(true);
+                mFolderIcon.setBackgroundAnimating(false);
                 closeComplete(true);
                 announceAccessibilityChanges();
             }

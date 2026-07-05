@@ -39,7 +39,6 @@ import com.android.launcher3.CellLayout;
 import com.android.launcher3.DeviceProfile;
 import com.android.launcher3.Launcher;
 import com.android.launcher3.LauncherAnimUtils;
-import com.android.launcher3.util.Themes;
 
 /**
  * This object represents a FolderIcon preview background. It stores drawing / measurement
@@ -92,7 +91,7 @@ public class PreviewBackground {
 
     // Expressed on a scale from 0 to 255.
     private static final int BG_OPACITY = 255;
-    private static final int MAX_BG_OPACITY = 225;
+    private static final int MAX_BG_OPACITY = 96;
     private static final int SHADOW_OPACITY = 0;
 
     private ValueAnimator mScaleAnimator;
@@ -131,7 +130,7 @@ public class PreviewBackground {
     public void setup(Launcher launcher, View invalidateDelegate,
                       int availableSpaceX, int topPadding) {
         mInvalidateDelegate = invalidateDelegate;
-        mBgColor = Themes.getAttrColor(launcher, android.R.attr.colorPrimary);
+        mBgColor = Color.BLACK;
 
         DeviceProfile grid = launcher.getDeviceProfile();
         previewSize = grid.folderIconSizePx;
@@ -255,6 +254,20 @@ public class PreviewBackground {
                 previewBackground.invalidate();
             }
         };
+
+    public static final Property<PreviewBackground, Float> COLOR_MULTIPLIER =
+            new Property<PreviewBackground, Float>(Float.class, "colorMultiplier") {
+                @Override
+                public Float get(PreviewBackground previewBackground) {
+                    return previewBackground.mColorMultiplier;
+                }
+
+                @Override
+                public void set(PreviewBackground previewBackground, Float value) {
+                    previewBackground.mColorMultiplier = value;
+                    previewBackground.invalidate();
+                }
+            };
 
     public void fadeInBackground() {
         if (mAlphaAnimator != null) {

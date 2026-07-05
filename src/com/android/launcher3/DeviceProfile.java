@@ -405,10 +405,20 @@ public class DeviceProfile implements LawnchairPreferences.OnPreferenceChangeLis
 
         // Folder icon
         float folderIconScale = prefs.getFolderIconScale();
+        float normalizedCircleSize = IconNormalizer.getNormalizedCircleSize(iconSizePx) * 0.95f;
+        // The iOS squircle path fills nearly the entire bounding box, making it visually larger
+        // than other shapes (circle, rounded square) of the same radius. Apply an extra shrink
+        // so the folder background matches the visual size of regular icons.
+        ch.deletescape.lawnchair.adaptive.IconShape currentIconShape =
+                ch.deletescape.lawnchair.adaptive.IconShapeManager.Companion
+                        .getInstance(mContext).getIconShape();
+        if (currentIconShape instanceof ch.deletescape.lawnchair.adaptive.IconShape.IOS) {
+            normalizedCircleSize *= 0.95f;
+        }
         if (folderIconScale < 0) {
-            folderIconSizePx = IconNormalizer.getNormalizedCircleSize(iconSizePx);
+            folderIconSizePx = (int) normalizedCircleSize;
         } else {
-            folderIconSizePx = (int) (IconNormalizer.getNormalizedCircleSize(iconSizePx) * folderIconScale);
+            folderIconSizePx = (int) (normalizedCircleSize * folderIconScale);
         }
         folderIconOffsetYPx = (iconSizePx - folderIconSizePx) / 2;
     }
@@ -442,7 +452,7 @@ public class DeviceProfile implements LawnchairPreferences.OnPreferenceChangeLis
 
     private void updateFolderCellSize(float scale, DisplayMetrics dm, Resources res) {
         int folderLabelRowCount = prefs.getHomeLabelRows();
-        
+
         int textHeight = Utilities.calculateTextHeight(iconTextSizePx) * folderLabelRowCount;
         folderCellPaddingX = (int) (res.getDimensionPixelSize(R.dimen.folder_cell_x_padding) * scale);
         folderCellPaddingY = (int) (res.getDimensionPixelSize(R.dimen.folder_cell_y_padding) * scale);

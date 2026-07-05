@@ -128,6 +128,10 @@ class IconShapeCornerRow(context: Context, attrs: AttributeSet?) :
                                 "text" to context.getString(R.string.icon_shape_corner_squircle)
                              ),
                         mapOf(
+                                "value" to "superellipse",
+                                "text" to context.getString(R.string.icon_shape_corner_superellipse)
+                             ),
+                        mapOf(
                                 "value" to "cut",
                                 "text" to context.getString(R.string.icon_shape_corner_cut)
                              )

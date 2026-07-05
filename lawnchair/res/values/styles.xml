@@ -175,7 +175,7 @@
     </style>
 
     <style name="SettingsTheme.Base" parent="@style/Theme.AppCompat.Light.NoActionBar">
-        <item name="android:windowBackground">@android:color/white</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
         <item name="settingsBackground">@android:color/white</item>
         <item name="settingsSearchBackground">?settingsBackground</item>
         <item name="settingsPopupBackground">?settingsBackground</item>

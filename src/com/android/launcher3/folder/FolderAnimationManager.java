@@ -193,9 +193,8 @@ public class FolderAnimationManager {
         play(a, getAnimator(mFolder, SCALE_PROPERTY, initialScale, DEBUG ? initialScale : finalScale));
         play(a, getAnimator(mFolderBackground, "color", initialColor, finalColor));
 
-        if (!mIsOpening) {
-            mPreviewBackground.fadeInBackground();
-        }
+        // Animate the folder icon preview background alpha (fade out when opening, fade in when closing)
+        play(a, getAnimator(mPreviewBackground, PreviewBackground.COLOR_MULTIPLIER, 1f, 0f));
 
         // Animate the elevation midway so that the shadow is not noticeable in the background.
         int midDuration = mDuration / 2;
@@ -390,6 +389,12 @@ public class FolderAnimationManager {
         return mIsOpening
                 ? ObjectAnimator.ofFloat(view, property, v1, v2)
                 : ObjectAnimator.ofFloat(view, property, v2, v1);
+    }
+
+    private Animator getAnimator(Object object, Property property, float v1, float v2) {
+        return mIsOpening
+                ? ObjectAnimator.ofFloat(object, property, v1, v2)
+                : ObjectAnimator.ofFloat(object, property, v2, v1);
     }
 
     private Animator getAnimator(GradientDrawable drawable, String property, int v1, int v2) {

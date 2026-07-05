@@ -106,6 +106,7 @@ public class FolderIcon extends FrameLayout implements FolderListener, OnResumeC
 
     PreviewBackground mBackground = new PreviewBackground();
     private boolean mBackgroundIsVisible = true;
+    private boolean mBackgroundAnimating = false;
 
     FolderIconPreviewVerifier mPreviewVerifier;
     NineFolderIconLayoutRule mPreviewLayoutRule;
@@ -504,6 +505,11 @@ public class FolderIcon extends FrameLayout implements FolderListener, OnResumeC
         invalidate();
     }
 
+    public void setBackgroundAnimating(boolean animating) {
+        mBackgroundAnimating = animating;
+        invalidate();
+    }
+
     public PreviewBackground getFolderBackground() {
         return mBackground;
     }
@@ -516,13 +522,18 @@ public class FolderIcon extends FrameLayout implements FolderListener, OnResumeC
     protected void dispatchDraw(Canvas canvas) {
         super.dispatchDraw(canvas);
 
-        if (mBackgroundIsVisible) {
+        if (mBackgroundIsVisible || mBackgroundAnimating) {
             mPreviewItemManager.recomputePreviewDrawingParams();
 
             if (!mBackground.drawingDelegated() && !isCustomIcon) {
                 mBackground.drawBackground(canvas);
             }
-        } else if (!isCustomIcon || mInfo.container == Favorites.CONTAINER_HOTSEAT) return;
+        }
+
+        if (!mBackgroundIsVisible) {
+            if (mBackgroundAnimating) return;
+            if (!isCustomIcon || mInfo.container == Favorites.CONTAINER_HOTSEAT) return;
+        }
 
         if (isCustomIcon) {
             return;

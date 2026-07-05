@@ -484,6 +484,7 @@
 
     <string name="hide_app">Hide Shortcut</string>
     <string name="icon_shape_rounded_square">Rounded Square</string>
+    <string name="icon_shape_ios">iOS</string>
 
     <string name="hide_app_selected">“&#160;” hidden.</string>
     <string name="hide_app_apply">Done</string>
@@ -777,6 +778,7 @@
 
     <string name="icon_shape_corner_round">Round</string>
     <string name="icon_shape_corner_squircle">Smooth</string>
+    <string name="icon_shape_corner_superellipse">Continuous</string>
     <string name="icon_shape_corner_cut">Cut</string>
 
     <string name="smartspace_add_to_home">Add to Desktop</string>
