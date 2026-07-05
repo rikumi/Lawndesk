@@ -147,6 +147,12 @@ public class FolderAnimationManager {
         // location is to its left. This value is arbitrarily defined.
         float iconOffsetX = grid.folderCellPaddingX * initialScale;
         float iconOffsetY = grid.folderCellPaddingY * initialScale;
+        // The increased folder cell padding shifts the folder's animation end position to the
+        // bottom-right of the actual folder icon. Nudge it back left/up by ~2dp so it lines up
+        // with the real folder icon when the open/close animation finishes.
+        float alignNudge = 2 * mContext.getResources().getDisplayMetrics().density;
+        iconOffsetX -= alignNudge;
+        iconOffsetY -= alignNudge;
         float previewItemOffsetX = - ((mFolder.getPaddingLeft() + mContent.getPaddingLeft()
                 + rule.getPadding() - mPreviewBackground.getOffsetX() * initialScale / 2)
                 * initialScale);
