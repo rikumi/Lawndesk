@@ -39,9 +39,15 @@ class IconPackList(private val context: Context, private val manager: IconPackMa
     private val default by lazy { DefaultLoadedPack() }
 
     init {
+        // Load the persisted icon pack list on startup so that appliedPacks is
+        // populated and the settings UI reflects the previously applied packs.
+        // Skip notifying listeners on the initial load to avoid cancelling the
+        // LoaderTask that is currently running and triggering an unnecessary
+        // activity recreate / icon cache rebuild right after process start.
+        reloadPacks(notifyUpdate = false)
     }
 
-    private fun onPackListUpdated(packs: List<String>) {
+    private fun onPackListUpdated(packs: List<String>, notifyUpdate: Boolean = true) {
         LooperExecutor(LauncherModel.getIconPackLooper()).execute {
             loadedPacks.values.forEach {
                 if (!packs.contains(it.packageName)) {
@@ -66,7 +72,9 @@ class IconPackList(private val context: Context, private val manager: IconPackMa
             loadedPacks.clear()
             loadedPacks.putAll(newPacks)
 
-            manager.onPacksUpdated()
+            if (notifyUpdate) {
+                manager.onPacksUpdated()
+            }
         }
     }
 
@@ -87,12 +95,12 @@ class IconPackList(private val context: Context, private val manager: IconPackMa
         loadedPacks.values.forEach { it.iconPack.onDateChanged() }
     }
 
-    fun reloadPacks() {
-        setPackList(prefs.iconPacks.getList())
+    fun reloadPacks(notifyUpdate: Boolean = true) {
+        setPackList(prefs.iconPacks.getList(), notifyUpdate)
     }
 
-    private fun setPackList(packs: List<String>) {
-        onPackListUpdated(packs.filter { IconPackManager.isPackProvider(context, it) })
+    private fun setPackList(packs: List<String>, notifyUpdate: Boolean = true) {
+        onPackListUpdated(packs.filter { IconPackManager.isPackProvider(context, it) }, notifyUpdate)
     }
 
     fun iterator() = appliedPacks.iterator()
