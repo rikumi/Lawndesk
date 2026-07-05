@@ -248,11 +248,9 @@ public abstract class ArrowPopup extends AbstractFloatingView {
         int width = getMeasuredWidth();
         int extraVerticalSpace = mArrow.getLayoutParams().height + mArrayOffset
                 + getResources().getDimensionPixelSize(R.dimen.popup_vertical_padding);
-        // Move the menu closer to the icon by reducing the extra vertical space.
-        extraVerticalSpace -= getResources().getDimensionPixelSize(R.dimen.popup_arrow_height)
-                + getResources().getDimensionPixelSize(R.dimen.popup_vertical_padding)
-                + (int) (8 * getResources().getDisplayMetrics().density);
         int height = getMeasuredHeight() + extraVerticalSpace;
+        // Reduce the gap between the menu and the icon (arrow is hidden for MD3).
+        int verticalReduction = getResources().getDimensionPixelSize(R.dimen.popup_arrow_height);
 
         getTargetObjectLocation(mTempRect);
         DragLayer dragLayer = mLauncher.getDragLayer();
@@ -275,17 +273,17 @@ public abstract class ArrowPopup extends AbstractFloatingView {
         boolean isIosShape = ch.deletescape.lawnchair.adaptive.IconShapeManager.Companion
                 .getInstance(mLauncher).getIconShape()
                 instanceof ch.deletescape.lawnchair.adaptive.IconShape.IOS;
-        int xOffset = (int) ((isIosShape ? 19 : 16) * density);
+        int xOffset = (int) ((isIosShape ? 20 : 16) * density);
         x += mIsLeftAligned ? xOffset : -xOffset;
 
         int iconWidth = mTempRect.width();
 
         // Open above icon if there is room.
         int iconHeight = mTempRect.height();
-        int y = mTempRect.top - height;
+        int y = mTempRect.top - height + verticalReduction;
         mIsAboveIcon = y > dragLayer.getTop() + insets.top;
         if (!mIsAboveIcon) {
-            y = mTempRect.top + iconHeight + extraVerticalSpace;
+            y = mTempRect.top + iconHeight + extraVerticalSpace - verticalReduction;
         }
 
         // Insets are added later, so subtract them now.

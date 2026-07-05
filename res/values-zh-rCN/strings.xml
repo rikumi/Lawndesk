@@ -178,6 +178,7 @@
     <string name="app_version">应用版本</string>
     <string name="play_store">Play 商店</string>
     <string name="based_on">基于 Lawnchair</string>
+    <string name="based_on_renzhn">基于 Lawndesk</string>
 
     <string name="pref_external_search_provider">外部搜索App</string>
     <string name="action_external_search">启动外部搜索</string>

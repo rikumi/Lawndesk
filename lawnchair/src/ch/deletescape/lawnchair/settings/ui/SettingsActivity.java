@@ -674,6 +674,7 @@ public class SettingsActivity extends SettingsBaseActivity implements
             } else if (getContent() == R.xml.lawnchair_about_preferences) {
                 findPreference("play_store").setOnPreferenceClickListener(this);
                 findPreference("github").setOnPreferenceClickListener(this);
+                findPreference("based_on_renzhn").setOnPreferenceClickListener(this);
                 findPreference("based_on").setOnPreferenceClickListener(this);
 
                 try {
@@ -886,6 +887,9 @@ public class SettingsActivity extends SettingsBaseActivity implements
                     break;
                 case "play_store":
                     Utilities.openWebPage(getActivity(), getResources().getString(R.string.play_url));
+                    break;
+                case "based_on_renzhn":
+                    Utilities.openWebPage(getActivity(), getResources().getString(R.string.based_on_renzhn_url));
                     break;
                 case "based_on":
                     Utilities.openWebPage(getActivity(), getResources().getString(R.string.lawnchair_url));

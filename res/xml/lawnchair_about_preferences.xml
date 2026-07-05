@@ -42,6 +42,11 @@
             android:summary="@string/github_url"/>
 
         <Preference
+            android:key="based_on_renzhn"
+            android:title="@string/based_on_renzhn"
+            android:summary="@string/based_on_renzhn_url" />
+
+        <Preference
             android:key="based_on"
             android:title="@string/based_on"
             android:summary="@string/lawnchair_url" />

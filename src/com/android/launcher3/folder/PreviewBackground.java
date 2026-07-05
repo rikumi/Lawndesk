@@ -91,7 +91,7 @@ public class PreviewBackground {
 
     // Expressed on a scale from 0 to 255.
     private static final int BG_OPACITY = 255;
-    private static final int MAX_BG_OPACITY = 96;
+    private static final int MAX_BG_OPACITY = 200;
     private static final int SHADOW_OPACITY = 0;
 
     private ValueAnimator mScaleAnimator;
@@ -130,7 +130,7 @@ public class PreviewBackground {
     public void setup(Launcher launcher, View invalidateDelegate,
                       int availableSpaceX, int topPadding) {
         mInvalidateDelegate = invalidateDelegate;
-        mBgColor = Color.BLACK;
+        mBgColor = 0xFF424242;
 
         DeviceProfile grid = launcher.getDeviceProfile();
         previewSize = grid.folderIconSizePx;
